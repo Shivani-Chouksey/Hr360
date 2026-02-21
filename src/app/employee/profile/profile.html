@@ -1,0 +1,405 @@
+<!-- <p>profile works!</p>
+<main>
+    {{EmployeeDetail?.personalDetail?.firstName}}
+</main> -->
+
+<main class="w-full">
+    <header class="flex justify-between align-middle mb-3 p-3 bg-white shadow-sm p-4">
+        <div class="flex justify-between align-middle gap-4">
+            <div>
+                <img src="" alt="profile image">
+            </div>
+            <div>
+                <h2 class=" font-bold text-2xl">{{EmployeeDetail?.personalDetail?.firstName}}</h2>
+                <p class="text-sm text-gray-600">{{EmployeeDetail?.professionalDetail.designation}} </p>
+                <p class="text-sm text-gray-600">{{EmployeeDetail?.professionalDetail.email}} </p>
+            </div>
+        </div>
+        <div>
+            <button class="p-2 bg-blue-700 text-white rounded">Edit Profile</button>
+        </div>
+    </header>
+
+    <body class="flex w-full gap-4">
+        <div class="flex flex-col bg-white p-4  w-50 gap-2">
+            <button type="button" (click)="setActiveModule('profile')" [attr.aria-selected]="isActiveModule('profile')"
+                class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('profile')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                Profile
+            </button>
+            <button type="button" (click)="setActiveModule('attendance')"
+                [attr.aria-selected]="isActiveModule('attendance')" class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('attendance')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                Attendance
+            </button>
+            <button type="button" (click)="setActiveModule('projects')"
+                [attr.aria-selected]="isActiveModule('projects')" class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('projects')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                Projects
+            </button>
+            <button type="button" (click)="setActiveModule('leave')" [attr.aria-selected]="isActiveModule('leave')"
+                class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('leave')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                Leave
+            </button>
+
+
+        </div>
+        @switch (activeModule) {
+        @case ('attendance') {
+       
+        <app-basic-table [type]='"attendance"' [headers]="[
+  { key: 'employee', label: 'Employee' },
+  { key: 'date', label: 'Date' },
+  { key: 'status', label: 'Status', align: 'center' },
+  { key: 'checkIn', label: 'Check-In' },
+  { key: 'checkOut', label: 'Check-Out' }
+]" [data]="
+[
+  {
+    id: 1,
+    employee: 'Asha Kumar',
+    date: '2026-02-18',
+    status: 'Present',
+    checkIn: '09:10 AM',
+    checkOut: '06:15 PM'
+  },
+  {
+    id: 2,
+    employee: 'Rahul Verma',
+    date: '2026-02-18',
+    status: 'Absent',
+    checkIn: '-',
+    checkOut: '-'
+  },
+  {
+    id: 3,
+    employee: 'Nikita Sharma',
+    date: '2026-02-18',
+    status: 'Work From Home',
+    checkIn: '09:20 AM',
+    checkOut: '06:00 PM'
+  }
+]
+"></app-basic-table>
+        }
+        @case ('projects') {
+       
+        <app-basic-table [type]='"projects"' [headers]="
+ [
+  { key: 'project', label: 'Project Name' },
+  { key: 'manager', label: 'Manager' },
+  { key: 'start', label: 'Start Date' },
+  { key: 'end', label: 'End Date' },
+  { key: 'status', label: 'Status', align: 'center' }
+]
+" [data]="
+[
+  {
+    id: 1,
+    project: 'HRMS Portal',
+    manager: 'Vikram Singh',
+    start: '2025-11-10',
+    end: '2026-03-30',
+    status: 'In Progress'
+  },
+  {
+    id: 2,
+    project: 'CRM Dashboard',
+    manager: 'Meera Joshi',
+    start: '2025-09-01',
+    end: '2026-01-15',
+    status: 'Completed'
+  },
+  {
+    id: 3,
+    project: 'Mobile Attendance App',
+    manager: 'Rohan Patil',
+    start: '2026-01-05',
+    end: '2026-06-10',
+    status: 'On Hold'
+  }
+]
+"></app-basic-table>
+        }
+        @case ('leave') {
+        <app-basic-table [type]='"leave"' [headers]="
+ [
+  { key: 'employee', label: 'Employee' },
+  { key: 'leaveType', label: 'Leave Type' },
+  { key: 'from', label: 'From' },
+  { key: 'to', label: 'To' },
+  { key: 'days', label: 'Days', align: 'center' },
+  { key: 'status', label: 'Status', align: 'center' }
+]
+" [data]="
+[
+  {
+    id: 1,
+    employee: 'Asha Kumar',
+    leaveType: 'Casual Leave',
+    from: '2026-02-10',
+    to: '2026-02-12',
+    days: 3,
+    status: 'Approved'
+  },
+  {
+    id: 2,
+    employee: 'Rahul Verma',
+    leaveType: 'Sick Leave',
+    from: '2026-02-18',
+    to: '2026-02-19',
+    days: 2,
+    status: 'Pending'
+  },
+  {
+    id: 3,
+    employee: 'Nikita Sharma',
+    leaveType: 'Privilege Leave',
+    from: '2026-01-25',
+    to: '2026-01-31',
+    days: 7,
+    status: 'Rejected'
+  }
+]
+"></app-basic-table>
+        }
+        @default {
+        <div class="w-full">
+            <!-- Tabs header -->
+            <div class="tabHeaders mb-2 flex flex-wrap gap-2">
+                <button type="button" (click)="setActiveTabFun('personal')" [attr.aria-selected]="isActive('personal')"
+                    class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('personal')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                    Personal Information
+                </button>
+
+                <button type="button" (click)="setActiveTabFun('professional')"
+                    [attr.aria-selected]="isActive('professional')" class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('professional')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                    Professional Information
+                </button>
+
+                <button type="button" (click)="setActiveTabFun('documents')"
+                    [attr.aria-selected]="isActive('documents')" class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('documents')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                    Documents
+                </button>
+
+                <button type="button" (click)="setActiveTabFun('account')" [attr.aria-selected]="isActive('account')"
+                    class="py-2 px-4 rounded border text-sm font-semibold transition
+             hover:text-white hover:bg-blue-500 hover:border-transparent
+             focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('account')
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-transparent text-blue-700 border-blue-500'">
+                    Account Access
+                </button>
+            </div>
+
+            <!-- Tabs content -->
+            <div class="tabDetails rounded-lg bg-white shadow-sm p-4">
+                @switch (activeTab) {
+
+                @case ('professional') {
+                <div class="mx-auto rounded-xl">
+                    <h1 class="text-xl font-semibold mb-1">Professional Information</h1>
+
+                    <form>
+                        <div formGroupName="professionalDetail" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input formControlName="employeeID" type="text" placeholder="Employee ID"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <input formControlName="userName" type="text" placeholder="User Name"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <select formControlName="employee_type"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="">Select Employee Type</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Permanent">Permanent</option>
+                            </select>
+
+                            <input formControlName="email" type="email" placeholder="Email Address"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <select formControlName="department"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="">Select Department</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="HR">HR</option>
+                            </select>
+
+                            <input formControlName="designation" type="text" placeholder="Designation"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <select formControlName="working_days"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="">Select Working Days</option>
+                                <option value="Mon-Fri">Mon–Fri</option>
+                                <option value="Mon-Sat">Mon–Sat</option>
+                            </select>
+
+                            <input formControlName="joining_date" type="date" placeholder="Select Joining Date"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <select formControlName="office_location"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                <option value="">Select Office Location</option>
+                                <option value="Mumbai">Mumbai</option>
+                                <option value="Pune">Pune</option>
+                            </select>
+                        </div>
+
+
+                    </form>
+                </div>
+                }
+
+                @case ('documents') {
+                <div>
+                    <h1 class="text-lg font-semibold mb-2">Documents</h1>
+
+
+
+
+                </div>
+                }
+
+                @case ('account') {
+                <div class="mx-auto rounded-xl">
+                    <h1 class="text-xl font-semibold mb-1">Account Access</h1>
+
+                    <form>
+                        <div formGroupName="accountDetail" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input formControlName="email" type="email" placeholder="Enter Email Address"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <input formControlName="slackId" type="text" placeholder="Enter Slack ID"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <input formControlName="skypeId" type="text" placeholder="Enter Skype ID"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                            <input formControlName="githubId" type="text" placeholder="Enter GitHub ID"
+                                class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+
+
+                    </form>
+                </div>
+                }
+
+                @default {
+                <div class="mx-auto rounded-xl">
+                    <h1 class="text-xl font-semibold mb-1">Personal Information</h1>
+                    <p class="text-sm text-gray-600 mb-6">
+                        Add name, DOB, gender, contact and address details.
+                    </p>
+
+                    <form>
+                        <div formGroupName="personalDetail">
+                            <!-- Upload -->
+                            <div class="flex items-center mb-6 gap-4">
+                                <div class="relative">
+                                    <input name="profileImage" type="file" id="avatar-upload" accept="image/*"
+                                        class="sr-only">
+                                    <label for="avatar-upload"
+                                        class="group inline-flex h-20 w-20 items-center justify-center rounded bg-gray-200 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-300 transition cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-7 w-7 transition-transform group-hover:scale-105" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3.75 7.5h2.636a2.25 2.25 0 0 0 2.012-1.244l.29-.58A2.25 2.25 0 0 1 10.95 4.5h2.1a2.25 2.25 0 0 1 2.262 1.176l.29.58A2.25 2.25 0 0 0 17.613 7.5H20.25A1.75 1.75 0 0 1 22 9.25v8A1.75 1.75 0 0 1 20.25 19H3.75A1.75 1.75 0 0 1 2 17.25v-8A1.75 1.75 0 0 1 3.75 7.5z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15 12.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                        </svg>
+                                    </label>
+                                </div>
+
+                                <!-- <img *ngIf="avatarPreview()" [src]="avatarPreview()" alt="Avatar preview" class="h-20 w-20 rounded object-cover ring-1 ring-gray-300" /> -->
+                            </div>
+
+                            <!-- Inputs -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <input formControlName="firstName" type="text" placeholder="First Name"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                                <input formControlName="lastName" type="text" placeholder="Last Name"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                                <input formControlName="mobileNumber" type="text" placeholder="Mobile Number"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                                <input formControlName="email" type="email" placeholder="Email Address"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                                <input formControlName="dob" type="date" name="dob"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                                <select formControlName="maritalStatus"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                    <option value="">Marital Status</option>
+                                    <option value="single">Single</option>
+                                    <option value="engaged">Engaged</option>
+                                    <option value="married">Married</option>
+                                </select>
+
+                                <select formControlName="gender"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                    <option value="">Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+
+                                <select formControlName="nationality"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                                    <option value="">Nationality</option>
+                                    <option value="india">India</option>
+                                    <option value="other">Other</option>
+                                </select>
+
+                                <input formControlName="address" type="text" placeholder="Address"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none col-span-1 sm:col-span-2">
+
+                                <input formControlName="city" type="text" placeholder="City"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+                                <input formControlName="state" type="text" placeholder="State"
+                                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+                }
+                }
+            </div>
+        </div>
+        }
+        }
+    </body>
+
+</main>

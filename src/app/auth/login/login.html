@@ -1,0 +1,28 @@
+<main>
+    <div>
+        <h2>Login </h2>
+        <div>
+            <form #loginForm="ngForm" (ngSubmit)="loginHandler(loginForm)">
+                <input type="text" placeholder="Enter Your Email" name="email" ngModel>
+
+                <input type="text" placeholder="Enter Password" name="password" ngModel>
+                <button type="submit">Login</button>
+            </form>
+            <button>Login With Otp ?</button>
+            <!-- @if (LoginWithOtp) {
+            <form action="">
+                <input type="text" placeholder="Enter Your Email">
+
+                <button>Send Otp</button>
+            </form>
+
+            }@else if (hasOtp) {
+            <form action="">
+                <input type="text" placeholder="Enter  Otp">
+                <button>Submit</button>
+            </form>
+            } -->
+        </div>
+    </div>
+
+</main>

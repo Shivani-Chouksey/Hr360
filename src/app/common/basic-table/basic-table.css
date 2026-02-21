@@ -1,0 +1,5 @@
+.table-wrapper { overflow: auto; width: 100%;}
+.basic-table { border-collapse: collapse; width: 100%; }
+.basic-table th, .basic-table td { border: 1px solid #ddd; padding: 8px; }
+.basic-table thead th { background: #f7f7f7; font-weight: 600; }
+.empty { text-align: center; color: #777; }

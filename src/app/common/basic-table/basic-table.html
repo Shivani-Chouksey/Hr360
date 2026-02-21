@@ -1,0 +1,34 @@
+<div class="bg-white w-3xl">
+    <div class="table-wrapper " *ngIf="normalizedHeaders()?.length; else noHeaders">
+  <table class="basic-table">
+    <thead>
+      <tr>
+        <th *ngFor="let h of normalizedHeaders()"
+            [style.width]="h.width"
+            [style.textAlign]="h.align || null">
+          {{ h.label }}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngIf="isEmpty()">
+        <td [attr.colspan]="normalizedHeaders().length" class="empty">
+          No records found.
+        </td>
+      </tr>
+
+      <tr *ngFor="let row of data(); trackBy: trackRow">
+        <td *ngFor="let h of normalizedHeaders()"
+            [style.textAlign]="h.align || null">
+          {{ row?.[h.key] }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<ng-template #noHeaders>
+  <div class="empty">No headers provided.</div>
+</ng-template>

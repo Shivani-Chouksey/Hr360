@@ -1,0 +1,64 @@
+{
+    "year2026": [
+        {
+            "date": "2026-01-01",
+            "day": "Thursday",
+            "label": "New Year"
+        },
+        {
+            "date": "2026-01-26",
+            "day": "Monday",
+            "label": "Republic Day"
+        },
+        {
+            "date": "2026-03-03",
+            "day": "Tuesday",
+            "label": "Holi"
+        },
+        {
+            "date": "2026-04-03",
+            "day": "Friday",
+            "label": "Good Friday"
+        },
+        {
+            "date": "2026-05-01",
+            "day": "Friday",
+            "label": "Labour Day / Maharashtra Day"
+        },
+        {
+            "date": "2026-06-27",
+            "day": "Saturday",
+            "label": "Bakrid / Eid al-Adha"
+        },
+        {
+            "date": "2026-08-15",
+            "day": "Saturday",
+            "label": "Independence Day"
+        },
+        {
+            "date": "2026-09-19",
+            "day": "Saturday",
+            "label": "Onam"
+        },
+        {
+            "date": "2026-10-02",
+            "day": "Friday",
+            "label": "Gandhi Jayanti"
+        },
+        {
+            "date": "2026-10-19",
+            "day": "Monday",
+            "label": "Diwali"
+        },
+        {
+            "date": "2026-10-21",
+            "day": "Wednesday",
+            "label": "Bhai Dooj"
+        },
+        {
+            "date": "2026-12-25",
+            "day": "Friday",
+            "label": "Christmas"
+        }
+    ]
+}

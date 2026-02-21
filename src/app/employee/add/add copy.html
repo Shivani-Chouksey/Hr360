@@ -1,0 +1,767 @@
+Page Shell
+<div class="min-h-screen bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header class="sticky top-0 z-10 bg-white border-b shadow-sm">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-semibold">Employee Master</h1>
+        <p class="text-xs text-gray-500">Create / Edit employee record</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="px-3 py-1.5 rounded-md text-sm font-medium bg-gray-100 hover:bg-gray-200">Cancel</button>
+        <button class="px-4 py-1.5 rounded-md text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700">Save</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Form -->
+  <main class="mx-auto max-w-7xl p-4">
+    <form class="space-y-6">
+
+      <!-- Identifiers -->
+      <section class="bg-white rounded-lg border shadow-sm">
+        <div class="px-5 py-4 border-b">
+          <h2 class="text-base font-semibold">Identifiers</h2>
+          <p class="text-xs text-gray-500">Core fields required by most HR systems</p>
+        </div>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="employeeId" class="block text-sm font-medium">Employee ID <span class="text-red-600">*</span></label>
+            <input id="employeeId" name="employeeId" type="text" required placeholder="EMP00123" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+          <div>
+            <label for="corporateEmail" class="block text-sm font-medium">Corporate Email</label>
+            <input id="corporateEmail" name="corporateEmail" type="email" placeholder="user@company.com" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+          <div>
+            <label for="photoUrl" class="block text-sm font-medium">Photo URL</label>
+            <input id="photoUrl" name="photoUrl" type="url" placeholder="https://..." class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+        </div>
+      </section>
+
+      <!-- Personal -->
+      <details open class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Personal</span>
+          <span class="text-xs text-gray-500">Name, DOB, Gender, Marital Status, Nationality</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="md:col-span-2">
+            <label for="firstName" class="block text-sm font-medium">First Name <span class="text-red-600">*</span></label>
+            <input id="firstName" name="firstName" required type="text" placeholder="Aarav" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+          <div>
+            <label for="middleName" class="block text-sm font-medium">Middle Name</label>
+            <input id="middleName" name="middleName" type="text" placeholder="—" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+          <div>
+            <label for="lastName" class="block text-sm font-medium">Last Name <span class="text-red-600">*</span></label>
+            <input id="lastName" name="lastName" required type="text" placeholder="Sharma" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+
+          <div>
+            <label for="dob" class="block text-sm font-medium">Date of Birth</label>
+            <input id="dob" name="dob" type="date" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+          <div>
+            <label for="gender" class="block text-sm font-medium">Gender</label>
+            <select id="gender" name="gender" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+              <option>PreferNotToSay</option>
+            </select>
+          </div>
+          <div>
+            <label for="maritalStatus" class="block text-sm font-medium">Marital Status</label>
+            <select id="maritalStatus" name="maritalStatus" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+              <option value="">Select</option>
+              <option>Single</option>
+              <option>Married</option>
+              <option>Divorced</option>
+              <option>Widowed</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="nationality" class="block text-sm font-medium">Nationality</label>
+            <input id="nationality" name="nationality" type="text" placeholder="Indian" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Contact -->
+      <details open class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Contact</span>
+          <span class="text-xs text-gray-500">Emails, Phones, Addresses</span>
+        </summary>
+        <div class="p-5 space-y-6">
+          <!-- Emails -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label for="emailAddress" class="block text-sm font-medium">Primary Email <span class="text-red-600">*</span></label>
+              <input id="emailAddress" name="emails[0].address" type="email" required placeholder="name@example.com" class="mt-1 w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500"/>
+            </div>
+            <div>
+              <label for="emailType" class="block text-sm font-medium">Type</label>
+              <select id="emailType" name="emails[0].type" class="mt-1 w-full rounded-md border-gray-300">
+                <option>Work</option>
+                <option>Personal</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <label class="inline-flex items-center gap-2 text-sm">
+                <input type="checkbox" name="emails[0].isPrimary" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                Primary
+              </label>
+            </div>
+          </div>
+
+          <!-- Phones -->
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label for="countryCode" class="block text-sm font-medium">Country Code</label>
+              <input id="countryCode" name="phones[0].countryCode" type="text" placeholder="+91" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label for="phoneNumber" class="block text-sm font-medium">Phone Number</label>
+              <input id="phoneNumber" name="phones[0].number" type="tel" placeholder="9876543210" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label for="phoneType" class="block text-sm font-medium">Type</label>
+              <select id="phoneType" name="phones[0].type" class="mt-1 w-full rounded-md border-gray-300">
+                <option>Mobile</option>
+                <option>Home</option>
+                <option>Work</option>
+              </select>
+            </div>
+            <div class="flex items-end">
+              <label class="inline-flex items-center gap-2 text-sm">
+                <input type="checkbox" name="phones[0].isPrimary" checked class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                Primary
+              </label>
+            </div>
+          </div>
+
+          <!-- Current Address -->
+          <div>
+            <h3 class="text-sm font-semibold mb-2">Current Address</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="md:col-span-3">
+                <label for="currLine1" class="block text-sm font-medium">Address Line 1</label>
+                <input id="currLine1" name="currentAddress.line1" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div class="md:col-span-3">
+                <label for="currLine2" class="block text-sm font-medium">Address Line 2</label>
+                <input id="currLine2" name="currentAddress.line2" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="currCity" class="block text-sm font-medium">City</label>
+                <input id="currCity" name="currentAddress.city" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="currState" class="block text-sm font-medium">State</label>
+                <input id="currState" name="currentAddress.state" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="currPostal" class="block text-sm font-medium">Postal Code</label>
+                <input id="currPostal" name="currentAddress.postalCode" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="currCountry" class="block text-sm font-medium">Country</label>
+                <input id="currCountry" name="currentAddress.country" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Permanent Address -->
+          <div>
+            <h3 class="text-sm font-semibold mb-2">Permanent Address</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="md:col-span-3">
+                <label for="permLine1" class="block text-sm font-medium">Address Line 1</label>
+                <input id="permLine1" name="permanentAddress.line1" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div class="md:col-span-3">
+                <label for="permLine2" class="block text-sm font-medium">Address Line 2</label>
+                <input id="permLine2" name="permanentAddress.line2" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="permCity" class="block text-sm font-medium">City</label>
+                <input id="permCity" name="permanentAddress.city" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="permState" class="block text-sm font-medium">State</label>
+                <input id="permState" name="permanentAddress.state" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="permPostal" class="block text-sm font-medium">Postal Code</label>
+                <input id="permPostal" name="permanentAddress.postalCode" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label for="permCountry" class="block text-sm font-medium">Country</label>
+                <input id="permCountry" name="permanentAddress.country" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Government IDs -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Government IDs</span>
+          <span class="text-xs text-gray-500">Aadhaar, PAN, Passport, UAN, ESIC</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Aadhaar</label>
+            <input name="governmentIds.aadhaar" type="text" placeholder="XXXX XXXX XXXX" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">PAN</label>
+            <input name="governmentIds.pan" type="text" placeholder="ABCDE1234F" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Passport Number</label>
+            <input name="governmentIds.passportNumber" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Passport Expiry</label>
+            <input name="governmentIds.passportExpiry" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">UAN</label>
+            <input name="governmentIds.uan" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">ESIC</label>
+            <input name="governmentIds.esic" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Employment -->
+      <details open class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Employment</span>
+          <span class="text-xs text-gray-500">Title, Department, Type, DOJ, Location</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Title / Designation <span class="text-red-600">*</span></label>
+            <input name="employment.title" required type="text" placeholder="Software Engineer" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Department <span class="text-red-600">*</span></label>
+            <input name="employment.department" required type="text" placeholder="Engineering" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Employment Type</label>
+            <select name="employment.employmentType" class="mt-1 w-full rounded-md border-gray-300">
+              <option>FullTime</option><option>PartTime</option><option>Contract</option><option>Intern</option><option>Consultant</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Date of Joining <span class="text-red-600">*</span></label>
+            <input name="employment.dateOfJoining" required type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium">Business Unit</label>
+            <input name="employment.businessUnit" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Division</label>
+            <input name="employment.division" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Grade Level</label>
+            <input name="employment.gradeLevel" type="text" placeholder="L1/L2" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Work Mode</label>
+            <select name="employment.attendance.workMode" class="mt-1 w-full rounded-md border-gray-300">
+              <option>Onsite</option><option>Remote</option><option>Hybrid</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium">Shift</label>
+            <input name="employment.attendance.shift" type="text" placeholder="General / UK / US" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Manager ID</label>
+            <input name="employment.attendance.managerId" type="text" placeholder="EMP00010" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium">Location Name</label>
+            <input name="employment.workLocation.name" type="text" placeholder="Kurla Office" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Timezone</label>
+            <input name="employment.workLocation.timezone" type="text" placeholder="Asia/Kolkata" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Work Site Code</label>
+            <input name="employment.workLocation.siteCode" type="text" placeholder="MUM-001" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Compensation -->
+      <details open class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Compensation</span>
+          <span class="text-xs text-gray-500">CTC, Currency, Frequency, Effective From</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Currency <span class="text-red-600">*</span></label>
+            <select name="compensation.currency" required class="mt-1 w-full rounded-md border-gray-300">
+              <option>INR</option><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>SGD</option><option>CAD</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Annual CTC <span class="text-red-600">*</span></label>
+            <input name="compensation.ctcAnnual" required type="number" min="0" step="1" placeholder="1200000" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Pay Frequency</label>
+            <select name="compensation.payFrequency" class="mt-1 w-full rounded-md border-gray-300">
+              <option>Monthly</option><option>BiWeekly</option><option>Weekly</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Effective From</label>
+            <input name="compensation.effectiveFrom" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">In-hand (Monthly)</label>
+            <input name="compensation.inHandMonthly" type="number" min="0" step="1" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Fixed (Annual)</label>
+            <input name="compensation.fixedAnnual" type="number" min="0" step="1" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Variable (Annual)</label>
+            <input name="compensation.variableAnnual" type="number" min="0" step="1" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Bank -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Bank Details</span>
+          <span class="text-xs text-gray-500">Account & IFSC/SWIFT</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Account Holder</label>
+            <input name="bank.accountHolder" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Bank Name</label>
+            <input name="bank.bankName" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Account Number</label>
+            <input name="bank.accountNumber" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">IFSC / SWIFT</label>
+            <input name="bank.ifscOrSwift" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Branch</label>
+            <input name="bank.branch" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">PAN (for bank)</label>
+            <input name="bank.pan" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">UPI ID</label>
+            <input name="bank.upiId" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Emergency Contact -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Emergency Contact</span>
+          <span class="text-xs text-gray-500">Primary contact details</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Name</label>
+            <input name="emergencyContacts[0].name" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Relationship</label>
+            <input name="emergencyContacts[0].relationship" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Phone</label>
+            <input name="emergencyContacts[0].phones[0].number" type="tel" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Email</label>
+            <input name="emergencyContacts[0].email" type="email" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Education -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Education</span>
+          <span class="text-xs text-gray-500">Highest qualification</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Level</label>
+            <select name="education[0].level" class="mt-1 w-full rounded-md border-gray-300">
+              <option>10th</option><option>12th</option><option>Diploma</option><option>Bachelors</option><option>Masters</option><option>Doctorate</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Degree/Course</label>
+            <input name="education[0].degreeOrCourse" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Institution</label>
+            <input name="education[0].institution" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Start Date</label>
+            <input name="education[0].startDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">End Date</label>
+            <input name="education[0].endDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Grade / %</label>
+            <input name="education[0].gradeOrPercentage" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Experience -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Experience</span>
+          <span class="text-xs text-gray-500">Last organization (summary)</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Organization</label>
+            <input name="experience[0].organization" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Title</label>
+            <input name="experience[0].title" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Last CTC (Amount)</label>
+            <input name="experience[0].lastCTC.amount" type="number" min="0" step="1" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Currency</label>
+            <select name="experience[0].lastCTC.currency" class="mt-1 w-full rounded-md border-gray-300">
+              <option>INR</option><option>USD</option><option>EUR</option><option>GBP</option><option>AUD</option><option>SGD</option><option>CAD</option><option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Start Date</label>
+            <input name="experience[0].startDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">End Date</label>
+            <input name="experience[0].endDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-4">
+            <label class="block text-sm font-medium">Responsibilities (comma separated)</label>
+            <input name="experience[0].responsibilities" type="text" placeholder="Angular UI, .NET APIs, SQL" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- IT Access & Assets -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">IT Access & Assets</span>
+          <span class="text-xs text-gray-500">Accounts and issued assets</span>
+        </summary>
+        <div class="p-5 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium">Login ID</label>
+              <input name="itAccess.loginId" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Email ID</label>
+              <input name="itAccess.emailId" type="email" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium">Roles (comma separated)</label>
+              <input name="itAccess.roles" type="text" placeholder="Employee, Manager" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold mb-2">Primary Asset</h3>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div>
+                <label class="block text-sm font-medium">Asset Tag</label>
+                <input name="assets[0].tagId" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label class="block text-sm font-medium">Type</label>
+                <input name="assets[0].type" type="text" placeholder="Laptop/Monitor/Phone" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label class="block text-sm font-medium">Make</label>
+                <input name="assets[0].make" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label class="block text-sm font-medium">Issued On</label>
+                <input name="assets[0].issuedOn" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+              </div>
+              <div>
+                <label class="block text-sm font-medium">Status</label>
+                <select name="assets[0].status" class="mt-1 w-full rounded-md border-gray-300">
+                  <option>Assigned</option><option>Returned</option><option>Damaged</option><option>Lost</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Benefits & Leave -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Benefits & Leave</span>
+          <span class="text-xs text-gray-500">Health, PF, ESOP, Leave Balances</span>
+        </summary>
+        <div class="p-5 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium">Health Provider</label>
+              <input name="benefits.healthInsurance.provider" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Policy Number</label>
+              <input name="benefits.healthInsurance.policyNumber" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Start</label>
+              <input name="benefits.healthInsurance.startDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">End</label>
+              <input name="benefits.healthInsurance.endDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div>
+              <label class="block text-sm font-medium">PF Enrolled</label>
+              <select name="benefits.providentFund.enrolled" class="mt-1 w-full rounded-md border-gray-300">
+                <option value="">Select</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">UAN</label>
+              <input name="benefits.providentFund.uan" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Employer %</label>
+              <input name="benefits.providentFund.employerContributionPct" type="number" step="0.01" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Employee %</label>
+              <input name="benefits.providentFund.employeeContributionPct" type="number" step="0.01" class="mt-1 w-full rounded-md border-gray-300"/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium">ESOP Eligible</label>
+              <select name="benefits.esop.eligible" class="mt-1 w-full rounded-md border-gray-300">
+                <option value="">Select</option>
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-semibold mb-2">Leave Balances</h3>
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
+              <div><label class="block text-sm font-medium">Annual</label><input name="leaveBalances.annual" type="number" min="0" class="mt-1 w-full rounded-md border-gray-300"/></div>
+              <div><label class="block text-sm font-medium">Sick</label><input name="leaveBalances.sick" type="number" min="0" class="mt-1 w-full rounded-md border-gray-300"/></div>
+              <div><label class="block text-sm font-medium">Casual</label><input name="leaveBalances.casual" type="number" min="0" class="mt-1 w-full rounded-md border-gray-300"/></div>
+              <div><label class="block text-sm font-medium">Comp Off</label><input name="leaveBalances.compOff" type="number" min="0" class="mt-1 w-full rounded-md border-gray-300"/></div>
+              <div><label class="block text-sm font-medium">Maternity</label><input name="leaveBalances.maternity" type="number" min="0" class="mt-1 w-full rounded-md border-gray-300"/></div>
+              <div><label class="block text-sm font-medium">Paternity</label><input name="leaveBalances.paternity" type="number" min="0" class="mt-1 w-full rounded-md border-gray-300"/></div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Onboarding -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Onboarding</span>
+          <span class="text-xs text-gray-500">Offer, joining, probation</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div><label class="block text-sm font-medium">Offer Date</label><input name="onboarding.offerDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/></div>
+          <div><label class="block text-sm font-medium">Accepted On</label><input name="onboarding.acceptedOn" type="date" class="mt-1 w-full rounded-md border-gray-300"/></div>
+          <div><label class="block text-sm font-medium">Joining Date</label><input name="onboarding.joiningDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/></div>
+          <div><label class="block text-sm font-medium">Probation (months)</label><input name="onboarding.probationMonths" type="number" min="0" class="mt-1 w-full rounded-md border-gray-300"/></div>
+        </div>
+      </details>
+
+      <!-- Health & Tax -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Health & Tax</span>
+          <span class="text-xs text-gray-500">Blood group, Allergies, PAN, Regime</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Blood Group</label>
+            <select name="health.bloodGroup" class="mt-1 w-full rounded-md border-gray-300">
+              <option></option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+            </select>
+          </div>
+          <div class="md:col-span-3">
+            <label class="block text-sm font-medium">Allergies (comma separated)</label>
+            <input name="health.allergies" type="text" placeholder="Penicillin, Dust" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium">PAN</label>
+            <input name="tax.pan" type="text" placeholder="ABCDE1234F" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Tax Regime</label>
+            <select name="tax.regime" class="mt-1 w-full rounded-md border-gray-300">
+              <option></option><option>Old</option><option>New</option>
+            </select>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Declarations (notes)</label>
+            <input name="tax.declarations" type="text" placeholder="80C: 150000, 80D: 25000" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Performance (Quick) -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Performance (Latest)</span>
+          <span class="text-xs text-gray-500">Cycle, Rating, Reviewer</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Cycle</label>
+            <input name="performance[0].cycle" type="text" placeholder="2025-H1" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Rating (1-5)</label>
+            <input name="performance[0].rating" type="number" min="1" max="5" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Reviewer</label>
+            <input name="performance[0].reviewer" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Review Date</label>
+            <input name="performance[0].reviewDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Comments</label>
+            <input name="performance[0].comments" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Separation -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Separation (If Applicable)</span>
+          <span class="text-xs text-gray-500">Status, Last Working Day</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Status</label>
+            <select name="separation.status" class="mt-1 w-full rounded-md border-gray-300">
+              <option></option><option>Active</option><option>Resigned</option><option>Terminated</option><option>Retired</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Resignation Date</label>
+            <input name="separation.resignationDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Last Working Day</label>
+            <input name="separation.lastWorkingDay" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">Reason</label>
+            <input name="separation.reason" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Documents (Meta) -->
+      <details class="bg-white rounded-lg border shadow-sm">
+        <summary class="cursor-pointer select-none px-5 py-3 border-b flex items-center justify-between">
+          <span class="text-base font-semibold">Document (Meta)</span>
+          <span class="text-xs text-gray-500">Type, Number, URL, Expiry</span>
+        </summary>
+        <div class="p-5 grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Type</label>
+            <select name="documents[0].type" class="mt-1 w-full rounded-md border-gray-300">
+              <option></option><option>Aadhaar</option><option>PAN</option><option>Passport</option><option>DL</option><option>VoterID</option><option>OfferLetter</option><option>ExperienceLetter</option><option>RelievingLetter</option><option>EducationCert</option><option>AddressProof</option><option>BankProof</option><option>Photograph</option><option>Resume</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Number/ID</label>
+            <input name="documents[0].numberOrId" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium">File URL</label>
+            <input name="documents[0].url" type="url" placeholder="https://..." class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Expiry</label>
+            <input name="documents[0].expiryDate" type="date" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+          <div class="md:col-span-5">
+            <label class="block text-sm font-medium">Remarks</label>
+            <input name="documents[0].remarks" type="text" class="mt-1 w-full rounded-md border-gray-300"/>
+          </div>
+        </div>
+      </details>
+
+      <!-- Footer actions -->
+      <div class="flex justify-end gap-2 pt-2">
+        <button type="reset" class="px-3 py-1.5 rounded-md text-sm font-medium bg-gray-100 hover:bg-gray-200">Reset</button>
+        <button type="submit" class="px-4 py-1.5 rounded-md text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700">Save Employee</button>
+      </div>
+
+    </form>
+  </main>
+</div>

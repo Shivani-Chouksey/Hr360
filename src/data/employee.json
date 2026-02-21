@@ -1,0 +1,198 @@
+[
+    {
+  "employeeId": "EMP00123",
+  "corporateEmail": "aarav.sharma@hr360.corp",
+  "firstName": "Aarav",
+  "lastName": "Sharma",
+  "fullName": "Aarav Sharma",
+  "dob": "1994-03-18",
+  "gender": "Male",
+  "maritalStatus": "Single",
+  "nationality": "Indian",
+  "photoUrl": "https://cdn.example.com/photos/emp00123.jpg",
+  "emails": [
+    { "address": "aarav.sharma@hr360.corp", "type": "Work", "isPrimary": true },
+    { "address": "aarav.sharma@gmail.com", "type": "Personal" }
+  ],
+  "phones": [
+    { "countryCode": "+91", "number": "9876543210", "type": "Mobile", "isPrimary": true }
+  ],
+  "currentAddress": {
+    "line1": "Flat 302, Green Heights",
+    "line2": "Near Phoenix Marketcity",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "postalCode": "400070",
+    "country": "India"
+  },
+  "permanentAddress": {
+    "line1": "B-12, Shanti Nagar",
+    "city": "Pune",
+    "state": "Maharashtra",
+    "postalCode": "411014",
+    "country": "India"
+  },
+  "governmentIds": {
+    "aadhaar": "1234 5678 9012",
+    "pan": "ABCDE1234F",
+    "passportNumber": "N1234567",
+    "passportExpiry": "2031-08-15",
+    "uan": "100200300400",
+    "esic": "45 1234 5678 9000"
+  },
+  "employment": {
+    "title": "Software Engineer",
+    "department": "Engineering",
+    "businessUnit": "Products",
+    "division": "Platform",
+    "gradeLevel": "L2",
+    "employmentType": "FullTime",
+    "dateOfJoining": "2022-06-14",
+    "workLocation": {
+      "siteCode": "MUM-001",
+      "name": "Kurla Office",
+      "address": {
+        "line1": "Unit 6, Business Park",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "postalCode": "400070",
+        "country": "India"
+      },
+      "timezone": "Asia/Kolkata"
+    },
+    "attendance": {
+      "workMode": "Hybrid",
+      "shift": "General",
+      "weeklyOff": ["Sat", "Sun"],
+      "managerId": "EMP00010",
+      "deviceIds": ["BIO-MUM-8871"]
+    }
+  },
+  "compensation": {
+    "currency": "INR",
+    "ctcAnnual": 1200000,
+    "fixedAnnual": 1000000,
+    "variableAnnual": 200000,
+    "payFrequency": "Monthly",
+    "inHandMonthly": 75000,
+    "effectiveFrom": "2024-04-01",
+    "components": [
+      { "name": "Basic", "amount": 40000, "periodicity": "Monthly", "taxable": true },
+      { "name": "HRA", "amount": 20000, "periodicity": "Monthly", "taxable": true },
+      { "name": "Special Allowance", "amount": 12000, "periodicity": "Monthly", "taxable": true },
+      { "name": "PF Employer", "amount": 4800, "periodicity": "Monthly", "taxable": false }
+    ]
+  },
+  "bank": {
+    "accountHolder": "Aarav Sharma",
+    "bankName": "HDFC Bank",
+    "accountNumber": "********1234",
+    "ifscOrSwift": "HDFC0001234",
+    "branch": "Kurla",
+    "pan": "ABCDE1234F",
+    "upiId": "aaravsharma@okhdfcbank"
+  },
+  "tax": {
+    "pan": "ABCDE1234F",
+    "regime": "New",
+    "declarations": [
+      { "section": "80C", "amount": 120000 },
+      { "section": "80D", "amount": 25000 }
+    ]
+  },
+  "benefits": {
+    "healthInsurance": {
+      "provider": "Star Health",
+      "policyNumber": "SH-EMP-00123",
+      "sumInsured": 500000,
+      "dependentsCovered": true,
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31"
+    },
+    "providentFund": { "enrolled": true, "uan": "100200300400", "employerContributionPct": 12, "employeeContributionPct": 12 },
+    "gratuity": { "eligible": true },
+    "esop": { "eligible": false },
+    "otherBenefits": ["LTA", "Meal Card"]
+  },
+  "leaveBalances": {
+    "annual": 12,
+    "sick": 6,
+    "casual": 6,
+    "compOff": 1,
+    "lastUpdated": "2026-02-01"
+  },
+  "documents": [
+    { "type": "Aadhaar", "numberOrId": "1234 5678 9012", "fileName": "aadhaar.pdf", "fileType": "application/pdf", "url": "https://files/hr/emp00123/aadhaar.pdf", "uploadedOn": "2022-06-10", "verified": true },
+    { "type": "PAN", "numberOrId": "ABCDE1234F", "fileName": "pan.pdf", "fileType": "application/pdf", "url": "https://files/hr/emp00123/pan.pdf", "uploadedOn": "2022-06-10", "verified": true },
+    { "type": "OfferLetter", "fileName": "offer-letter.pdf", "url": "https://files/hr/emp00123/offer.pdf", "uploadedOn": "2022-06-01" }
+  ],
+  "emergencyContacts": [
+    {
+      "name": "Rohit Sharma",
+      "relationship": "Brother",
+      "phones": [{ "countryCode": "+91", "number": "9876500012", "type": "Mobile", "isPrimary": true }],
+      "email": "rohit.sharma@example.com",
+      "address": {
+        "line1": "B-12, Shanti Nagar",
+        "city": "Pune",
+        "state": "Maharashtra",
+        "postalCode": "411014",
+        "country": "India"
+      }
+    }
+  ],
+  "education": [
+    { "level": "Bachelors", "degreeOrCourse": "B.Tech (CSE)", "institution": "VJTI", "startDate": "2011-07-01", "endDate": "2015-05-30", "gradeOrPercentage": "8.2 CGPA" }
+  ],
+  "experience": [
+    { "organization": "TechNova Pvt Ltd", "title": "SDE 1", "startDate": "2018-06-01", "endDate": "2022-05-20", "lastCTC": { "amount": 900000, "currency": "INR" }, "responsibilities": ["Backend APIs", "Angular UI"] }
+  ],
+  "skills": ["Angular", "TypeScript", ".NET", "REST APIs", "SQL"],
+  "certifications": [
+    { "name": "Azure AZ-900", "authority": "Microsoft", "validTill": "2027-12-31" }
+  ],
+  "itAccess": {
+    "emailId": "aarav.sharma@hr360.corp",
+    "loginId": "aarav.sharma",
+    "adOrAzureId": "aad-8f1c-11ee-8a2",
+    "roles": ["Employee"],
+    "permissions": ["self_service:view"],
+    "resources": [
+      { "system": "Jira", "accessLevel": "User", "assignedOn": "2022-06-15" },
+      { "system": "GitHub", "accessLevel": "User", "assignedOn": "2022-06-15" }
+    ]
+  },
+  "assets": [
+    { "tagId": "LT-MUM-00089", "type": "Laptop", "make": "Dell", "model": "Latitude 5420", "serialNumber": "SN-DEL-5420-123", "issuedOn": "2022-06-14", "status": "Assigned" },
+    { "tagId": "MON-MUM-00311", "type": "Monitor", "make": "Dell", "model": "24\"", "issuedOn": "2022-06-14", "status": "Assigned" }
+  ],
+  "onboarding": {
+    "offerDate": "2022-05-20",
+    "acceptedOn": "2022-05-22",
+    "backgroundCheckStatus": "Clear",
+    "joiningDate": "2022-06-14",
+    "probationMonths": 6,
+    "confirmationDate": "2022-12-14",
+    "buddyOrMentor": "EMP00056",
+    "checklist": [
+      { "item": "ID Proof Submitted", "completed": true, "completedOn": "2022-06-10" },
+      { "item": "Bank Details Submitted", "completed": true, "completedOn": "2022-06-11" }
+    ]
+  },
+  "performance": [
+    { "cycle": "2024-H2", "rating": 4, "reviewer": "EMP00010", "reviewDate": "2024-12-20", "comments": "Strong ownership and delivery." }
+  ],
+  "separation": {
+    "status": "Active"
+  },
+  "health": {
+    "bloodGroup": "O+",
+    "allergies": ["Penicillin"]
+  },
+  "createdAt": "2022-05-20T10:20:00Z",
+  "updatedAt": "2026-02-10T17:05:00Z",
+  "createdBy": "HR_ADMIN",
+  "updatedBy": "HR_MANAGER"
+}
+
+]

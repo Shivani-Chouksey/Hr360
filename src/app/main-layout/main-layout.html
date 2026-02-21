@@ -1,0 +1,117 @@
+<!-- main-layout.html -->
+<div class="flex h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r shadow-sm overflow-y-auto">
+    <!-- Brand -->
+    <div class="px-5 py-4 border-b">
+      <h1 class="text-xl font-bold text-gray-800 tracking-wide">HR360</h1>
+      <p class="text-xs text-gray-500 -mt-1">Employee Management Application</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="p-3 text-sm font-medium text-gray-700">
+      <ng-container *ngFor="let group of navJsonObject; trackBy: trackGroup">
+        <div class="mt-4">
+          <!-- Group Header (click to toggle) -->
+          <button
+            type="button"
+            class="flex w-full items-center justify-between px-2 py-2 text-gray-600 font-semibold 
+                   hover:text-gray-800"
+            (click)="toggleGroup(group.group)"
+            [attr.aria-expanded]="isGroupOpen(group.group)"
+            [attr.aria-controls]="'group-'+group.group"
+          >
+            <span class="uppercase text-[11px] tracking-wider">{{ group.group }}</span>
+            <svg class="w-4 h-4 transition-transform"
+                 [class.rotate-180]="isGroupOpen(group.group)"
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <!-- Group Content (collapsible) -->
+          <div
+            [id]="'group-'+group.group"
+            class="overflow-hidden transition-[max-height] duration-300 ease-in-out"
+            [style.maxHeight]="isGroupOpen(group.group) ? '1000px' : '0px'"
+          >
+            <ul class="mt-1 space-y-1">
+              <!-- Items -->
+              <li *ngFor="let item of group.items; trackBy: trackItem" class="pr-2">
+                <div
+                  class="flex items-center justify-between px-3 py-2 rounded-md hover:bg-gray-50"
+                >
+                  <a
+                    [routerLink]="item.link"
+                    routerLinkActive="text-blue-600 font-semibold"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    class="flex items-center gap-2 text-gray-800"
+                  >
+                    <!-- <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                    </svg> -->
+                    <span>{{ item.label }}</span>
+                  </a>
+
+                  <!-- Toggle for children (only if children exist) -->
+                  <button
+                    *ngIf="item.children?.length"
+                    type="button"
+                    class="p-1 rounded hover:bg-gray-100"
+                    (click)="toggleItem(item.link)"
+                    [attr.aria-expanded]="isItemOpen(item.link)"
+                    [attr.aria-controls]="'item-'+item.link"
+                  >
+                    <svg class="w-4 h-4 transition-transform"
+                         [class.rotate-180]="isItemOpen(item.link)"
+                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <!-- Children (collapsible) -->
+                <ul
+                  *ngIf="item.children?.length"
+                  [id]="'item-'+item.link"
+                  class="ml-6 border-l pl-3 space-y-1 overflow-hidden transition-[max-height] duration-300 ease-in-out"
+                  [style.maxHeight]="isItemOpen(item.link) ? '600px' : '0px'"
+                >
+                  <li *ngFor="let child of item.children; trackBy: trackLeaf">
+                    <a
+                      [routerLink]="child.link"
+                      routerLinkActive="text-blue-600 font-semibold"
+                      class="block px-2 py-1 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md transition"
+                    >
+                      {{ child.label }}
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </ng-container>
+       <a
+                      [routerLink]="'holidays'"
+                      routerLinkActive="text-blue-600 font-semibold"
+                      class="block px-2 py-1 text-gray-600 hover:text-blue-600 hover:bg-gray-50 rounded-md transition"
+                    >
+                      {{ 'Holidays' }}
+                    </a>
+    </nav>
+  </aside>
+
+  <!-- Right content -->
+  <section class="flex-1 flex flex-col">
+    <header class="flex justify-between items-center bg-white shadow px-6 py-3">
+      <h2 class="text-lg font-semibold text-gray-700">Component Name</h2>
+      <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-md text-sm font-semibold">
+        LogOut
+      </button>
+    </header>
+    <main class="flex-1 p-6 overflow-y-auto">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</div>

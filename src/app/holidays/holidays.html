@@ -1,0 +1,67 @@
+<div class="w-full bg-white rounded shadow-md overflow-hidden border border-gray-200 p-5">
+
+    <!-- Toolbar -->
+    <div
+        class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between px-4 sm:px-6 py-4 bg-gray-50 border-b">
+        <h2 class="text-lg font-semibold text-gray-700">Holiday List</h2>
+
+        <div class="flex w-full sm:w-auto gap-3">
+            <!-- Year selector -->
+            <label class="inline-flex items-center justify-center align-middle gap-2">
+                <span class="text-sm text-gray-600">Upcoming</span>
+                <input type="radio" placeholder="Upcoming">
+            </label>
+            <label class="inline-flex items-center justify-center align-middle gap-2">
+                <span class="text-sm text-gray-600">Past Holidays</span>
+                <input type="radio" placeholder="Upcoming">
+            </label>
+
+            <button class="p-2 bg-blue-500 text-white rounded" (click)="openConfirm()">Add New Holiday</button>
+        </div>
+    </div>
+    <!-- Header -->
+    <!-- <div class="px-6 py-4 border-b bg-gray-50">
+    <h2 class="text-lg font-semibold text-gray-700">Holiday List</h2>
+  </div> -->
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left border-0 text-gray-700 ">
+            <thead class="bg-blue-400 ">
+                <tr class="text-sm font-semibold text-white text-center">
+                    <th class="py-3 px-4 border-b">Date</th>
+                    <th class="py-3 px-4 border-b">Day</th>
+                    <th class="py-3 px-4 border-b">Holiday Name</th>
+                </tr>
+            </thead>
+
+            <tbody class="divide-y">
+                @for (item of holidayList; track $index) {
+                <tr class="hover:bg-gray-50 transition duration-150 text-center">
+                    <td class="py-3 px-4 text-sm">{{ item.date }}</td>
+                    <td class="py-3 px-4 text-sm">{{ item.day }}</td>
+                    <td class="py-3 px-4 text-sm font-medium">{{ item.label }}</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+<app-modal [open]="confirmOpen" title="Add Holiday" (closed)="onClosed()">
+    <p id="confirm-desc">
+        <input type="date" placeholder="Select Date" class=" border p-2 mb-2">
+        <br>
+        <input type="text" placeholder="Add Label /  Description" class=" border p-2">
+    </p>
+
+    <div modal-actions>
+        <button class="bg-red-600  text-white p-2 mr-2 rounded font-bold" type="button"
+            (click)="onClosed()">Cancel</button>
+        <button class="bg-blue-700 text-white p-2 mr-2 rounded font-bold" type="button"
+            (click)="deleteUser()">Add</button>
+    </div>
+</app-modal>
