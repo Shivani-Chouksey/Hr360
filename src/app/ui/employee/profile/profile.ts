@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route } from '@angular/router';
-import { BasicTable, TableHeader } from "../../common/basic-table/basic-table";
+import { BasicTable, TableHeader } from '../../../common/basic-table/basic-table';
+
 
 
 @Component({

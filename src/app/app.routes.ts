@@ -1,18 +1,3 @@
-// import { Routes } from '@angular/router';
-// import { MainLayout } from './main-layout/main-layout';
-// import { Login } from './auth/login/login';
-// import { authGuard, noAuthGuard } from './auth/auth-guard';
-// import { Employee } from './employee/employee';
-// import { List } from './employee/list/list';
-
-// export const routes: Routes = [
-//     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-//     { path: 'dashboard', component: MainLayout, canActivate: [authGuard] },
-//     { path: 'login', component: Login, canMatch: [noAuthGuard] },
-//     {path:'employee',component:Employee,children:[{path:'list',component:List}]},
-//     { path: '**', redirectTo: '/login' },
-// ];
-
 import { Routes } from '@angular/router';
 import { MainLayout } from './main-layout/main-layout';
 import { Login } from './auth/login/login';
@@ -20,13 +5,25 @@ import { authGuard, noAuthGuard } from './auth/auth-guard';
 
 // Feature pages
 
-import { Employee } from './employee/employee';
-import { List } from './employee/list/list';
-import { Add } from './employee/add/add';
-import { Profile } from './employee/profile/profile';
-import { Holidays } from './holidays/holidays'
-import { Apply } from './leave/apply/apply';
+
+import { Holidays } from './ui/holidays/holidays'
+import { Apply } from './ui/leave/apply/apply';
+import { Employee } from './ui/employee/employee';
+import { List } from './ui/employee/list/list';
+import { Add } from './ui/employee/add/add';
+import { Profile } from './ui/employee/profile/profile';
+import { Directive } from '@angular/core';
+import { pipe } from 'rxjs';
+
+
 // add more feature components as needed...
+// Directive
+// custem Directive
+// pipe
+// intercepter global route lebel
+// service
+// guard
+
 
 export const routes: Routes = [
 

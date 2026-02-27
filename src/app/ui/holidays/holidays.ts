@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { BasicTable } from "../common/basic-table/basic-table";
-import { year2026 } from "../../data/holiday.json"
-import { ModalComponent } from "../common/modal/modal";
+import { year2026 } from "../../../data/holiday.json"
+import { ModalComponent } from "../../common/modal/modal";
 @Component({
   selector: 'app-holidays',
   imports: [ModalComponent],
@@ -10,7 +9,6 @@ import { ModalComponent } from "../common/modal/modal";
 })
 export class Holidays {
   holidayList = year2026
-
   confirmOpen = false;
 
   openConfirm() { this.confirmOpen = true; }
