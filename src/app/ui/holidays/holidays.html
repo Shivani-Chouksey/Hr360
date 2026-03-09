@@ -51,17 +51,19 @@
 
 
 
-<app-modal [open]="confirmOpen" title="Add Holiday" (closed)="onClosed()">
-    <p id="confirm-desc">
-        <input type="date" placeholder="Select Date" class=" border p-2 mb-2">
+<app-modal [open]="confirmOpen"   title="Add Holiday" (closed)="onClosed()">
+   <form action="" [formGroup]="holidayForm">
+     <p id="confirm-desc">
+        <input type="date" formControlName="holiDayDate"  placeholder="Select Date" class=" border p-2 mb-2">
         <br>
-        <input type="text" placeholder="Add Label /  Description" class=" border p-2">
+        <input type="text" formControlName="label" placeholder="Add Label /  Description" class=" border p-2">
     </p>
 
     <div modal-actions>
         <button class="bg-red-600  text-white p-2 mr-2 rounded font-bold" type="button"
             (click)="onClosed()">Cancel</button>
         <button class="bg-blue-700 text-white p-2 mr-2 rounded font-bold" type="button"
-            (click)="deleteUser()">Add</button>
+            (click)="addHoliday()">Add</button>
     </div>
+   </form>
 </app-modal>

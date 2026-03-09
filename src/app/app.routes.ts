@@ -12,8 +12,8 @@ import { Employee } from './ui/employee/employee';
 import { List } from './ui/employee/list/list';
 import { Add } from './ui/employee/add/add';
 import { Profile } from './ui/employee/profile/profile';
-import { Directive } from '@angular/core';
-import { pipe } from 'rxjs';
+
+
 
 
 // add more feature components as needed...
