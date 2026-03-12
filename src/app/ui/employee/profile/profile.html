@@ -1,29 +1,30 @@
-<!-- <p>profile works!</p>
-<main>
-    {{EmployeeDetail?.personalDetail?.firstName}}
-</main> -->
 
 <main class="w-full">
-    <header class="flex justify-between align-middle mb-3 p-3 bg-white shadow-sm p-4">
+    <header class="flex justify-between align-middle mb-1 p-3 bg-white shadow-sm ">
         <div class="flex justify-between align-middle gap-4">
             <div>
                 <img src="" alt="profile image">
             </div>
             <div>
-                <h2 class=" font-bold text-2xl">{{EmployeeDetail?.personalDetail?.firstName}}</h2>
-                <p class="text-sm text-gray-600">{{EmployeeDetail?.professionalDetail.designation}} </p>
-                <p class="text-sm text-gray-600">{{EmployeeDetail?.professionalDetail.email}} </p>
+                <h2 class=" font-bold ">{{LoggedInUserdetails?.personalDetail?.firstName}}</h2>
+                <p class=" text-gray-600">{{LoggedInUserdetails?.professionalDetail?.designation}} </p>
+                <p class=" text-gray-600">{{LoggedInUserdetails?.professionalDetail?.email}} </p>
             </div>
         </div>
         <div>
-            <button class="p-2 bg-blue-700 text-white rounded">Edit Profile</button>
+            <button *ngIf="!IsEmployeeDetailsEditable" class="p-2 bg-blue-700 text-white rounded"
+                (click)="editProfile()">Edit Profile</button>
+            <div *ngIf="IsEmployeeDetailsEditable" class="flex gap-3">
+                <button class="p-2 bg-blue-700 text-white rounded" (click)="CancelEditProfile()">Cancel</button>
+                <button class="p-2 bg-lime-800 text-white rounded" (click)="CancelEditProfile()">Save</button>
+            </div>
         </div>
     </header>
 
     <body class="flex w-full gap-4">
-        <div class="flex flex-col bg-white p-4  w-50 gap-2">
+        <div class="flex flex-col bg-white p-2  w-50 gap-2">
             <button type="button" (click)="setActiveModule('profile')" [attr.aria-selected]="isActiveModule('profile')"
-                class="py-2 px-4 rounded border text-sm font-semibold transition
+                class="py-2 px-4 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('profile')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -31,7 +32,7 @@
                 Profile
             </button>
             <button type="button" (click)="setActiveModule('attendance')"
-                [attr.aria-selected]="isActiveModule('attendance')" class="py-2 px-4 rounded border text-sm font-semibold transition
+                [attr.aria-selected]="isActiveModule('attendance')" class="py-2 px-4 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('attendance')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -39,7 +40,7 @@
                 Attendance
             </button>
             <button type="button" (click)="setActiveModule('projects')"
-                [attr.aria-selected]="isActiveModule('projects')" class="py-2 px-4 rounded border text-sm font-semibold transition
+                [attr.aria-selected]="isActiveModule('projects')" class="py-2 px-4 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('projects')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -47,7 +48,7 @@
                 Projects
             </button>
             <button type="button" (click)="setActiveModule('leave')" [attr.aria-selected]="isActiveModule('leave')"
-                class="py-2 px-4 rounded border text-sm font-semibold transition
+                class="py-2 px-4 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActiveModule('leave')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -59,7 +60,7 @@
         </div>
         @switch (activeModule) {
         @case ('attendance') {
-       
+
         <app-basic-table [type]='"attendance"' [headers]="[
   { key: 'employee', label: 'Employee' },
   { key: 'date', label: 'Date' },
@@ -96,7 +97,7 @@
 "></app-basic-table>
         }
         @case ('projects') {
-       
+
         <app-basic-table [type]='"projects"' [headers]="
  [
   { key: 'project', label: 'Project Name' },
@@ -181,7 +182,7 @@
             <!-- Tabs header -->
             <div class="tabHeaders mb-2 flex flex-wrap gap-2">
                 <button type="button" (click)="setActiveTabFun('personal')" [attr.aria-selected]="isActive('personal')"
-                    class="py-2 px-4 rounded border text-sm font-semibold transition
+                    class="py-1 px-2 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('personal')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -190,7 +191,7 @@
                 </button>
 
                 <button type="button" (click)="setActiveTabFun('professional')"
-                    [attr.aria-selected]="isActive('professional')" class="py-2 px-4 rounded border text-sm font-semibold transition
+                    [attr.aria-selected]="isActive('professional')" class="py-2 px-4 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('professional')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -199,7 +200,7 @@
                 </button>
 
                 <button type="button" (click)="setActiveTabFun('documents')"
-                    [attr.aria-selected]="isActive('documents')" class="py-2 px-4 rounded border text-sm font-semibold transition
+                    [attr.aria-selected]="isActive('documents')" class="py-2 px-4 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('documents')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -208,7 +209,7 @@
                 </button>
 
                 <button type="button" (click)="setActiveTabFun('account')" [attr.aria-selected]="isActive('account')"
-                    class="py-2 px-4 rounded border text-sm font-semibold transition
+                    class="py-2 px-4 rounded border text-sm  transition
              hover:text-white hover:bg-blue-500 hover:border-transparent
              focus:outline-none focus:ring-2 focus:ring-blue-500" [ngClass]="isActive('account')
         ? 'bg-blue-600 text-white border-blue-600'
@@ -312,10 +313,10 @@
 
                 @default {
                 <div class="mx-auto rounded-xl">
-                    <h1 class="text-xl font-semibold mb-1">Personal Information</h1>
-                    <p class="text-sm text-gray-600 mb-6">
+                    <h1 class=" font-semibold text-sm mb-1">Personal Information</h1>
+                    <!-- <p class=" text-gray-600 mb-2">
                         Add name, DOB, gender, contact and address details.
-                    </p>
+                    </p> -->
 
                     <form>
                         <div formGroupName="personalDetail">
@@ -336,28 +337,41 @@
                                         </svg>
                                     </label>
                                 </div>
+                                <div *ngIf="!IsEmployeeDetailsEditable">
+                                    <p><span>Full Name :</span> {{LoggedInUserdetails.personalDetail.firstName }}
+                                        {{LoggedInUserdetails.personalDetail.lastName }}</p>
+                                    <p><span>Email :</span> {{LoggedInUserdetails.personalDetail.email }}</p>
+                                    <p><span>Contact Number :</span> {{LoggedInUserdetails.personalDetail.mobileNumber
+                                        }}</p>
 
+                                </div>
                                 <!-- <img *ngIf="avatarPreview()" [src]="avatarPreview()" alt="Avatar preview" class="h-20 w-20 rounded object-cover ring-1 ring-gray-300" /> -->
                             </div>
 
                             <!-- Inputs -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div *ngIf="IsEmployeeDetailsEditable" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <input formControlName="firstName" type="text" placeholder="First Name"
+                                    [value]="LoggedInUserdetails?.personalDetail?.firstName"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
                                 <input formControlName="lastName" type="text" placeholder="Last Name"
+                                    [value]="LoggedInUserdetails?.personalDetail?.lastName"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
                                 <input formControlName="mobileNumber" type="text" placeholder="Mobile Number"
+                                    [value]="LoggedInUserdetails?.personalDetail?.mobileNumber"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
                                 <input formControlName="email" type="email" placeholder="Email Address"
+                                    [value]="LoggedInUserdetails?.personalDetail?.email"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
                                 <input formControlName="dob" type="date" name="dob"
+                                    [value]="LoggedInUserdetails?.personalDetail?.dob"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
                                 <select formControlName="maritalStatus"
+                                    [value]="LoggedInUserdetails?.personalDetail?.maritalStatus"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                                     <option value="">Marital Status</option>
                                     <option value="single">Single</option>
@@ -365,7 +379,7 @@
                                     <option value="married">Married</option>
                                 </select>
 
-                                <select formControlName="gender"
+                                <select formControlName="gender" [value]="LoggedInUserdetails?.personalDetail?.gender"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                                     <option value="">Gender</option>
                                     <option value="male">Male</option>
@@ -374,6 +388,7 @@
                                 </select>
 
                                 <select formControlName="nationality"
+                                    [value]="LoggedInUserdetails?.personalDetail?.nationality"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                                     <option value="">Nationality</option>
                                     <option value="india">India</option>
@@ -381,16 +396,19 @@
                                 </select>
 
                                 <input formControlName="address" type="text" placeholder="Address"
+                                    [value]="LoggedInUserdetails?.personalDetail?.address"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none col-span-1 sm:col-span-2">
 
                                 <input formControlName="city" type="text" placeholder="City"
+                                    [value]="LoggedInUserdetails?.personalDetail?.city"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
                                 <input formControlName="state" type="text" placeholder="State"
+                                    [value]="LoggedInUserdetails?.personalDetail?.state"
                                     class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                             </div>
-
-
+                            <app-employee-details *ngIf="!IsEmployeeDetailsEditable" [userDetails]="LoggedInUserdetails"></app-employee-details>
+                        
                         </div>
                     </form>
                 </div>

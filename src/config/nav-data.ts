@@ -1,5 +1,6 @@
 // nav.data.ts
 export interface NavLeaf {
+  _id: string;
   link: string;
   label: string;
 }
@@ -29,13 +30,14 @@ export const navJsonObject: ReadonlyArray<NavGroup> = [
     icon: "users",
     items: [
       {
+        _id: "Emp",
         link: "/employee",
         label: "Employee",
         children: [
-          { link: "/employee/list", label: "Employee List" },
-          { link: "/employee/add", label: "Add Employee" },
+          { _id: "Emp-list", link: "/employee/list", label: "Employee List" },
+          { _id: "Emp-add", link: "/employee/add", label: "Add Employee" },
           // { link: "/employee/documents", label: "Documents" },
-          { link: "/employee/profile", label: "My Profile" }
+          { _id: "Emp-pro", link: "/employee/profile", label: "My Profile" }
         ]
       }
     ]
@@ -56,11 +58,12 @@ export const navJsonObject: ReadonlyArray<NavGroup> = [
       {
         link: "/leave",
         label: "Leave Management",
+        _id: "leave",
         children: [
           // { link: "/holidays", label: "Holidays" },
-          { link: "/leave/apply", label: "Apply Leave" },
-          { link: "/leave/history", label: "Leave History" },
-          { link: "/leave/approval", label: "Approvals" }
+          { _id: "leave-apply", link: "/leave/apply", label: "Apply Leave" },
+          { _id: "leave-his", link: "/leave/history", label: "Leave History" },
+          { link: "/leave/approval", label: "Approvals", _id: "leave-app" }
         ]
       }
     ]

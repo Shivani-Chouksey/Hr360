@@ -1,21 +1,44 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { catchError, map, throwError } from 'rxjs';
+import { API_ROUTES } from '../../../api-enpoints'
+
+
+interface ApiEnvelope<T> {
+  data: T;
+  message?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class Employee {
-  apiUrl = 'http://localhost:4200/api/amployee'
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, private route: API_ROUTES) { }
   AddEmployee(data: any) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     console.log("AddEmployee ---------->", data);
+    console.log('API_Route', this.route.employee.create);
+    return this.http.post<ApiEnvelope<any>>(this.route.employee.create, { ...data })
+      .pipe(
+        map(res => res.data),          // If your backend returns plain Employee, remove this map
+        catchError((err) => {
+          // Normalize & rethrow so component can show a clean message
+          const normalized = this.adaptHttpError(err);
+          return throwError(() => normalized);
+        })
+      );
 
-    return this.http.post(this.apiUrl, { body: data }, {
-
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    }).subscribe((config) => {
-      console.log('Add Employee Req', config);
-
-    })
   }
+
+  private adaptHttpError(error: any) {
+    // Minimal normalization—customize to your API
+    const status = error?.status ?? 0;
+    const body = error?.error ?? {};
+    const message =
+      body.message || body.error || error?.message || 'Unexpected error occurred';
+    return { status, message, details: body };
+  }
+
 }

@@ -1,0 +1,59 @@
+<main>
+     <div >
+                                <div class="flex justify-between bg-gray-200 p-1 mb-1.5">
+                                    <p>Date Of Birth : <span>{{LoggedInUserdetails?.personalDetail.dob}}</span></p>
+                                    <p>Marital Status :
+                                        <span>{{LoggedInUserdetails?.personalDetail?.maritalStatus}}</span>
+                                    </p>
+                                    <p>Gender : <span>{{LoggedInUserdetails.personalDetail.gender}}</span></p>
+                                </div>
+                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+
+                                    <p>Nationality : <span>{{LoggedInUserdetails?.personalDetail?.nationality}}</span>
+                                    </p>
+                                    <p>Address : <span>{{LoggedInUserdetails?.personalDetail?.address}}</span></p>
+                                    <p>City : <span>{{LoggedInUserdetails?.personalDetail?.city}} ,
+                                            {{LoggedInUserdetails?.personalDetail?.state}}</span></p>
+                                </div>
+                                <h3 class="font-bold py-1">Professional :</h3>
+                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+
+                                    <p>Employee ID :
+                                        <span>{{LoggedInUserdetails?.professionalDetail?.employeeID}}</span></p>
+                                    <p>Designation:
+                                        <span>{{LoggedInUserdetails?.professionalDetail?.designation}}</span></p>
+                                    <p>Department : <span>{{LoggedInUserdetails?.professionalDetail?.department}}</span>
+                                    </p>
+
+                                </div>
+                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+
+                                    <p>Email : <span>{{LoggedInUserdetails?.professionalDetail?.email}}</span></p>
+                                    <p>Joining Date :
+                                        <span>{{LoggedInUserdetails?.professionalDetail?.joining_date}}</span></p>
+                                    <p>Employee Type :
+                                        <span>{{LoggedInUserdetails?.professionalDetail?.employee_type}}</span></p>
+
+                                </div>
+                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+
+                                    <p>Office Location:
+                                        <span>{{LoggedInUserdetails?.professionalDetail?.office_location}}</span></p>
+                                    <p>UserName : <span>{{LoggedInUserdetails?.professionalDetail?.userName}}</span></p>
+                                    <p>Working Days:
+                                        <span>{{LoggedInUserdetails?.professionalDetail?.working_days}}</span></p>
+
+                                </div>
+                                <h3 class="font-bold py-1">Account Access :</h3>
+                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+
+                                    <p>Email ID : <span>{{LoggedInUserdetails?.accountDetail?.email}} <br><span
+                                                *ngIf="true">PASSWORD : </span> </span></p>
+                                    <p>Github: <span>{{LoggedInUserdetails?.accountDetail?.githubId}} <br><span
+                                                *ngIf="true">PASSWORD : </span> </span></p>
+                                    <p>Slack Id : <span>{{LoggedInUserdetails?.accountDetail?.slackId}} <br><span
+                                                *ngIf="true">PASSWORD : </span> </span></p>
+
+                                </div>
+                            </div>
+</main>

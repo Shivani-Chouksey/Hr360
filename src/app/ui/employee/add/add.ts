@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { email } from '@angular/forms/signals';
 import { Employee } from '../../../service/employee';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { Employee } from '../../../service/employee';
 export class Add {
   constructor(private employeeService: Employee) { }
   activeTab: 'personal' | 'professional' | 'documents' | 'account' = 'personal';
-
+  private _snackBar = inject(MatSnackBar);
   setActiveTabFun(val: 'personal' | 'professional' | 'documents' | 'account') {
     this.activeTab = val;
   }
@@ -77,12 +78,20 @@ export class Add {
     documents: this.documentsDetail
   })
 
-
+  success: boolean = false;
+  error: string = '';
   AddEmployeeDetail() {
     console.log(this.employeeForm.value);
-
-    this.employeeService.AddEmployee(this.employeeForm.value)
+    this.employeeService.AddEmployee(this.employeeForm.value).subscribe({ next: (EMP: any) => this.success = true, error: (err: { status: number, message: string }) => this.error = err.message || 'Failed to Add Employee' });
+    console.log("error", this.error);
+    if (this.error) {
+      this.openSnackBar(this.error, 'Dance');
+    }
+    if (this.success) {
+      this.openSnackBar('Employee Created Successfully', 'Dance');
+    }
   }
+
 
 
   // ✅ Single handler for ALL files (avatar + documents)
@@ -141,41 +150,9 @@ export class Add {
 
 
   }
-  // Visual state (optional) to highlight a box on drag over
-  dragOver = {
-    appointmentLetter: false,
-    salarySlip: false,
-    relievingLetter: false,
-    experienceLetter: false,
-  };
 
-  // Prevent default browser behavior (open file in tab)
-  onDocDragOver(event: DragEvent, name: 'appointmentLetter' | 'salarySlip' | 'relievingLetter' | 'experienceLetter') {
-    event.preventDefault();
-    this.dragOver[name] = true;
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
   }
 
-  onDocDragLeave(event: DragEvent, name: 'appointmentLetter' | 'salarySlip' | 'relievingLetter' | 'experienceLetter') {
-    event.preventDefault();
-    this.dragOver[name] = false;
-  }
-
-  onDocDrop(event: DragEvent, name: 'appointmentLetter' | 'salarySlip' | 'relievingLetter' | 'experienceLetter') {
-    event.preventDefault();
-    this.dragOver[name] = false;
-
-    const files = event.dataTransfer?.files;
-    if (!files || files.length === 0) return;
-
-    // Reuse your single handler by forging a minimal event with the right input name
-    const fakeInput = document.createElement('input');
-    fakeInput.type = 'file';
-    fakeInput.name = name;
-    const dt = new DataTransfer();
-    dt.items.add(files[0]);
-    fakeInput.files = dt.files;
-
-    const syntheticEvent = { target: fakeInput } as unknown as Event;
-    this.onFileChangeFunc(syntheticEvent);
-  }
 }

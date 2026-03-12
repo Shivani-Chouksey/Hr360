@@ -153,12 +153,9 @@
             for="appointment-upload"
             class="block rounded border-2 border-dashed p-6 text-center cursor-pointer transition
                    bg-gray-50 hover:bg-gray-100
-                   ring-1 ring-inset ring-gray-300
+                   ring-1 ring-inset ring-gray-300 border-blue-500 bg-blue-50'
                    "
-            [ngClass]="{ 'border-blue-500 bg-blue-50': dragOver.appointmentLetter }"
-            (dragover)="onDocDragOver($event, 'appointmentLetter')"
-            (dragleave)="onDocDragLeave($event, 'appointmentLetter')"
-            (drop)="onDocDrop($event, 'appointmentLetter')"
+         
           >
             <div class="flex flex-col items-center gap-2">
               <!-- Icon -->
@@ -207,11 +204,9 @@
           <label
             for="salary-upload"
             class="block rounded border-2 border-dashed p-6 text-center cursor-pointer transition
-                   bg-gray-50 hover:bg-gray-100 ring-1 ring-inset ring-gray-300"
-            [ngClass]="{ 'border-blue-500 bg-blue-50': dragOver.salarySlip }"
-            (dragover)="onDocDragOver($event, 'salarySlip')"
-            (dragleave)="onDocDragLeave($event, 'salarySlip')"
-            (drop)="onDocDrop($event, 'salarySlip')"
+                   bg-gray-50 hover:bg-gray-100 ring-1 ring-inset ring-gray-300 'border-blue-500 bg-blue-50'"
+            
+           
           >
             <div class="flex flex-col items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none"
@@ -256,11 +251,8 @@
           <label
             for="relieving-upload"
             class="block rounded border-2 border-dashed p-6 text-center cursor-pointer transition
-                   bg-gray-50 hover:bg-gray-100 ring-1 ring-inset ring-gray-300"
-            [ngClass]="{ 'border-blue-500 bg-blue-50': dragOver.relievingLetter }"
-            (dragover)="onDocDragOver($event, 'relievingLetter')"
-            (dragleave)="onDocDragLeave($event, 'relievingLetter')"
-            (drop)="onDocDrop($event, 'relievingLetter')"
+                   bg-gray-50 hover:bg-gray-100 ring-1 ring-inset ring-gray-300 border-blue-500 bg-blue-50"
+          
           >
             <div class="flex flex-col items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none"
@@ -305,11 +297,9 @@
           <label
             for="experience-upload"
             class="block rounded border-2 border-dashed p-6 text-center cursor-pointer transition
-                   bg-gray-50 hover:bg-gray-100 ring-1 ring-inset ring-gray-300"
-            [ngClass]="{ 'border-blue-500 bg-blue-50': dragOver.experienceLetter }"
-            (dragover)="onDocDragOver($event, 'experienceLetter')"
-            (dragleave)="onDocDragLeave($event, 'experienceLetter')"
-            (drop)="onDocDrop($event, 'experienceLetter')"
+                   bg-gray-50 hover:bg-gray-100 ring-1 ring-inset ring-gray-300 border-blue-500 bg-blue-50"
+         
+            
           >
             <div class="flex flex-col items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none"

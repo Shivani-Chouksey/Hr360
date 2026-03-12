@@ -133,6 +133,9 @@ export class List {
   gotoProfile(name: string) {
     this.router.navigate(['employee/profile', name])
   }
+  editProfile(name:string){
+this.router.navigate(['employee/profile/edit', name])
+  }
   GotoAddNew(){
     this.router.navigate(['/employee/add'])
   }

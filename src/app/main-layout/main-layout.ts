@@ -1,54 +1,65 @@
-// main-layout.component.ts
-import { Component, signal, computed } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
+import { navJsonObject } from '../../config/nav-data'
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, Router, NavigationEnd, RouterOutlet } from '@angular/router';
-import { navJsonObject, NavGroup, NavItem, NavLeaf } from '../../config/nav-data';
-import { filter } from 'rxjs/operators';
-
 @Component({
   selector: 'app-main-layout',
-  standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive,RouterOutlet],
   templateUrl: './main-layout.html',
-  styleUrls: ['./main-layout.css'],
+  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive,CommonModule],
 })
 export class MainLayout {
-  navJsonObject: ReadonlyArray<NavGroup> = navJsonObject;
+  mobileSidebarOpen = false;
+  userMenuOpen = false;
+  isDesktop = false;
+  navJsonObject = navJsonObject
+  pageTitle = 'Dashboard';
+  currentUser = { name: 'John Doe' };
 
-  // Expand/Collapse state
-  private openGroups = new Map<string, boolean>();
-  private openItems = new Map<string, boolean>();
 
-  // Helpers
-  isGroupOpen(groupKey: string) { return this.openGroups.get(groupKey) === true; }
-  isItemOpen(itemKey: string) { return this.openItems.get(itemKey) === true; }
+  private openGroups = new Set<string>();
+  private openItems = new Set<string>();
 
-  toggleGroup(groupKey: string) {
-    this.openGroups.set(groupKey, !this.isGroupOpen(groupKey));
+  ngOnInit() {
+    console.log("navJsonObject",navJsonObject);
+    this.onResize();
   }
-  toggleItem(itemKey: string) {
-    this.openItems.set(itemKey, !this.isItemOpen(itemKey));
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isDesktop = window.innerWidth >= 1024;
+    if (this.isDesktop) this.mobileSidebarOpen = true;
   }
 
-  trackGroup = (_: number, g: NavGroup) => g.group;
-  trackItem = (_: number, i: NavItem) => i.link;
-  trackLeaf = (_: number, l: NavLeaf) => l.link;
+  trackGroup = (_: number, g: any) => g.group;
+  trackItem = (_: number, i: any) => i._id || i.link || i.label;
+  trackLeaf = (_: number, c: any) => c._id || c.link || c.label;
+loggedInUserId='Employ12'
+  toggleGroup(key: string) {
+    if (this.openGroups.has(key)) this.openGroups.delete(key);
+    else this.openGroups.add(key);
+  }
+  isGroupOpen(key: string) {
+    return this.openGroups.has(key);
+  }
 
-  constructor(private router: Router) {
-    // Auto-expand the group & item that contains the active route
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
-      const url = this.router.url;
-      for (const group of this.navJsonObject) {
-        const groupHasActive = group.items.some(i =>
-          url.startsWith(i.link) || (i.children ?? []).some(c => url.startsWith(c.link))
-        );
-        this.openGroups.set(group.group, groupHasActive);
+  toggleItem(key: string) {
+    if (this.openItems.has(key)) this.openItems.delete(key);
+    else this.openItems.add(key);
+  }
+  isItemOpen(key: string) {
+    return this.openItems.has(key);
+  }
 
-        for (const item of group.items) {
-          const itemHasActive = url.startsWith(item.link) || (item.children ?? []).some(c => url.startsWith(c.link));
-          this.openItems.set(item.link, itemHasActive);
-        }
-      }
-    });
+  onSearch(q: string) {
+    // Hook into a search service / route
+    // this.router.navigate(['/search'], { queryParams: { q } });
+    console.log('Search:', q);
+  }
+
+  onLogout() {
+    // Call your auth service
+    // this.auth.logout();
+    console.log('Logout');
   }
 }
+``
