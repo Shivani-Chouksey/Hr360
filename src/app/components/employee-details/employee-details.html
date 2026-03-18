@@ -1,59 +1,188 @@
-<main>
-     <div >
-                                <div class="flex justify-between bg-gray-200 p-1 mb-1.5">
-                                    <p>Date Of Birth : <span>{{LoggedInUserdetails?.personalDetail.dob}}</span></p>
-                                    <p>Marital Status :
-                                        <span>{{LoggedInUserdetails?.personalDetail?.maritalStatus}}</span>
-                                    </p>
-                                    <p>Gender : <span>{{LoggedInUserdetails.personalDetail.gender}}</span></p>
-                                </div>
-                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+<main class="min-h-screen bg-gray-100 p-6">
+  <div *ngIf="userDetails as emp" class="max-w-7xl mx-auto space-y-6">
+    <!-- Header -->
+    <div class="bg-white shadow rounded-xl p-5 flex justify-between items-center">
+      <div>
+        <h2 class="text-xl font-bold text-gray-800">
+          {{ emp.personal?.firstName }} {{ emp.personal?.lastName }}
+        </h2>
+        <p class="text-sm text-gray-500">
+          {{ emp.company?.designation }} • {{ emp.company?.department }}
+        </p>
+      </div>
 
-                                    <p>Nationality : <span>{{LoggedInUserdetails?.personalDetail?.nationality}}</span>
-                                    </p>
-                                    <p>Address : <span>{{LoggedInUserdetails?.personalDetail?.address}}</span></p>
-                                    <p>City : <span>{{LoggedInUserdetails?.personalDetail?.city}} ,
-                                            {{LoggedInUserdetails?.personalDetail?.state}}</span></p>
-                                </div>
-                                <h3 class="font-bold py-1">Professional :</h3>
-                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+      <span
+        class="px-3 py-1 rounded-full text-sm font-semibold"
+        [ngClass]="
+          emp.company?.status === 'active'
+            ? 'bg-green-100 text-green-700'
+            : 'bg-red-100 text-red-700'
+        "
+      >
+        {{ emp.company?.status }}
+      </span>
+    </div>
 
-                                    <p>Employee ID :
-                                        <span>{{LoggedInUserdetails?.professionalDetail?.employeeID}}</span></p>
-                                    <p>Designation:
-                                        <span>{{LoggedInUserdetails?.professionalDetail?.designation}}</span></p>
-                                    <p>Department : <span>{{LoggedInUserdetails?.professionalDetail?.department}}</span>
-                                    </p>
+    <!-- Personal Information -->
+    <div class="bg-white shadow rounded-xl p-5">
+      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Personal Information</h3>
 
-                                </div>
-                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+      <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <p>
+          <span class="font-semibold">Date Of Birth:</span> {{ emp.personal?.dateOfBirth | date }}
+        </p>
+        <p><span class="font-semibold">Gender:</span> {{ emp.personal?.gender }}</p>
+        <p><span class="font-semibold">Marital Status:</span> {{ emp.personal?.maritalStatus }}</p>
+        <p><span class="font-semibold">Nationality:</span> {{ emp.personal?.nationality }}</p>
+        <p><span class="font-semibold">Blood Group:</span> {{ emp.personal?.bloodGroup }}</p>
+        <p><span class="font-semibold">Phone:</span> {{ emp.personal?.phone }}</p>
+        <p>
+          <span class="font-semibold">Alternate Phone:</span> {{ emp.personal?.alternatePhone }}
+        </p>
+        <p><span class="font-semibold">Email:</span> {{ emp.personal?.personalEmail }}</p>
+      </div>
+    </div>
 
-                                    <p>Email : <span>{{LoggedInUserdetails?.professionalDetail?.email}}</span></p>
-                                    <p>Joining Date :
-                                        <span>{{LoggedInUserdetails?.professionalDetail?.joining_date}}</span></p>
-                                    <p>Employee Type :
-                                        <span>{{LoggedInUserdetails?.professionalDetail?.employee_type}}</span></p>
+    <!-- Address -->
+    <div class="bg-white shadow rounded-xl p-5">
+      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Address</h3>
 
-                                </div>
-                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
+        <div>
+          <h4 class="font-semibold text-gray-600 mb-2">Present Address</h4>
+          <p>{{ emp.personal?.presentAddress?.street }}</p>
+          <p>{{ emp.personal?.presentAddress?.city }}, {{ emp.personal?.presentAddress?.state }}</p>
+          <p>
+            {{ emp.personal?.presentAddress?.country }} -
+            {{ emp.personal?.presentAddress?.pincode }}
+          </p>
+        </div>
 
-                                    <p>Office Location:
-                                        <span>{{LoggedInUserdetails?.professionalDetail?.office_location}}</span></p>
-                                    <p>UserName : <span>{{LoggedInUserdetails?.professionalDetail?.userName}}</span></p>
-                                    <p>Working Days:
-                                        <span>{{LoggedInUserdetails?.professionalDetail?.working_days}}</span></p>
+        <div>
+          <h4 class="font-semibold text-gray-600 mb-2">Permanent Address</h4>
+          <p>{{ emp.personal?.permanentAddress?.street }}</p>
+          <p>
+            {{ emp.personal?.permanentAddress?.city }}, {{ emp.personal?.permanentAddress?.state }}
+          </p>
+          <p>
+            {{ emp.personal?.permanentAddress?.country }} -
+            {{ emp.personal?.permanentAddress?.pincode }}
+          </p>
+        </div>
+      </div>
+    </div>
 
-                                </div>
-                                <h3 class="font-bold py-1">Account Access :</h3>
-                                <div class="flex justify-between bg-gray-200 p-1 mb-1">
+    <!-- Company Details -->
+    <div class="bg-white shadow rounded-xl p-5">
+      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Company Details</h3>
 
-                                    <p>Email ID : <span>{{LoggedInUserdetails?.accountDetail?.email}} <br><span
-                                                *ngIf="true">PASSWORD : </span> </span></p>
-                                    <p>Github: <span>{{LoggedInUserdetails?.accountDetail?.githubId}} <br><span
-                                                *ngIf="true">PASSWORD : </span> </span></p>
-                                    <p>Slack Id : <span>{{LoggedInUserdetails?.accountDetail?.slackId}} <br><span
-                                                *ngIf="true">PASSWORD : </span> </span></p>
+      <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <p><span class="font-semibold">Employee ID:</span> {{ emp.company?.employeeId }}</p>
+        <p><span class="font-semibold">Company Email:</span> {{ emp.company?.companyEmail }}</p>
+        <p><span class="font-semibold">Location:</span> {{ emp.company?.location }}</p>
+        <p><span class="font-semibold">Designation:</span> {{ emp.company?.designation }}</p>
+        <p><span class="font-semibold">Department:</span> {{ emp.company?.department }}</p>
+        <p>
+          <span class="font-semibold">Reporting Manager:</span> {{ emp.company?.reportingManager }}
+        </p>
+        <p>
+          <span class="font-semibold">Joining Date:</span> {{ emp.company?.dateOfJoining | date }}
+        </p>
+        <p><span class="font-semibold">Employment Type:</span> {{ emp.company?.employmentType }}</p>
+        <p><span class="font-semibold">Work Shift:</span> {{ emp.company?.workShift }}</p>
+        <p><span class="font-semibold">Work Location:</span> {{ emp.company?.workLocation }}</p>
+      </div>
+    </div>
 
-                                </div>
-                            </div>
+    <!-- Professional Details -->
+    <div class="bg-white shadow rounded-xl p-5">
+      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Professional Details</h3>
+
+      <div class="grid md:grid-cols-3 gap-4 text-sm">
+        <p>
+          <span class="font-semibold">Experience:</span>
+          {{ emp.professional?.totalExperience }} Years
+        </p>
+        <p>
+          <span class="font-semibold">Previous Company:</span>
+          {{ emp.professional?.previousCompany }}
+        </p>
+        <p>
+          <span class="font-semibold">Previous Designation:</span>
+          {{ emp.professional?.previousDesignation }}
+        </p>
+        <p>
+          <span class="font-semibold">Qualification:</span>
+          {{ emp.professional?.highestQualification }}
+        </p>
+        <p><span class="font-semibold">University:</span> {{ emp.professional?.university }}</p>
+        <p>
+          <span class="font-semibold">Graduation Year:</span> {{ emp.professional?.graduationYear }}
+        </p>
+      </div>
+
+      <!-- Skills -->
+      <div class="mt-4">
+        <span class="font-semibold">Skills:</span>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <span
+            *ngFor="let skill of emp.professional?.skills"
+            class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs"
+          >
+            {{ skill }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div class="mt-4">
+        <span class="font-semibold">Certifications:</span>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <span
+            *ngFor="let cert of emp.professional?.certifications"
+            class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs"
+          >
+            {{ cert }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leave Balance -->
+    <div class="bg-white shadow rounded-xl p-5">
+      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Leave Balance</h3>
+
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-4 text-center text-sm">
+        <div class="bg-blue-50 p-3 rounded-lg">
+          <p class="font-semibold">{{ emp.leaveBalance?.annual }}</p>
+          <p class="text-gray-500">Annual</p>
+        </div>
+
+        <div class="bg-green-50 p-3 rounded-lg">
+          <p class="font-semibold">{{ emp.leaveBalance?.sick }}</p>
+          <p class="text-gray-500">Sick</p>
+        </div>
+
+        <div class="bg-yellow-50 p-3 rounded-lg">
+          <p class="font-semibold">{{ emp.leaveBalance?.casual }}</p>
+          <p class="text-gray-500">Casual</p>
+        </div>
+
+        <div class="bg-purple-50 p-3 rounded-lg">
+          <p class="font-semibold">{{ emp.leaveBalance?.maternity }}</p>
+          <p class="text-gray-500">Maternity</p>
+        </div>
+
+        <div class="bg-pink-50 p-3 rounded-lg">
+          <p class="font-semibold">{{ emp.leaveBalance?.paternity }}</p>
+          <p class="text-gray-500">Paternity</p>
+        </div>
+
+        <div class="bg-gray-100 p-3 rounded-lg">
+          <p class="font-semibold">{{ emp.leaveBalance?.unpaid }}</p>
+          <p class="text-gray-500">Unpaid</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>

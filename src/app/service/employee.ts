@@ -41,4 +41,17 @@ export class Employee {
     return { status, message, details: body };
   }
 
+  GetEmployeeList(){
+    return this.http.get<ApiEnvelope<any>>(this.route.employee.get_list).pipe(map(res=>res.data),catchError((err)=>{
+      return throwError(()=>err)
+    }))
+  }
+  GetEmployeeById(id:string|null){
+    console.log("Inside Service",id,this.route.employee.getById(id));
+    
+    return this.http.get<ApiEnvelope<any>>(this.route.employee.getById(id)).pipe(map(res=>res.data),catchError((err)=>{
+      return throwError(()=>err)
+    }))
+  }
+
 }
