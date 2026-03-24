@@ -10,16 +10,22 @@ import {
 } from '@angular/forms';
 import { validate } from '@angular/forms/signals';
 import { HolidayService } from '../../service/holiday-service';
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatSelect, MatOption } from "@angular/material/select";
+import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-holidays',
-  imports: [ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule],
+  imports: [FormsModule,ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption,DatePipe],
   templateUrl: './holidays.html',
   styleUrl: './holidays.css',
 })
 export class Holidays {
   constructor(private holiday_service: HolidayService) {}
   holidayList = year2026;
+  allHolidays=year2026;
   confirmOpen = false;
+  locationList=['Mumbai','Pune','Indore','Bhopal','remote']
 
   openConfirm() {
     this.confirmOpen = true;
@@ -59,10 +65,42 @@ export class Holidays {
       next: (res) => {
         console.log(res);
         this.holidayList = res.data;
+        this.allHolidays=res.data;
       },
       error: (err) => {
         console.error(err);
       },
     });
   }
+
+  
+getDayName(date: string): string {
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  return days[new Date(date).getDay()];
+}
+
+selectedFilter:'upcoming' | 'past' | 'all' = 'all';
+onFilterChange(){
+console.log("selectedFilter",this.selectedFilter)
+ const today = new Date();
+
+
+if (this.selectedFilter === 'upcoming') {
+    this.holidayList = this.allHolidays.filter(
+      h => new Date(h.date) >= today
+    );
+  }
+
+  if (this.selectedFilter === 'past') {
+    this.holidayList = this.allHolidays.filter(
+      h => new Date(h.date) < today
+    );
+  }
+
+ if (this.selectedFilter === 'all') {
+    this.holidayList = [...this.allHolidays];
+  }
+
+
+}
 }

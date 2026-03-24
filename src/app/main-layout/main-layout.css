@@ -1,0 +1,14 @@
+
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Fallback thin scrollbar if plugin not used */
+.scrollbar-thin::-webkit-scrollbar { height: 8px; width: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(120,120,120,.35); border-radius: 999px; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background: rgba(120,120,120,.55); }
+
+/* Page safe-area for mobile status bars */
+:root { --inset-safe-top: env(safe-area-inset-top); }

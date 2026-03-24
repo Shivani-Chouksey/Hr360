@@ -1,64 +1,91 @@
+
+
+
 {
-    "year2026": [
-        {
-            "date": "2026-01-01",
-            "day": "Thursday",
-            "label": "New Year"
-        },
-        {
-            "date": "2026-01-26",
-            "day": "Monday",
-            "label": "Republic Day"
-        },
-        {
-            "date": "2026-03-03",
-            "day": "Tuesday",
-            "label": "Holi"
-        },
-        {
-            "date": "2026-04-03",
-            "day": "Friday",
-            "label": "Good Friday"
-        },
-        {
-            "date": "2026-05-01",
-            "day": "Friday",
-            "label": "Labour Day / Maharashtra Day"
-        },
-        {
-            "date": "2026-06-27",
-            "day": "Saturday",
-            "label": "Bakrid / Eid al-Adha"
-        },
-        {
-            "date": "2026-08-15",
-            "day": "Saturday",
-            "label": "Independence Day"
-        },
-        {
-            "date": "2026-09-19",
-            "day": "Saturday",
-            "label": "Onam"
-        },
-        {
-            "date": "2026-10-02",
-            "day": "Friday",
-            "label": "Gandhi Jayanti"
-        },
-        {
-            "date": "2026-10-19",
-            "day": "Monday",
-            "label": "Diwali"
-        },
-        {
-            "date": "2026-10-21",
-            "day": "Wednesday",
-            "label": "Bhai Dooj"
-        },
-        {
-            "date": "2026-12-25",
-            "day": "Friday",
-            "label": "Christmas"
-        }
-    ]
+  "year2026": [
+    {
+      "title": "New Year",
+      "date": "2026-01-01",
+      "description": "Celebration of the beginning of the New Year.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Republic Day",
+      "date": "2026-01-26",
+      "description": "Commemorates the adoption of the Constitution of India.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Holi",
+      "date": "2026-03-03",
+      "description": "Festival of colors celebrating the arrival of spring.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Good Friday",
+      "date": "2026-04-03",
+      "description": "Christian holiday commemorating the crucifixion of Jesus Christ.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Labour Day / Maharashtra Day",
+      "date": "2026-05-01",
+      "description": "Honors workers and marks Maharashtra state formation.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Bakrid / Eid al-Adha",
+      "date": "2026-06-27",
+      "description": "Islamic festival commemorating Prophet Ibrahim’s devotion.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Independence Day",
+      "date": "2026-08-15",
+      "description": "Celebrates India’s independence from British rule.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Onam",
+      "date": "2026-09-19",
+      "description": "Harvest festival of Kerala honoring King Mahabali.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Gandhi Jayanti",
+      "date": "2026-10-02",
+      "description": "Birth anniversary of Mahatma Gandhi.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Diwali",
+      "date": "2026-10-19",
+      "description": "Festival of lights symbolizing the victory of good over evil.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Bhai Dooj",
+      "date": "2026-10-21",
+      "description": "Celebrates the bond between brothers and sisters.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    },
+    {
+      "title": "Christmas",
+      "date": "2026-12-25",
+      "description": "Celebrates the birth of Jesus Christ.",
+      "type": "national",
+      "applicableLocations": ["Bhopal", "Remote"]
+    }
+  ]
 }
