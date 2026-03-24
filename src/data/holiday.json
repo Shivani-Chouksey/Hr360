@@ -4,6 +4,7 @@
 {
   "year2026": [
     {
+        "id":1,
       "title": "New Year",
       "date": "2026-01-01",
       "description": "Celebration of the beginning of the New Year.",
@@ -11,6 +12,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":2,
       "title": "Republic Day",
       "date": "2026-01-26",
       "description": "Commemorates the adoption of the Constitution of India.",
@@ -18,6 +20,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":3,
       "title": "Holi",
       "date": "2026-03-03",
       "description": "Festival of colors celebrating the arrival of spring.",
@@ -25,6 +28,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":4,
       "title": "Good Friday",
       "date": "2026-04-03",
       "description": "Christian holiday commemorating the crucifixion of Jesus Christ.",
@@ -32,6 +36,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":5,
       "title": "Labour Day / Maharashtra Day",
       "date": "2026-05-01",
       "description": "Honors workers and marks Maharashtra state formation.",
@@ -39,6 +44,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":6,
       "title": "Bakrid / Eid al-Adha",
       "date": "2026-06-27",
       "description": "Islamic festival commemorating Prophet Ibrahim’s devotion.",
@@ -46,6 +52,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":7,
       "title": "Independence Day",
       "date": "2026-08-15",
       "description": "Celebrates India’s independence from British rule.",
@@ -53,6 +60,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":8,
       "title": "Onam",
       "date": "2026-09-19",
       "description": "Harvest festival of Kerala honoring King Mahabali.",
@@ -60,6 +68,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":9,
       "title": "Gandhi Jayanti",
       "date": "2026-10-02",
       "description": "Birth anniversary of Mahatma Gandhi.",
@@ -67,6 +76,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":10,
       "title": "Diwali",
       "date": "2026-10-19",
       "description": "Festival of lights symbolizing the victory of good over evil.",
@@ -74,6 +84,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":11,
       "title": "Bhai Dooj",
       "date": "2026-10-21",
       "description": "Celebrates the bond between brothers and sisters.",
@@ -81,6 +92,7 @@
       "applicableLocations": ["Bhopal", "Remote"]
     },
     {
+            "id":12,
       "title": "Christmas",
       "date": "2026-12-25",
       "description": "Celebrates the birth of Jesus Christ.",

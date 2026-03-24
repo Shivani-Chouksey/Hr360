@@ -48,6 +48,7 @@
           <th class="py-3 px-4 border-b">Type</th>
           <th class="py-3 px-4 border-b">Applicable Locations</th>
           <th class="py-3 px-4 border-b">Description</th>
+          <th class="py-3 px-4 border-b">Action</th>
         </tr>
       </thead>
 
@@ -63,6 +64,10 @@
               {{ item.applicableLocations.join(', ') }}
             </td>
             <td class="py-3 px-4 text-sm font-medium">{{ item.description }}</td>
+            <td class="py-3 px-4 text-sm font-medium" >
+          
+              <button (click)="removeHoliday(item.id)"><mat-icon color='danger' >delete</mat-icon></button>
+            </td>
           </tr>
         }
       </tbody>

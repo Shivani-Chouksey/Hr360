@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { year2026 } from '../../../data/holiday.json';
 import { ModalComponent } from '../../common/modal/modal';
+import {MatIconModule} from '@angular/material/icon';
 import {
   FormControl,
   FormGroup,
@@ -16,7 +17,7 @@ import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-holidays',
-  imports: [FormsModule,ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption,DatePipe],
+  imports: [MatIconModule,FormsModule,ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption,DatePipe],
   templateUrl: './holidays.html',
   styleUrl: './holidays.css',
 })
@@ -102,5 +103,10 @@ if (this.selectedFilter === 'upcoming') {
   }
 
 
+}
+removeHoliday(id:number|string){
+this.holidayList=this.allHolidays.filter(h=>h.id!=id);
+
+// call API for remove holiday
 }
 }
