@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({ providedIn: 'root' })
 export class API_ROUTES {
   BASE_URL = 'http://localhost:3000/api/v1';
+  Login=`${this.BASE_URL}/auth/login`
   employee = {
     create: `${this.BASE_URL}/employees`,
     get_list: `${this.BASE_URL}/employees`,
@@ -12,6 +13,7 @@ export class API_ROUTES {
   holiday = {
     add: `${this.BASE_URL}/holidays`,
     get_list: `${this.BASE_URL}/holidays`,
+    Delete_holiday:(id:string|number)=>`${this.BASE_URL}/holidays/${id}`
   };
   leave = {};
 }

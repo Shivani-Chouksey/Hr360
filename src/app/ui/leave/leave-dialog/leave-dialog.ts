@@ -14,11 +14,32 @@ import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 export interface LeaveDialogData {
   title: string;
   leaveBalances: {
-    annual: number;
-    sick: number;
-    casual: number;
-    compOff: number;
-    [key: string]: number;
+    annual: {
+      total:number;
+      used:number;
+      remaining:number;
+      usageRatio:number;
+    };
+    sick: {
+      total:number;
+      used:number;
+      remaining:number;
+      usageRatio:number;
+    };
+    casual: {
+      total:number;
+      used:number;
+      remaining:number;
+      usageRatio:number;
+    };
+    compOff: {
+      total:number;
+      used:number;
+      remaining:number;
+      usageRatio:number;
+    };
+   
+    // [key: string]: number;
   };
   minDate?: Date;
   maxDate?: Date;

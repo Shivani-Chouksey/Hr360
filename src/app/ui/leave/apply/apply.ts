@@ -13,6 +13,7 @@ import { ModalComponent } from "../../../common/modal/modal";
 import { MatRadioGroup, MatRadioButton } from "@angular/material/radio";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
+import { Cards } from "../../../components/leave/cards/cards";
 
 export interface LeaveRow {
   appliedOn: Date;
@@ -39,7 +40,8 @@ export interface LeaveRow {
     MatRadioButton,
     MatFormField,
     MatLabel,
-    MatInput
+    MatInput,
+    Cards
 ],
   templateUrl: './apply.html',
   styleUrls: ['./apply.css'],
@@ -47,20 +49,23 @@ export interface LeaveRow {
 export class Apply {
   private dialog = inject(MatDialog);
   private _liveAnnouncer = inject(LiveAnnouncer);
+// Balance tiles – Corporate leave scenario
+ leaveBalancesdata: LeaveDialogData = {
+ title: 'My Leave Balance',
+leaveBalances: {
+   
+    annual: { total: 24, used: 14, remaining: 10, usageRatio: 0.58 },
+    sick: { total: 12, used: 5, remaining: 7, usageRatio: 0.42 },
+    casual: { total: 8, used: 3, remaining: 5, usageRatio: 0.38 },
+    compOff: { total: 4, used: 2, remaining: 2, usageRatio: 0.5 }
+  }
 
-  // Balance tiles
-  leaveBalances = {
-    annual: 10,
-    sick: 7,
-    casual: 5,
-    compOff: 2,
-  };
-
+};
   // --- Dialog open ---
   open() {
     const data: LeaveDialogData = {
       title: 'Apply Leave',
-      leaveBalances: this.leaveBalances,
+      leaveBalances: this.leaveBalancesdata.leaveBalances,
       minDate: new Date(),
       maxDate: new Date(new Date().getFullYear(), 11, 31),
     };

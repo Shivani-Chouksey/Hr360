@@ -1,14 +1,16 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, CanMatchFn, Router } from '@angular/router';
+import { LocalStorageService } from '../service/localstorage';
 
 export const authGuard: CanActivateFn = (route, state) => {
   console.log('authGuard', route);
-
+  const localStorageService = inject(LocalStorageService)
   const router = inject(Router)
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-  console.log("isLoggedIn", isLoggedIn);
+  const token=localStorageService.get<string>('accessToken')
+  // const isLoggedIn = localStorage.getItem('isLoggedIn');
+  console.log("token", token);
 
-  if (!isLoggedIn) {
+  if (!token) {
     router.navigate(['/login'])
   }
   return true;
@@ -17,10 +19,10 @@ export const authGuard: CanActivateFn = (route, state) => {
 
 export const noAuthGuard: CanMatchFn = (route, state) => {
   console.log(" noAuthGuard route", route);
-
+  const localStorageService = inject(LocalStorageService)
   const router = inject(Router);
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-  if (isLoggedIn) {
+   const token=localStorageService.get<string>('accessToken')
+  if (token) {
     router.navigate(['']);
     return false;
   }

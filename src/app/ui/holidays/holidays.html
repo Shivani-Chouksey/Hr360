@@ -1,33 +1,29 @@
 <div class="w-full bg-white rounded shadow-md overflow-hidden border border-gray-200 p-5">
   <!-- Toolbar -->
   <div
-    class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between px-4 sm:px-6 py-4 bg-gray-50 border-b"
-  >
-    <h2 class="text-lg font-semibold text-gray-700">Holiday List</h2>
+    class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between px-4 sm:px-6 py-4 bg-gray-50 border-b">
+    <h2 class="text-lg font-semibold text-gray-700">Holiday List  <span class="ml-1 p-1 px-2 rounded bg-blue-700 text-white">{{holidayList.length}}</span> </h2>
+    <!-- <h2 class="text-lg font-semibold text-gray-700">Holiday List  </h2> -->
 
     <div class="flex w-full sm:w-auto gap-3">
       <!-- Year selector -->
       <label class="inline-flex items-center justify-center align-middle gap-2">
         <span class="text-sm text-gray-600">Upcoming</span>
-        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedFilter" value='upcoming' type="radio" name='holidayFilter' placeholder="Upcoming" (change)="onFilterChange()" />
+        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedFilter" value='upcoming' type="radio"
+          name='holidayFilter' placeholder="Upcoming" (change)="onFilterChange()" />
       </label>
       <label class="inline-flex items-center justify-center align-middle gap-2">
         <span class="text-sm text-gray-600">Past Holidays</span>
-        <input type="radio" placeholder="Upcoming"  value='past' [ngModelOptions]="{standalone: true}" name="holidayFilter" [(ngModel)]="selectedFilter" (change)="onFilterChange()"  />
+        <input type="radio" placeholder="Upcoming" value='past' [ngModelOptions]="{standalone: true}"
+          name="holidayFilter" [(ngModel)]="selectedFilter" (change)="onFilterChange()" />
       </label>
 
-  <label class="inline-flex items-center gap-2 cursor-pointer">
-    <span class="text-sm text-gray-600">All</span>
-    <input
-      type="radio"
-      name="holidayFilter"
-      value="all"
-      [(ngModel)]="selectedFilter"
-      (change)="onFilterChange()"
-    />
-  </label>
+      <label class="inline-flex items-center gap-2 cursor-pointer">
+        <span class="text-sm text-gray-600">All</span>
+        <input type="radio" name="holidayFilter" value="all" [(ngModel)]="selectedFilter" (change)="onFilterChange()" />
+      </label>
 
-      <button class="p-2 bg-blue-500 text-white rounded" (click)="openConfirm()">
+      <button class="p-2 bg-blue-700 text-white rounded" (click)="openConfirm()">
         Add New Holiday
       </button>
     </div>
@@ -40,8 +36,9 @@
   <!-- Table -->
   <div class="overflow-x-auto">
     <table class="min-w-full text-left border-0 text-gray-700">
-      <thead class="bg-blue-400">
+      <thead class="bg-blue-700">
         <tr class="text-sm font-semibold text-white text-center">
+          <th class="py-3 px-4 border-b">S.No.</th>
           <th class="py-3 px-4 border-b">Date</th>
           <th class="py-3 px-4 border-b">Day</th>
           <th class="py-3 px-4 border-b">Holiday Name</th>
@@ -52,23 +49,29 @@
         </tr>
       </thead>
 
+
       <tbody class="divide-y">
+        <tr *ngIf="IsLoading">Loadding................</tr>
         @for (item of holidayList; track $index) {
-          <tr class="hover:bg-gray-50 transition duration-150 text-center">
-            <td class="py-3 px-4 text-sm">{{ item.date }}</td>
-            <!-- <td class="py-3 px-4 text-sm">{{ getDayName(item.date) }}</td> -->
-            <td class="py-3 px-4 text-sm"> {{ item.date | date:'EEEE' }}</td>
-            <td class="py-3 px-4 text-sm font-medium">{{ item.title }}</td>
-            <td class="py-3 px-4 text-sm">{{ item.type }}</td>
-            <td class="py-3 px-4 text-sm font-medium">
-              {{ item.applicableLocations.join(', ') }}
-            </td>
-            <td class="py-3 px-4 text-sm font-medium">{{ item.description }}</td>
-            <td class="py-3 px-4 text-sm font-medium" >
-          
-              <button (click)="removeHoliday(item.id)"><mat-icon color='danger' >delete</mat-icon></button>
-            </td>
-          </tr>
+        <tr class="hover:bg-gray-50 transition duration-150 text-center">
+          <td class="py-3 px-4 text-sm">{{ $index +1}}</td>
+          <td class="py-3 px-4 text-sm">{{ item.date | date:"'d/M/yy"}}</td>
+          <!-- <td class="py-3 px-4 text-sm">{{ getDayName(item.date) }}</td> -->
+          <td class="py-3 px-4 text-sm"> {{ item.date| date:'EEEE' }}</td>
+          <td class="py-3 px-4 text-sm font-medium">{{ item.title }}</td>
+          <td class="py-3 px-4 text-sm">{{ item.type }}</td>
+          <td class="py-3 px-4 text-sm font-medium">
+            {{ item.applicableLocations.join(', ') }}
+          </td>
+          <td class="py-3 px-4 text-sm font-medium">{{ item.description }}</td>
+          <td class="py-3 px-4 text-sm font-medium">
+
+            <button class="bg-red-700 text-white p-1 px-2 rounded" (click)="removeHoliday(item._id)">
+              {{IsDeleting == item._id?'Deleting.....':"Delete"}}
+              <!-- <mat-icon color='danger' >delete</mat-icon> -->
+            </button>
+          </td>
+        </tr>
         }
       </tbody>
     </table>
@@ -80,22 +83,15 @@
     <!-- Holiday Title -->
     <div>
       <label class="text-sm font-medium text-gray-700">Holiday Title</label>
-      <input
-        type="text"
-        formControlName="title"
-        placeholder="Republic Day"
-        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      />
+      <input type="text" formControlName="title" placeholder="Republic Day"
+        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
     </div>
 
     <!-- Holiday Date -->
     <div>
       <label class="text-sm font-medium text-gray-700">Date</label>
-      <input
-        type="date"
-        formControlName="date"
-        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      />
+      <input type="date" formControlName="date"
+        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
     </div>
 
     <!-- Holiday Type -->
@@ -112,42 +108,38 @@
       </select> -->
 
       <mat-form-field>
-  <mat-label>Holiday Type</mat-label>
-  <mat-select  formControlName="type">
-    <mat-option>Select Type</mat-option>
-     <mat-option value="national">National Holiday</mat-option>
-        <mat-option value="company">Company Holiday</mat-option>
-        <mat-option value="optional">Optional Holiday</mat-option>
-    <!-- <mat-option value="option1">Option 1</mat-option>
+        <mat-label>Holiday Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option>Select Type</mat-option>
+          <mat-option value="national">National Holiday</mat-option>
+          <mat-option value="company">Company Holiday</mat-option>
+          <mat-option value="optional">Optional Holiday</mat-option>
+          <!-- <mat-option value="option1">Option 1</mat-option>
     <mat-option value="option2">Option 2</mat-option>
     <mat-option value="option3">Option 3</mat-option> -->
-  </mat-select>
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Applicable Locations</mat-label>
-  <mat-select formControlName="applicableLocations" multiple canSelectNullableOptions>
-    @for (topping of locationList; track topping) {
-      
-      <mat-option [value]="topping">{{topping}}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Applicable Locations</mat-label>
+        <mat-select formControlName="applicableLocations" multiple canSelectNullableOptions>
+          @for (topping of locationList; track topping) {
+
+          <mat-option [value]="topping">{{topping}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
 
     <!-- Description -->
     <div>
       <label class="text-sm font-medium text-gray-700">Description</label>
-      <textarea
-        rows="3"
-        formControlName="description"
-        placeholder="Enter description"
-        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      ></textarea>
+      <textarea rows="3" formControlName="description" placeholder="Enter description"
+        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
     </div>
 
     <!-- Locations -->
 
-    
+
     <!-- <div>
       <label class="text-sm font-medium text-gray-700">Applicable Locations</label>
 
@@ -164,19 +156,12 @@
 
     <!-- Actions -->
     <div modal-actions class="flex justify-end gap-3 pt-3">
-      <button
-        class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-        type="button"
-        (click)="onClosed()"
-      >
+      <button class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600" type="button" (click)="onClosed()">
         Cancel
       </button>
 
-      <button
-        class="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800"
-        type="button"
-        (click)="addHoliday()"
-      >
+      <button class="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800" type="button"
+        (click)="addHoliday()">
         Add Holiday
       </button>
     </div>

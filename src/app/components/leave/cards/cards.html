@@ -1,0 +1,33 @@
+ <div class="p-3 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ">
+  
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-3">
+    <h3 class="text-sm font-semibold text-gray-600">{{title}}</h3>
+    <span class="text-xs text-gray-400">FY 2025</span>
+  </div>
+
+  <!-- Balance Badge -->
+  <p class="inline-flex items-center justify-center px-4 py-2 mb-4 text-lg font-semibold bg-blue-800 text-white rounded-full">
+    {{ item.remaining }} / {{ item.total }}
+  </p>
+
+  <!-- Usage Info -->
+  <div class="flex justify-between text-sm text-gray-600 mb-3">
+    <span>
+      <strong class="text-gray-800">{{ item.used }}</strong> Used
+    </span>
+    <span>
+      <strong class="text-gray-800">{{ item.remaining }}</strong> Remaining
+    </span>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
+    <div
+      class="h-full bg-blue-800 rounded-full"
+     [style.width.%]="item.usageRatio * 100"
+    ></div>
+  </div>
+
+
+</div>
