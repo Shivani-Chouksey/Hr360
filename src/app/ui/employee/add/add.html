@@ -166,7 +166,8 @@ class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-
   </form>
       }
 @case('company'){
-  <div formGroupName="company">
+   <form [formGroup]="employeeForm">
+ <div formGroupName="company">
 
 <h2 class="text-xl font-semibold mb-4">Company Information</h2>
 
@@ -187,9 +188,20 @@ class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-
 <input formControlName="designation" placeholder="Designation"
 class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
 
-<input formControlName="reportingManager"
-placeholder="Reporting Manager"
-class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+
+<mat-form-field appearance="outline" class="w-full">
+  <mat-label>Reporting Manager</mat-label>
+
+  <mat-select formControlName="reportingManager">
+    <mat-option value="">None</mat-option>
+
+    <mat-option
+      *ngFor="let item of reportingManagerList"
+      [value]="item._id">
+      {{ item.personal.firstName }} {{ item.personal.lastName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
 <input formControlName="location" placeholder="Office Location"
 class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
@@ -216,6 +228,8 @@ class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-
 </div>
 
 </div>
+   </form>
+ 
 }
       @case ('documents') {
         <div>

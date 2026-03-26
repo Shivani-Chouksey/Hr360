@@ -20,5 +20,7 @@ export class API_ROUTES {
     history:`${this.BASE_URL}/leaves/`,
     leaveBalance:`${this.BASE_URL}/leaves/balance`,
     myLeaves:`${this.BASE_URL}/leaves/my-leaves`,
+    approvalReq:`${this.BASE_URL}/leaves/approval-req`,
+    acceptRejectReq:(id:string|number)=>`${this.BASE_URL}/leaves/${id}/status`,
   };
 }

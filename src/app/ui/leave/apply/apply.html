@@ -1,68 +1,76 @@
 <main class="space-y-4">
   <!-- Actions -->
   <div class="flex justify-between">
-     <h2 class="mb-3 p-0 text-gray-600">Leaves 
-    <br>
-     <span class="text-xs text-gray-500">
-    Leave resets annually as per company policy
-  </span>
-  </h2>
+    <h2 class="mb-3 p-0 text-gray-600">Leaves
+      <br>
+      <span class="text-xs text-gray-500">
+        Leave resets annually as per company policy
+      </span>
+    </h2>
     <div class="flex justify-end p-3 gap-2">
-      
-  
+
+
       <button class="bg-blue-800 text-white px-3 py-1.5 rounded " (click)="open()">Apply</button>
-    <button class="bg-blue-800 text-white px-3 py-1.5 rounded">Filter</button>
+      <button class="bg-blue-800 text-white px-3 py-1.5 rounded">Filter</button>
 
+    </div>
   </div>
-  </div>
- 
-   
+
+
   <!-- Balance tiles -->
-  <header class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" >
-      <app-leave-cards title="Annual Leaves"  [item]="leaveBalancesdata.leaveBalances.annual" ></app-leave-cards>
-      <app-leave-cards title="Casual Leaves"  [item]="leaveBalancesdata.leaveBalances.casual" ></app-leave-cards>
-      <app-leave-cards title="Sick Leaves"  [item]="leaveBalancesdata.leaveBalances.sick" ></app-leave-cards>
-      <app-leave-cards title="CompOff Leaves"  [item]="leaveBalancesdata.leaveBalances.compOff" ></app-leave-cards>
-      <!-- Footer -->
-
+  <header class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    <app-leave-cards title="Annual Leaves" *ngIf="leaveBalancesdata" [item]="leaveBalancesdata.leaveBalances.annual"></app-leave-cards>
+    <app-leave-cards title="Casual Leaves" *ngIf="leaveBalancesdata" [item]="leaveBalancesdata.leaveBalances.casual"></app-leave-cards>
+    <app-leave-cards title="Sick Leaves" *ngIf="leaveBalancesdata" [item]="leaveBalancesdata.leaveBalances.sick"></app-leave-cards>
+    <app-leave-cards title="CompOff Leaves" *ngIf="leaveBalancesdata" [item]="leaveBalancesdata.leaveBalances.compOff"></app-leave-cards>
   </header>
 
-
-
-
-  
-
- <div class="  overflow-auto"  >
-  <h1 class='mb-2 p-3 bg-blue-800 text-white'>Approval Leave Request</h1>
-    <table  mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="w-full shadow ">
+@if (loggerInUserDetails?.role=='manager') {
+    <div class="overflow-auto">
+    <h1 class='mb-2 p-3 bg-blue-800 text-white'>Approval Leave Request <span class="p-2 bg-amber-600">{{MyApprovalReq.length}}</span></h1>
+    <table mat-table [dataSource]="approvalDataSource" matSort (matSortChange)="announceSortChange($event)"
+      class="w-full shadow ">
       <!-- Applied On -->
+
+       <ng-container matColumnDef="EmployeeName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Requester Name</th>
+      <td mat-cell *matCellDef="let row">{{row.employeeName}}</td>
+    </ng-container>
+       <ng-container matColumnDef="leaveReason">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave Req Reason</th>
+      <td mat-cell *matCellDef="let row">{{row.reason}}</td>
+    </ng-container>
       <ng-container matColumnDef="appliedOn">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied On</th>
-        <td mat-cell *matCellDef="let row">{{ asShort(row.appliedOn) }}</td>
+        <td mat-cell *matCellDef="let row">{{ asShort(row.createdAt) }}</td>
       </ng-container>
 
       <!-- From -->
       <ng-container matColumnDef="from">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>From</th>
-        <td mat-cell *matCellDef="let row">{{ asShort(row.from) }}</td>
+        <td mat-cell *matCellDef="let row">{{ asShort(row.fromDate) }}</td>
       </ng-container>
 
       <!-- To -->
       <ng-container matColumnDef="to">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>To</th>
-        <td mat-cell *matCellDef="let row">{{ asShort(row.to) }}</td>
+        <td mat-cell *matCellDef="let row">{{ asShort(row.toDate) }}</td>
       </ng-container>
 
       <!-- Type -->
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
-        <td mat-cell *matCellDef="let row">{{ row.type }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.leaveType }}</td>
       </ng-container>
 
       <!-- Total Days -->
       <ng-container matColumnDef="totalDays">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Days</th>
         <td mat-cell *matCellDef="let row">{{ row.totalDays }}</td>
+      </ng-container>
+      <ng-container matColumnDef="dayType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Day Type</th>
+        <td mat-cell *matCellDef="let row">{{ row.dayType }}</td>
       </ng-container>
 
       <!-- Status -->
@@ -73,9 +81,9 @@
           <button class="p-3 bg-blue-800 text-white" (click)="openConfirm()">Approve</button>
           }@else if (!userType) {
           <span class="px-2 py-0.5 rounded text-xs" [ngClass]="{
-              'bg-green-100 text-green-700': row.status === 'Approved',
-              'bg-yellow-100 text-yellow-700': row.status === 'Pending',
-              'bg-red-100 text-red-700': row.status === 'Rejected'
+              'bg-green-100 text-green-700': row.status === 'approved',
+              'bg-yellow-100 text-yellow-700': row.status === 'pending',
+              'bg-red-100 text-red-700': row.status === 'rejected'
             }">
             {{ row.status }}
           </span>
@@ -84,88 +92,124 @@
       </ng-container>
 
       <!-- Approver -->
-      <ng-container matColumnDef="approver">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
-        <td mat-cell *matCellDef="let row">{{ row.approver }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="comment">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Comment</th>
-        <td mat-cell *matCellDef="let row">{{ row.comment }}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
-
-  <!-- Leave History Table -->
-  <div class="  overflow-auto">
-  <h1 class='mb-2 p-3  bg-blue-800 text-white'>Leave History Records</h1>
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="w-full shadow ">
-      <!-- Applied On -->
-      <ng-container matColumnDef="appliedOn">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied On</th>
-        <td mat-cell *matCellDef="let row">{{ asShort(row.appliedOn) }}</td>
-      </ng-container>
-
-      <!-- From -->
-      <ng-container matColumnDef="from">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>From</th>
-        <td mat-cell *matCellDef="let row">{{ asShort(row.from) }}</td>
-      </ng-container>
-
-      <!-- To -->
-      <ng-container matColumnDef="to">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>To</th>
-        <td mat-cell *matCellDef="let row">{{ asShort(row.to) }}</td>
-      </ng-container>
-
-      <!-- Type -->
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
-        <td mat-cell *matCellDef="let row">{{ row.type }}</td>
-      </ng-container>
-
-      <!-- Total Days -->
-      <ng-container matColumnDef="totalDays">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Days</th>
-        <td mat-cell *matCellDef="let row">{{ row.totalDays }}</td>
-      </ng-container>
-
-      <!-- Status -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <ng-container   matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
         <td mat-cell *matCellDef="let row">
-          @if (userType) {
-          <button class="p-3 bg-blue-800 text-white" (click)="openConfirm()">Approve</button>
-          }@else if (!userType) {
-          <span class="px-2 py-0.5 rounded text-xs" [ngClass]="{
-              'bg-green-100 text-green-700': row.status === 'Approved',
-              'bg-yellow-100 text-yellow-700': row.status === 'Pending',
-              'bg-red-100 text-red-700': row.status === 'Rejected'
-            }">
-            {{ row.status }}
-          </span>
+          @if (
+            row.status!=='approved'
+          ) {
+             <div class="flex gap-3">
+            <button
+            type="button"
+            class="py-1 px-2 rounded text-white bg-green-700"
+            (click)="openApproverModal('approved',row._id)"
+          >
+            Approve
+          </button>
+          <button
+            type="button"
+            class="py-1 px-2 rounded text-white bg-red-700"
+            (click)="openApproverModal('rejected',row._id)"
+          >
+            Reject
+          </button>
+          
+          </div>
           }
+         @else {
+          This Req is Already Approved
+         }
+          
         </td>
       </ng-container>
 
-      <!-- Approver -->
-      <ng-container matColumnDef="approver">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
-        <td mat-cell *matCellDef="let row">{{ row.approver }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="comment">
+      <!-- <ng-container matColumnDef="comment">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Comment</th>
         <td mat-cell *matCellDef="let row">{{ row.comment }}</td>
-      </ng-container>
+      </ng-container> -->
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="approvalDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: approvalDisplayedColumns"></tr>
     </table>
   </div>
+}
+
+  <!-- My Leave History Table -->
+  <h1 class='mb-2 p-3 bg-blue-800 text-white'>My Leave History</h1>
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied On</th>
+      <td mat-cell *matCellDef="let row">{{ asShort(row.createdAt) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="leaveReason">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave Req Reason</th>
+      <td mat-cell *matCellDef="let row">{{row.reason}}</td>
+    </ng-container>
+    <ng-container matColumnDef="fromDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>From</th>
+      <td mat-cell *matCellDef="let row">{{ asShort(row.fromDate) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="toDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>To</th>
+      <td mat-cell *matCellDef="let row">{{ asShort(row.toDate) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="leaveType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+      <td mat-cell *matCellDef="let row">{{ row.leaveType }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalDays">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Days</th>
+      <td mat-cell *matCellDef="let row">{{ row.totalDays }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="px-2 py-0.5 rounded text-xs" [ngClass]="{
+          'bg-green-100 text-green-700': row.status === 'approved',
+          'bg-yellow-100 text-yellow-700': row.status === 'pending',
+          'bg-red-100 text-red-700': row.status === 'rejected'
+        }">
+          {{ row.status }}
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="approver">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Approver</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.approverInfo?.approverName || '-' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="approverRemark">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Approver Comment</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.approverInfo?.remarks || '-' }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="approvedAt">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Approved /Reject Time</th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.approverInfo?.actionAt || '-' }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="withDworReq">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>WithDraw</th>
+      <td mat-cell *matCellDef="let row">
+        <button class="bg-red-700 text-white px-2 py-1 rounded" (onclick)="withDrawReq(row._id)">withDrow Req</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+  </table>
 </main>
 
 <app-modal [open]="confirmOpen" title="Leave Status" (closed)="onClosed()">
@@ -187,3 +231,56 @@
     <button class="bg-blue-700 text-white p-2 mr-2 rounded font-bold" type="button">Approve</button>
   </div>
 </app-modal>
+
+
+<!-- Approver Modal -->
+<div
+  *ngIf="IsApproverModalOpen"
+  class="fixed inset-0 bg-black/40 flex items-center justify-center z-50"
+>
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
+
+    <!-- Title -->
+    <h2 class="text-lg font-semibold mb-4">
+      {{ approverModalType === 'approved' ? 'Approve Leave' : 'Reject Leave' }}
+    </h2>
+
+    <!-- Content -->
+    <div>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Remark</mat-label>
+        <textarea
+          matInput
+          rows="3"
+          [(ngModel)]="approverRemark"
+          placeholder="Enter remark (optional)"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end gap-3 mt-6">
+      <button
+        type="button"
+        class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+        (click)="closeApproverModal()"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        class="px-4 py-2 rounded text-white"
+        [ngClass]="
+          approverModalType === 'approved'
+            ? 'bg-green-600 hover:bg-green-700'
+            : 'bg-red-600 hover:bg-red-700'
+        "
+        (click)="submitApproverAction()"
+      >
+        {{ approverModalType === 'approved' ? 'Approved' : 'Rejected' }}
+      </button>
+    </div>
+
+  </div>
+</div>

@@ -33,4 +33,10 @@ export class Leave {
   getMyLeaves(){
      return this.http.get<ApiEnvelope<any>>(this.api_routes.leave.myLeaves)
   }
+  getMyApprovalReq(){
+     return this.http.get<ApiEnvelope<any>>(this.api_routes.leave.approvalReq)
+  }
+  acceptRejectReq(id:string,data:any){
+     return this.http.patch<ApiEnvelope<any>>(this.api_routes.leave.acceptRejectReq(id),data)
+  }
 }

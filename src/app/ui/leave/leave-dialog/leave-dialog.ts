@@ -51,7 +51,7 @@ export interface LeaveDialogResult {
   leaveType: string;
   startDate: Date; // ISO
   endDate: Date;   // ISO
-  halfDay: boolean;
+  dayType: string;
   reason: string;
   attachment?: File | null; // optional, demo placeholder
   totalDays: number;        // computed
@@ -91,6 +91,13 @@ export class LeaveDialog {
     { value: 'manager', label: 'Manager' },
     { value: 'teamLead', label: 'Team Lead' },
   ]
+
+dayeTypesJson=[
+   { value: 'full-day', label: 'full-day' },
+   { value: 'first-half', label: 'first-half' },
+   { value: 'second-half', label: 'second-half' },
+]
+
   dialogRef = inject(MatDialogRef<LeaveDialog>);
   data = inject<LeaveDialogData>(MAT_DIALOG_DATA);
   totalDays = 12
@@ -99,7 +106,7 @@ export class LeaveDialog {
     leaveType: new FormControl('', { nonNullable: true }),
     startDate: new FormControl('', { nonNullable: true }),
     endDate: new FormControl('', { nonNullable: true }),
-    halfDay: new FormControl('', { nonNullable: true }),
+    dayType: new FormControl('', { nonNullable: true }),
     reason: new FormControl('', { nonNullable: true }),
     attachment: new FormControl('', { nonNullable: true }),
     applyTo: new FormControl('', { nonNullable: true }),
@@ -132,7 +139,7 @@ export class LeaveDialog {
       leaveType: v.leaveType,
       fromDate: v.startDate,
       toDate: v.endDate,
-      dayType: v.halfDay ? 'half-day' : 'full-day',
+      dayType: v.dayType,
       reason: v.reason,
       // attachment: v.attachment ?? null,
       // totalDays: this.totalDays,

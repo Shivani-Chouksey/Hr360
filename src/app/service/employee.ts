@@ -53,5 +53,9 @@ export class Employee {
       return throwError(()=>err)
     }))
   }
-
+  GetEmployeeListByRole(role:string){
+    return this.http.get<ApiEnvelope<any>>(`${this.route.employee.get_list}?role=${role}`).pipe(map(res=>res.data),catchError((err)=>{
+      return throwError(()=>err)
+    }))
+  }
 }

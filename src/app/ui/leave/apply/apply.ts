@@ -1,25 +1,21 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-
 import { LeaveDialog, LeaveDialogData, LeaveDialogResult } from '../leave-dialog/leave-dialog';
 import { ModalComponent } from "../../../common/modal/modal";
 import { MatRadioGroup, MatRadioButton } from "@angular/material/radio";
 import { MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
 import { MatInput, MatInputModule } from "@angular/material/input";
 import { Cards } from "../../../components/leave/cards/cards";
-import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { Leave } from '../../../service/leave';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Employee } from '../../../service/employee';
 import { LocalStorageService } from '../../../service/localstorage';
+import { FormsModule } from '@angular/forms';
 
 export interface LeaveRow {
   appliedOn: Date;
@@ -31,6 +27,7 @@ export interface LeaveRow {
   approver: string;
   comment: string
 }
+
 
 @Component({
   selector: 'app-apply',
@@ -48,6 +45,7 @@ export interface LeaveRow {
     MatLabel,
     MatInput,
     Cards,
+    FormsModule
 
   ],
   templateUrl: './apply.html',
@@ -55,39 +53,62 @@ export interface LeaveRow {
   styleUrls: ['./apply.css'],
 })
 export class Apply implements OnInit {
-  constructor(private LeaveService: Leave, private EmoloyeeService: Employee, private localStorageService: LocalStorageService) { }
   private dialog = inject(MatDialog);
   private _liveAnnouncer = inject(LiveAnnouncer);
-   private  LEAVE_DATA: LeaveRow[] = [
-    {
-      appliedOn: new Date(2026, 1, 10), // 10 Feb 2026
-      from: new Date(2026, 1, 15),
-      to: new Date(2026, 1, 16),
-      type: 'Annual',
-      totalDays: 2,
-      status: 'Pending',
-      approver: 'Team Lead',
-      comment: ''
-    },
-   
-  ];
-  // Balance tiles – Corporate leave scenario
-  leaveBalancesdata: LeaveDialogData = {
-    // title: 'My Leave Balance',
-    leaveBalances: {
-      annual: { total: 0, used: 0, remaining: 0, usageRatio: 0 },
-      sick: { total: 0, used: 0, remaining: 0, usageRatio: 0 },
-      casual: { total: 0, used: 0, remaining: 0, usageRatio: 0 },
-      compOff: { total: 0, used: 0, remaining: 0, usageRatio: 0 }
-    }
-
-  };
-
-  leaveHistory: any
   private _snackBar = inject(MatSnackBar)
-  loggerInUserDetails: any
+
+  private showSnackBar(message: string, action = 'OK'): void {
+    this._snackBar.open(message, action, {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+
+    })
+  }
+  leaveBalancesdata!: LeaveDialogData
+  displayedColumns = [
+    'createdAt',
+    'leaveReason',
+    'fromDate',
+    'toDate',
+    'leaveType',
+    'totalDays',
+    'status',
+    'approver',
+    'approverRemark',
+    'approvedAt',
+    'withDworReq'
+  ];
+
+  approvalDisplayedColumns: string[] = [
+    'EmployeeName',
+    'leaveReason',
+    'appliedOn',
+    'from',
+    'to',
+    'type',
+    'totalDays',
+    'dayType',
+    'status',
+    'action',
+
+  ];
+
+  dataSource = new MatTableDataSource<LeaveRow>([]);
+  approvalDataSource = new MatTableDataSource<any>([]);
+  leaveHistory!: LeaveRow
+  MyleaveHistory: LeaveRow[] = []
+  MyApprovalReq: LeaveRow[] = []
+  loggerInUserDetails!: any
+  @ViewChild(MatSort) sort!: MatSort;
+
+
+  constructor(private LeaveService: Leave, private EmoloyeeService: Employee, private localStorageService: LocalStorageService) { }
+
 
   ngOnInit(): void {
+    const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
+
     this.LeaveService.getLeaveHistroy().subscribe({
       next: (res) => {
         console.log("Leave History", res);
@@ -132,33 +153,38 @@ export class Apply implements OnInit {
         });
       }
     })
-    this.LeaveService.getMyLeaves().subscribe({
+    this.LeaveService.getMyApprovalReq().subscribe({
       next: (res) => {
-        console.log("MY Leave History", res);
-        this.LEAVE_DATA = res.data;
-        this._snackBar.open(res?.message, 'ok', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
+        console.log(res.data);
 
-        })
+        this.MyApprovalReq = res.data
+        this.approvalDataSource.data = res.data;
+        this.showSnackBar(res?.message)
+        console.log("getMyApprovalReq", this.MyApprovalReq);
+
       },
       error: (err) => {
         console.log(err);
-
-        this._snackBar.open(err.error.message, 'close', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-
-        });
+        this.showSnackBar(err.error.message)
       }
     })
-    const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
+    this.LeaveService.getMyLeaves().subscribe({
+      next: (res) => {
+        this.MyleaveHistory = res.data
+        this.dataSource.data = res.data;
+        this.showSnackBar(res?.message)
+        console.log("MY Leave History", this.MyleaveHistory);
+
+      },
+      error: (err) => {
+        console.log(err);
+        this.showSnackBar(err.error.message)
+      }
+    })
     this.EmoloyeeService.GetEmployeeById(LoggedInUser.id).subscribe({
       next: (res) => {
         console.log(res);
-        this.loggerInUserDetails.res.data
+        this.loggerInUserDetails = res
       },
       error: (err) => {
         console.log(err);
@@ -172,72 +198,26 @@ export class Apply implements OnInit {
       }
     })
   }
-  // --- Dialog open ---
-  // open() {
-  //   const data: LeaveDialogData = {
-  //     title: 'Apply Leave',
-  //     leaveBalances: this.leaveBalancesdata.leaveBalances,
-  //     minDate: new Date(),
-  //     maxDate: new Date(new Date().getFullYear(), 11, 31),
-  //   };
 
-  //   // NOTE: remove HTML entities; use real generics <>
-  //   this.dialog
-  //     .open<LeaveDialog, LeaveDialogData, LeaveDialogResult>(LeaveDialog, {
-  //       width: '620px',
-  //       maxWidth: '95vw',
-  //       disableClose: true,
-  //       autoFocus: true,
-  //       data,
-  //     })
-  //     .afterClosed()
-  //     .subscribe((result) => {
-  //       if (!result) {
-  //         console.log('Dialog cancelled');
-  //         return;
-  //       }
-  //       console.log('Leave form submitted:', result);
-  //       // TODO: call API then refresh the table below.
-  //     });
-  // }
 
-  open() {
+  open(): void {
     this.dialog.open(LeaveDialog, {
       width: '720px',
       disableClose: true,
     });
   }
 
-  // --- Table (Leave history) ---
-  displayedColumns: string[] = [
-    'appliedOn',
-    'from',
-    'to',
-    'type',
-    'totalDays',
-    'status',
-    'approver',
-    'comment'
-  ];
-
- 
-
-  dataSource = new MatTableDataSource<LeaveRow>(this.LEAVE_DATA);
-
-  @ViewChild(MatSort) sort!: MatSort;
-
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+
   }
 
-  /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
+  announceSortChange(sortState: Sort): void {
+    this._liveAnnouncer.announce(
+      sortState.direction ? `Sorted ${sortState.direction}ending` : 'Sorting cleared'
+    );
   }
+
 
   // Optional: a nice date formatter for the template
   asShort(d: Date | string): string {
@@ -250,4 +230,38 @@ export class Apply implements OnInit {
   openConfirm() { this.confirmOpen = true; }
   onClosed() { this.confirmOpen = false; }
 
+
+  withDrawReq(id: string) {
+    console.log("withDraw Req", id);
+
+  }
+  approverModalType: string = ''
+  IsApproverModalOpen: boolean = false
+  approverRemark: string = ''
+  selectedReqId: string = ''
+  openApproverModal(action: 'approved' | 'rejected', reqID: string) {
+    this.approverModalType = action
+    this.IsApproverModalOpen = true
+    this.selectedReqId = reqID
+  }
+  closeApproverModal() {
+    this.approverModalType = ''
+    this.IsApproverModalOpen = false
+  }
+  submitApproverAction() {
+    console.log("approverRemark", this.approverRemark);
+    this.LeaveService.acceptRejectReq(this.selectedReqId, { status: this.approverModalType, remarks: this.approverRemark }).subscribe({
+      next: (res) => {
+        console.log("submitApproverAction response : ", res);
+        this.closeApproverModal()
+        this.showSnackBar(res.message)
+      },
+      error: (err) => {
+        console.log(err);
+        this.closeApproverModal()
+         this.showSnackBar(err.error.message)
+      }
+    })
+
+  }
 }

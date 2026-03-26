@@ -1,19 +1,24 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { email } from '@angular/forms/signals';
 import { Employee } from '../../../service/employee';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
+import { MatSelect, MatOption, MatSelectModule } from "@angular/material/select";
 
 @Component({
   selector: 'app-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption,
+  
+    MatFormFieldModule,
+    MatSelectModule,
+  ],
   templateUrl: './add.html',
   styleUrls: ['./add.css'], // <-- plural
 })
-export class Add {
-  constructor(private employeeService: Employee) {}
+export class Add implements OnInit {
+  constructor(private employeeService: Employee) { }
   activeTab: 'personal' | 'professional' | 'documents' | 'account' | 'company' = 'personal';
   private _snackBar = inject(MatSnackBar);
   setActiveTabFun(val: 'personal' | 'professional' | 'documents' | 'account' | 'company') {
@@ -140,6 +145,20 @@ export class Add {
 
   success: boolean = false;
   error: string = '';
+  reportingManagerList: any
+  ngOnInit(): void {
+    this.employeeService.GetEmployeeListByRole('manager').subscribe({
+      next: (res) => {
+        this.reportingManagerList = res
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+
+    console.log("reporting manager list",this.reportingManagerList);
+    
+  }
 
   preparePayload() {
     const payload: any = this.employeeForm.value;

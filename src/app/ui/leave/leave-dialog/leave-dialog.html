@@ -26,13 +26,23 @@
         (Available balances shown on selection)
       </p>
     </div>
+    <div>
+      <label class="block text-sm font-medium mb-2 text-gray-700">
+        Day type
+      </label>
 
-    <!-- Half Day -->
-    <div class="flex items-center gap-3">
-      <mat-checkbox formControlName="halfDay">
-        Half‑day
-      </mat-checkbox>
+      <mat-radio-group
+        formControlName="dayType"
+        class="flex gap-2">
+        <mat-radio-button
+          *ngFor="let item of dayeTypesJson"
+          [value]="item.value">
+          {{ item.label }}
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
+
+ 
 
     <!-- Dates -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -52,7 +62,7 @@
     </div>
 
     <!-- Apply To -->
-    <div>
+    <!-- <div>
       <label class="block text-sm font-medium mb-2 text-gray-700">
         Apply to
       </label>
@@ -64,7 +74,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </div> -->
 
     <!-- Reason -->
     <div>

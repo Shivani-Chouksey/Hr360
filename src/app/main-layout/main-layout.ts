@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
 import { navJsonObject } from '../../config/nav-data'
 import { CommonModule } from '@angular/common';
+import { LocalStorageService } from '../service/localstorage';
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.html',
@@ -18,8 +19,13 @@ export class MainLayout {
 
   private openGroups = new Set<string>();
   private openItems = new Set<string>();
-
+   LoggedInUserDetail:any
+constructor(private localStorageService:LocalStorageService){}
   ngOnInit() {
+    const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
+    this.LoggedInUserDetail=LoggedInUser
+console.log("LoggedInUser",LoggedInUser);
+
     console.log("navJsonObject",navJsonObject);
     this.onResize();
   }
