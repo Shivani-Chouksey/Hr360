@@ -17,9 +17,8 @@ export class HolidayService {
     private localStorageService: LocalStorageService
   ) { }
   addHoliday(body: any) {
-    const token = this.localStorageService.get('accessToken');
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', }).set('Authorization', 'Bearer ' + token);
-    return this.http.post<ApiEnvelope<any>>(this.api_routes.holiday.add, body, { headers }).pipe(
+   
+    return this.http.post<ApiEnvelope<any>>(this.api_routes.holiday.add, body).pipe(
       map((res) => res.data),
       catchError((err) => {
         return throwError(() => err);
@@ -28,16 +27,11 @@ export class HolidayService {
   }
 
   getHolidayList() {
-    const token = this.localStorageService.get('accessToken');
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', }).set('Authorization', 'Bearer ' + token);
-    return this.http.get<ApiEnvelope<any>>(this.api_routes.holiday.get_list, { headers })
+    return this.http.get<ApiEnvelope<any>>(this.api_routes.holiday.get_list)
 
   }
 
   deleteHoliday(id: string | number) {
-    console.log("Id Inside Service", id);
-    const token = this.localStorageService.get('accessToken');
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', }).set('Authorization', 'Bearer ' + token);
-    return this.http.delete<ApiEnvelope<any>>(this.api_routes.holiday.Delete_holiday(id), { headers })
+    return this.http.delete<ApiEnvelope<any>>(this.api_routes.holiday.Delete_holiday(id))
   }
 }

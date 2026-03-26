@@ -15,5 +15,10 @@ export class API_ROUTES {
     get_list: `${this.BASE_URL}/holidays`,
     Delete_holiday:(id:string|number)=>`${this.BASE_URL}/holidays/${id}`
   };
-  leave = {};
+  leave = {
+    apply:`${this.BASE_URL}/leaves/apply`,
+    history:`${this.BASE_URL}/leaves/`,
+    leaveBalance:`${this.BASE_URL}/leaves/balance`,
+    myLeaves:`${this.BASE_URL}/leaves/my-leaves`,
+  };
 }

@@ -67,6 +67,7 @@ export class Holidays implements OnInit {
 
   });
   private _snackBar = inject(MatSnackBar);
+  
   addHoliday() {
     console.log(this.holidayForm.value);
     this.holiday_service.addHoliday(this.holidayForm.value).subscribe({

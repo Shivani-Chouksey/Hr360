@@ -6,39 +6,41 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
+import { Leave } from '../../../service/leave';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface LeaveDialogData {
-  title: string;
+  // title: string;
   leaveBalances: {
     annual: {
-      total:number;
-      used:number;
-      remaining:number;
-      usageRatio:number;
+      total: number;
+      used: number;
+      remaining: number;
+      usageRatio: number;
     };
     sick: {
-      total:number;
-      used:number;
-      remaining:number;
-      usageRatio:number;
+      total: number;
+      used: number;
+      remaining: number;
+      usageRatio: number;
     };
     casual: {
-      total:number;
-      used:number;
-      remaining:number;
-      usageRatio:number;
+      total: number;
+      used: number;
+      remaining: number;
+      usageRatio: number;
     };
     compOff: {
-      total:number;
-      used:number;
-      remaining:number;
-      usageRatio:number;
+      total: number;
+      used: number;
+      remaining: number;
+      usageRatio: number;
     };
-   
+
     // [key: string]: number;
   };
   minDate?: Date;
@@ -59,6 +61,7 @@ export interface LeaveDialogResult {
   selector: 'app-leave-dialog',
   standalone: true,
   imports: [
+    //  MatFormFieldModule, MatInputModule, MatDatepickerModule,
     CommonModule,
     MatDialogModule,
     ReactiveFormsModule,
@@ -71,12 +74,14 @@ export interface LeaveDialogResult {
     MatButtonModule,
     MatRadioButton,
     MatRadioGroup
-],
+  ],
   templateUrl: './leave-dialog.html',
   styleUrls: ['./leave-dialog.css'],
+  providers: [provideNativeDateAdapter()],
 })
 export class LeaveDialog {
-   leaveTypesJson = [
+  constructor(private LeaveService: Leave) { }
+  leaveTypesJson = [
     { value: 'annual', label: 'Annual Leave' },
     { value: 'sick', label: 'Sick Leave' },
     { value: 'casual', label: 'Casual Leave' },
@@ -88,7 +93,7 @@ export class LeaveDialog {
   ]
   dialogRef = inject(MatDialogRef<LeaveDialog>);
   data = inject<LeaveDialogData>(MAT_DIALOG_DATA);
-totalDays=12
+  totalDays = 12
 
   leaveForm = new FormGroup({
     leaveType: new FormControl('', { nonNullable: true }),
@@ -97,11 +102,11 @@ totalDays=12
     halfDay: new FormControl('', { nonNullable: true }),
     reason: new FormControl('', { nonNullable: true }),
     attachment: new FormControl('', { nonNullable: true }),
-    
+    applyTo: new FormControl('', { nonNullable: true }),
   })
 
 
- 
+
   minDate = this.data?.minDate ?? undefined;
   maxDate = this.data?.maxDate ?? undefined;
 
@@ -116,7 +121,7 @@ totalDays=12
   //   const days = diff > 0 ? diff : 0;
   //   return halfDay ? Math.max(days - 0.5, 0.5) : days; // half-day applies to the whole request simplistically
   // }
-
+  private _snackBar = inject(MatSnackBar);
   submit() {
     if (this.leaveForm.invalid) {
       this.leaveForm.markAllAsTouched();
@@ -125,15 +130,35 @@ totalDays=12
     const v = this.leaveForm.value;
     const result: any = {
       leaveType: v.leaveType,
-      startDate: v.startDate,
-      endDate:v.endDate,
-      halfDay: !!v.halfDay,
+      fromDate: v.startDate,
+      toDate: v.endDate,
+      dayType: v.halfDay ? 'half-day' : 'full-day',
       reason: v.reason,
-      attachment: v.attachment ?? null,
-      totalDays: this.totalDays,
+      // attachment: v.attachment ?? null,
+      // totalDays: this.totalDays,
     };
     console.log(result);
-    
+    this.LeaveService.applyLeave(result).subscribe({
+      next: (res) => {
+        console.log(res);
+        this._snackBar.open(res?.message, 'ok',{
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+
+        })
+      },
+      error: (err) => {
+        console.log(err);
+
+        this._snackBar.open(err.error.message, 'close', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
+
+        });
+      }
+    })
     this.dialogRef.close(result);
   }
 
