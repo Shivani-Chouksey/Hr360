@@ -1,33 +1,51 @@
- <div class="p-3 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ">
-  
+<div
+  class="bg-white border border-gray-200 p-3 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-2"
+>
   <!-- Header -->
-  <div class="flex items-center justify-between mb-3">
-    <h3 class="text-sm font-semibold text-gray-600">{{title}}</h3>
-    <span class="text-xs text-gray-400">FY 2025</span>
-  </div>
+  <div class="flex items-start justify-between">
+    <h3 class="text-xs font-semibold text-gray-700">
+      {{ title }}
+    </h3>
 
-  <!-- Balance Badge -->
-  <p class="inline-flex items-center justify-center px-4 py-2 mb-4 text-lg font-semibold bg-blue-800 text-white rounded-full">
-    {{ item.remaining }} / {{ item.total }}
-  </p>
-
-  <!-- Usage Info -->
-  <div class="flex justify-between text-sm text-gray-600 mb-3">
-    <span>
-      <strong class="text-gray-800">{{ item.used }}</strong> Used
-    </span>
-    <span>
-      <strong class="text-gray-800">{{ item.remaining }}</strong> Remaining
+    <!-- Optional status / year -->
+    <span class="text-xs text-gray-400">
+      FY 2025
     </span>
   </div>
 
-  <!-- Progress Bar -->
-  <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden mb-4">
+  <!-- Main Balance -->
+  <div class="flex items-center gap-4">
     <div
-      class="h-full bg-blue-800 rounded-full"
-     [style.width.%]="item.usageRatio * 100"
-    ></div>
+      class="flex items-center justify-center  p-1
+             rounded bg-blue-600 text-white text-xs  shadow-sm"
+    >
+      {{ item.remaining }} / {{ item.total }}
+    </div>
+
+    <div class="flex-1">
+      <p class="text-xs text-gray-500 mb-1">
+        Leave Balance
+      </p>
+
+      <!-- Progress Bar -->
+      <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div
+          class="h-full bg-blue-600 rounded-full transition-all"
+          [style.width.%]="item.usageRatio * 100"
+        ></div>
+      </div>
+    </div>
   </div>
 
-
+  <!-- Usage Stats -->
+  <div class="flex justify-between text-xs mt-1">
+    <div class="text-gray-600">
+      <span class="font-semibold text-gray-900">{{ item.used }}</span>
+      Used
+    </div>
+    <div class="text-gray-600">
+      <span class="font-semibold text-gray-900">{{ item.remaining }}</span>
+      Remaining
+    </div>
+  </div>
 </div>

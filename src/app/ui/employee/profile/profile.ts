@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf, TitleCasePipe, NgForOf } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { BasicTable, TableHeader } from '../../../common/basic-table/basic-table';
@@ -6,10 +6,11 @@ import { EmployeeDetails } from '../../../components/employee-details/employee-d
 import { Employee } from '../../../service/employee';
 import { Leave } from '../../../service/leave';
 import { map, Observable, switchMap } from 'rxjs';
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-profile',
-  imports: [NgClass, BasicTable, NgIf, EmployeeDetails,AsyncPipe],
+  imports: [NgClass, BasicTable, NgIf, EmployeeDetails, AsyncPipe, TitleCasePipe, NgForOf, MatIcon],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
@@ -90,6 +91,7 @@ employeeDetail$!: Observable<any>;
   setActiveTabFun(val: 'personal' | 'professional' | 'documents' | 'account') {
     this.activeTab = val;
   }
+  
   setActiveModule(val: 'profile' | 'attendance' | 'projects' | 'leave') {
     this.activeModule = val;
   }

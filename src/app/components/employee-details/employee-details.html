@@ -1,9 +1,9 @@
-<main class="min-h-screen bg-gray-100 p-6">
-  <div *ngIf="userDetails as emp" class="max-w-7xl mx-auto space-y-6">
+<main class="min-h-screen bg-gray-100 p-2">
+  <div *ngIf="userDetails as emp" class="max-w-7xl mx-auto space-y-2">
     <!-- Header -->
-    <div class="bg-white shadow rounded-xl p-5 flex justify-between items-center">
+    <div class="bg-white shadow  p-2 px-3 flex justify-between items-center">
       <div>
-        <h2 class="text-xl font-bold text-gray-800">
+        <h2 class="text-lg font-bold text-gray-800">
           {{ emp.personal?.firstName }} {{ emp.personal?.lastName }}
         </h2>
         <p class="text-sm text-gray-500">
@@ -24,32 +24,32 @@
     </div>
 
     <!-- Personal Information -->
-    <div class="bg-white shadow rounded-xl p-5">
-      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Personal Information</h3>
+    <div class="bg-white shadow  p-2 px-3">
+      <h3 class="text-sm font-medium mb-2 border-b pb-1 text-gray-500">Personal Information</h3>
 
       <div class="grid md:grid-cols-3 gap-4 text-sm">
         <p>
-          <span class="font-semibold">Date Of Birth:</span> {{ emp.personal?.dateOfBirth | date }}
+          <span class="font-bold text-sm ">Date Of Birth:</span> {{ emp.personal?.dateOfBirth | date }}
         </p>
-        <p><span class="font-semibold">Gender:</span> {{ emp.personal?.gender }}</p>
-        <p><span class="font-semibold">Marital Status:</span> {{ emp.personal?.maritalStatus }}</p>
-        <p><span class="font-semibold">Nationality:</span> {{ emp.personal?.nationality }}</p>
-        <p><span class="font-semibold">Blood Group:</span> {{ emp.personal?.bloodGroup }}</p>
-        <p><span class="font-semibold">Phone:</span> {{ emp.personal?.phone }}</p>
+        <p><span class="font-bold text-sm ">Gender:</span> {{ emp.personal?.gender }}</p>
+        <p><span class="font-bold text-sm ">Marital Status:</span> {{ emp.personal?.maritalStatus }}</p>
+        <p><span class="font-bold text-sm ">Nationality:</span> {{ emp.personal?.nationality }}</p>
+        <p><span class="font-bold text-sm ">Blood Group:</span> {{ emp.personal?.bloodGroup }}</p>
+        <p><span class="font-bold text-sm ">Phone:</span> {{ emp.personal?.phone }}</p>
         <p>
-          <span class="font-semibold">Alternate Phone:</span> {{ emp.personal?.alternatePhone }}
+          <span class="font-bold text-sm ">Alternate Phone:</span> {{ emp.personal?.alternatePhone }}
         </p>
-        <p><span class="font-semibold">Email:</span> {{ emp.personal?.personalEmail }}</p>
+        <p><span class="font-bold text-sm ">Email:</span> {{ emp.personal?.personalEmail }}</p>
       </div>
     </div>
 
     <!-- Address -->
-    <div class="bg-white shadow rounded-xl p-5">
-      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Address</h3>
+    <div class="bg-white shadow  p-2 px-3">
+      <h3 class="text-sm font-medium mb-2 border-b pb-1 text-gray-500">Address</h3>
 
       <div class="grid md:grid-cols-2 gap-4 text-sm">
         <div>
-          <h4 class="font-semibold text-gray-600 mb-2">Present Address</h4>
+          <h4 class="text-sm font-medium ">Present Address</h4>
           <p>{{ emp.personal?.presentAddress?.street }}</p>
           <p>{{ emp.personal?.presentAddress?.city }}, {{ emp.personal?.presentAddress?.state }}</p>
           <p>
@@ -59,7 +59,7 @@
         </div>
 
         <div>
-          <h4 class="font-semibold text-gray-600 mb-2">Permanent Address</h4>
+          <h4 class="text-sm font-medium  ">Permanent Address</h4>
           <p>{{ emp.personal?.permanentAddress?.street }}</p>
           <p>
             {{ emp.personal?.permanentAddress?.city }}, {{ emp.personal?.permanentAddress?.state }}
@@ -73,10 +73,10 @@
     </div>
 
     <!-- Company Details -->
-    <div class="bg-white shadow rounded-xl p-5">
-      <h3 class="text-lg font-semibold mb-4 border-b pb-2">Company Details</h3>
+    <div class="bg-white shadow py-2 px-3">
+      <h3 class="text-sm font-medium mb-2 border-b pb-1 text-gray-500">Company Details</h3>
 
-      <div class="grid md:grid-cols-3 gap-4 text-sm">
+      <div class="grid md:grid-cols-2 gap-4 text-sm">
         <p><span class="font-semibold">Employee ID:</span> {{ emp.company?.employeeId }}</p>
         <p><span class="font-semibold">Company Email:</span> {{ emp.company?.companyEmail }}</p>
         <p><span class="font-semibold">Location:</span> {{ emp.company?.location }}</p>

@@ -31,7 +31,7 @@ type HOLIDAY = {
 }
 @Component({
   selector: 'app-holidays',
-  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe, NgIf, NgClass, MatHint],
+  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe, NgIf, NgClass],
   templateUrl: './holidays.html',
   styleUrl: './holidays.css',
 })

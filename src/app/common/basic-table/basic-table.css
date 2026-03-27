@@ -1,5 +1,79 @@
-.table-wrapper { overflow: auto; width: 100%;}
-.basic-table { border-collapse: collapse; width: 100%; }
-.basic-table th, .basic-table td { border: 1px solid #ddd; padding: 8px; }
-.basic-table thead th { background: #f7f7f7; font-weight: 600; }
-.empty { text-align: center; color: #777; }
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.basic-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  background: #ffffff;
+}
+
+.basic-table thead {
+  background: #f5f7fb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.basic-table th {
+  padding: 14px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+}
+
+.basic-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.basic-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.basic-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.basic-table tbody tr:hover {
+  background: #f0f9ff;
+  cursor: pointer;
+}
+
+.empty {
+  text-align: center;
+  padding: 24px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+/* Status Pills */
+.status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+.status-approved {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.status-pending {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.status-rejected {
+  background: #fef2f2;
+  color: #b91c1c;
+}

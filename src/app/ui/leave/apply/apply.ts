@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Employee } from '../../../service/employee';
 import { LocalStorageService } from '../../../service/localstorage';
 import { FormsModule } from '@angular/forms';
+import { MatBadgeModule } from '@angular/material/badge';
 
 export interface LeaveRow {
   appliedOn: Date;
@@ -45,8 +46,8 @@ export interface LeaveRow {
     MatLabel,
     MatInput,
     Cards,
-    FormsModule
-
+    FormsModule,
+MatBadgeModule
   ],
   templateUrl: './apply.html',
 

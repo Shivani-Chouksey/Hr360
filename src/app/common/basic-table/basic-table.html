@@ -1,35 +1,53 @@
-<div class="bg-white w-3xl">
-    <div class="table-wrapper " *ngIf="normalizedHeaders()?.length; else noHeaders">
+<div class="table-wrapper" *ngIf="normalizedHeaders().length; else noHeaders">
   <table class="basic-table">
     <thead>
       <tr>
-        <th *ngFor="let h of normalizedHeaders()"
-            [style.width]="h.width"
-            [style.textAlign]="h.align || null">
+        <th
+          *ngFor="let h of normalizedHeaders()"
+          [style.width]="h.width"
+          [style.text-align]="h.align || 'left'"
+        >
           {{ h.label }}
         </th>
       </tr>
     </thead>
 
     <tbody>
+      <!-- Empty State -->
       <tr *ngIf="isEmpty()">
         <td [attr.colspan]="normalizedHeaders().length" class="empty">
-          No records found.
+          No records found
         </td>
       </tr>
 
+      <!-- Data Rows -->
       <tr *ngFor="let row of data(); trackBy: trackRow">
-        
-        <td *ngFor="let h of normalizedHeaders()"
-            [style.textAlign]="h.align || null">
-          {{ row?.[h.key] }}
+        <td
+          *ngFor="let h of normalizedHeaders()"
+          [style.text-align]="h.align || 'left'"
+        >
+          <!-- ✅ Status Pill -->
+          <ng-container *ngIf="h.key === 'status'; else normalCell">
+            <span class="status" [ngClass]="getStatusClass(row[h.key])">
+              {{ row[h.key] || '-' }}
+            </span>
+          </ng-container>
+
+          <!-- ✅ Normal Cell -->
+          <ng-template #normalCell>
+            <ng-container *ngIf="h.key.toLowerCase().includes('date'); else regular">
+              {{ row[h.key] | date: 'dd MMM yyyy' }}
+            </ng-container>
+            <ng-template #regular>
+              {{ row[h.key] ?? '-' }}
+            </ng-template>
+          </ng-template>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-</div>
 
 <ng-template #noHeaders>
-  <div class="empty">No headers provided.</div>
+  <div class="empty">No headers provided</div>
 </ng-template>
