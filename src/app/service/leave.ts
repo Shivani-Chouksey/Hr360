@@ -39,4 +39,7 @@ export class Leave {
   acceptRejectReq(id:string,data:any){
      return this.http.patch<ApiEnvelope<any>>(this.api_routes.leave.acceptRejectReq(id),data)
   }
+  withDrowReq(id:string,data:any){
+     return this.http.patch<ApiEnvelope<any>>(this.api_routes.leave.withDrowReq(id),data)
+  }
 }

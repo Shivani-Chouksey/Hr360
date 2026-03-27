@@ -59,12 +59,12 @@ export const navJsonObject: ReadonlyArray<NavGroup> = [
         link: "/leave",
         label: "Leave Management",
         _id: "leave",
-        children: [
-          // { link: "/holidays", label: "Holidays" },
-          { _id: "leave-apply", link: "/leave/apply", label: "Apply Leave" },
-          { _id: "leave-his", link: "/leave/history", label: "Leave History" },
-          { link: "/leave/approval", label: "Approvals", _id: "leave-app" }
-        ]
+        // children: [
+        //   // { link: "/holidays", label: "Holidays" },
+        //   { _id: "leave-apply", link: "/leave/apply", label: "Apply Leave" },
+        //   { _id: "leave-his", link: "/leave/history", label: "Leave History" },
+        //   { link: "/leave/approval", label: "Approvals", _id: "leave-app" }
+        // ]
       }
     ]
   },

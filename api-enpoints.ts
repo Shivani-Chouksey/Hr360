@@ -22,5 +22,6 @@ export class API_ROUTES {
     myLeaves:`${this.BASE_URL}/leaves/my-leaves`,
     approvalReq:`${this.BASE_URL}/leaves/approval-req`,
     acceptRejectReq:(id:string|number)=>`${this.BASE_URL}/leaves/${id}/status`,
+    withDrowReq:(id:string|number)=>`${this.BASE_URL}/leaves/${id}/withdraw`,
   };
 }

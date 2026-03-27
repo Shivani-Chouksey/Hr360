@@ -39,7 +39,8 @@
 
     <!-- Navigation -->
     <nav class="px-2 py-3 text-[13px] font-medium space-y-1">
-      <ng-container *ngFor="let group of navJsonObject; trackBy: trackGroup">
+   @if (['hr', 'admin'].includes(LoggedInUserDetail?.role)) {
+       <ng-container *ngFor="let group of navJsonObject; trackBy: trackGroup">
         <div class="rounded-md">
           <!-- Group header -->
           <button
@@ -93,7 +94,7 @@
                   [style.maxHeight]="isItemOpen(item._id || item.link) ? '600px' : '0px'">
                   <li *ngFor="let child of item.children; trackBy: trackLeaf">
                     <a
-                      [routerLink]="child._id === 'Emp-pro' ? ['/employee/profile', loggedInUserId] : [child.link]"
+                      [routerLink]="child._id === 'Emp-pro' ? ['/employee/profile', LoggedInUserDetail.id] : [child.link]"
                       routerLinkActive="text-primary-600 dark:text-primary-400 font-semibold"
                       class="block rounded-md px-2 py-1.5 text-gray-600 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-neutral-700/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
                       {{ child.label }}
@@ -106,6 +107,27 @@
         </div>
       </ng-container>
 
+   }@else {
+     
+ <div class="pt-2 mt-2 border-t border-gray-200/70 dark:border-neutral-700/70">
+    <a
+      [routerLink]="['/employee/profile', LoggedInUserDetail?.id]"
+      routerLinkActive="text-primary-600 dark:text-primary-400 font-semibold bg-primary-50/70 dark:bg-primary-900/25"
+      class="block rounded-md px-3 py-2 text-gray-800 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-neutral-700/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+    >
+Profile    </a>
+  </div>
+ <div class="pt-2 mt-2 border-t border-gray-200/70 dark:border-neutral-700/70">
+    <a
+      [routerLink]="'/leave'"
+      routerLinkActive="text-primary-600 dark:text-primary-400 font-semibold bg-primary-50/70 dark:bg-primary-900/25"
+      class="block rounded-md px-3 py-2 text-gray-800 dark:text-neutral-200 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-neutral-700/60 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+    >
+      Leave
+    </a>
+  </div>
+
+   }
       <!-- Standalone link -->
       <div class="pt-2 mt-2 border-t border-gray-200/70 dark:border-neutral-700/70">
         <a

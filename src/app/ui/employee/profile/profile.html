@@ -44,6 +44,19 @@
       >
         Profile
       </button>
+       <button
+        type="button"
+        (click)="setActiveModule('leave')"
+        [attr.aria-selected]="isActiveModule('leave')"
+        class="py-2 px-4 rounded border text-sm transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [ngClass]="
+          isActiveModule('leave')
+            ? 'bg-blue-600 text-white border-blue-600'
+            : 'bg-transparent text-blue-700 border-blue-500'
+        "
+      >
+        Leave
+      </button>
       <button
         type="button"
         (click)="setActiveModule('attendance')"
@@ -70,19 +83,7 @@
       >
         Projects
       </button>
-      <button
-        type="button"
-        (click)="setActiveModule('leave')"
-        [attr.aria-selected]="isActiveModule('leave')"
-        class="py-2 px-4 rounded border text-sm transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
-        [ngClass]="
-          isActiveModule('leave')
-            ? 'bg-blue-600 text-white border-blue-600'
-            : 'bg-transparent text-blue-700 border-blue-500'
-        "
-      >
-        Leave
-      </button>
+     
     </div>
     @switch (activeModule) {
       @case ('attendance') {
@@ -165,48 +166,20 @@
         <app-basic-table
           [type]="'leave'"
           [headers]="[
-            { key: 'employee', label: 'Employee' },
+            { key: 'createdAt', label: 'Applied Date' },
             { key: 'leaveType', label: 'Leave Type' },
-            { key: 'from', label: 'From' },
-            { key: 'to', label: 'To' },
-            { key: 'days', label: 'Days', align: 'center' },
+            { key: 'fromDate', label: 'From' },
+            { key: 'toDate', label: 'To' },
+            { key: 'totalDays', label: 'Days', align: 'center' },
             { key: 'status', label: 'Status', align: 'center' },
           ]"
-          [data]="[
-            {
-              id: 1,
-              employee: 'Asha Kumar',
-              leaveType: 'Casual Leave',
-              from: '2026-02-10',
-              to: '2026-02-12',
-              days: 3,
-              status: 'Approved',
-            },
-            {
-              id: 2,
-              employee: 'Rahul Verma',
-              leaveType: 'Sick Leave',
-              from: '2026-02-18',
-              to: '2026-02-19',
-              days: 2,
-              status: 'Pending',
-            },
-            {
-              id: 3,
-              employee: 'Nikita Sharma',
-              leaveType: 'Privilege Leave',
-              from: '2026-01-25',
-              to: '2026-01-31',
-              days: 7,
-              status: 'Rejected',
-            },
-          ]"
+          [data]="MyleaveHistory"
         ></app-basic-table>
       }
       @default {
         <div class="w-full">
           <!-- Tabs header -->
-          <div  class="tabHeaders mb-2 flex flex-wrap gap-2">
+          <div  *ngIf="IsEmployeeDetailsEditable" class="tabHeaders mb-2 flex flex-wrap gap-2">
             <button
               type="button"
               (click)="setActiveTabFun('personal')"

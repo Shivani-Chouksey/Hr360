@@ -233,7 +233,17 @@ export class Apply implements OnInit {
 
   withDrawReq(id: string) {
     console.log("withDraw Req", id);
+    this.LeaveService.withDrowReq(id, { id }).subscribe({
+      next: (res) => {
 
+        console.log("withDraw Req", res);
+
+      },
+      error: (err) => {
+        console.log(err);
+
+      }
+    })
   }
   approverModalType: string = ''
   IsApproverModalOpen: boolean = false
@@ -259,7 +269,7 @@ export class Apply implements OnInit {
       error: (err) => {
         console.log(err);
         this.closeApproverModal()
-         this.showSnackBar(err.error.message)
+        this.showSnackBar(err.error.message)
       }
     })
 

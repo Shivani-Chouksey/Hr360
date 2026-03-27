@@ -4,6 +4,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { BasicTable, TableHeader } from '../../../common/basic-table/basic-table';
 import { EmployeeDetails } from '../../../components/employee-details/employee-details';
 import { Employee } from '../../../service/employee';
+import { Leave } from '../../../service/leave';
 
 @Component({
   selector: 'app-profile',
@@ -16,68 +17,10 @@ export class Profile implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private Employee_Service: Employee,
+    private LeaveService:Leave
   ) {}
   LoggedInUserdetails: any;
   isLoading = false;
-  // LoggedInUserdetails = {
-  //   "personalDetail": {
-  //     "profileImage": {
-  //       "name": "sneha_avatar.jpg",
-  //       "type": "image/jpeg",
-  //       "size": 198221
-  //     },
-  //     "firstName": "Sneha",
-  //     "lastName": "Kapoor",
-  //     "mobileNumber": "9988776655",
-  //     "email": "sneha.kapoor@example.com",
-  //     "dob": "1994-11-05",
-  //     "maritalStatus": "married",
-  //     "gender": "female",
-  //     "nationality": "india",
-  //     "address": "Aundh Road, Pune",
-  //     "city": "Pune",
-  //     "state": "Maharashtra"
-  //   },
-  //   "professionalDetail": {
-  //     "employeeID": "EMP002",
-  //     "userName": "sneha.kapoor",
-  //     "employee_type": "Contract",
-  //     "email": "sneha.kapoor@company.com",
-  //     "department": "HR",
-  //     "designation": "HR Manager",
-  //     "working_days": "Mon-Sat",
-  //     "joining_date": "2023-06-01",
-  //     "office_location": "Pune"
-  //   },
-  //   "documentsDetail": {
-  //     "appointmentLetter": {
-  //       "name": "appointment_letter_sneha.pdf",
-  //       "type": "application/pdf",
-  //       "size": 438900
-  //     },
-  //     "salarySlip": {
-  //       "name": "salary_slip_dec_2025.pdf",
-  //       "type": "application/pdf",
-  //       "size": 298311
-  //     },
-  //     "relievingLetter": {
-  //       "name": "relieving_letter_sneha.png",
-  //       "type": "image/png",
-  //       "size": 220118
-  //     },
-  //     "experienceLetter": {
-  //       "name": "experience_letter_sneha.pdf",
-  //       "type": "application/pdf",
-  //       "size": 412440
-  //     }
-  //   },
-  //   "accountDetail": {
-  //     "email": "sneha.kapoor@company.com",
-  //     "slackId": "@sneha.hr",
-  //     "skypeId": "sneha.kapoor.skype",
-  //     "githubId": "sneha-github"
-  //   }
-  // };
 
   headers: TableHeader[] = [
     { key: 'name', label: 'Name', width: '30%' },
@@ -92,6 +35,7 @@ export class Profile implements OnInit {
   employee_ID: string | null = null;
   EmployeeDetail: any;
   IsEmployeeDetailsEditable: boolean = false;
+  MyleaveHistory:any
   ngOnInit() {
     console.log('NgOnInIt work-------------');
     this.isLoading = true;
@@ -115,6 +59,16 @@ export class Profile implements OnInit {
       console.warn('Employee ID not found in route');
     }
 
+
+      this.LeaveService.getMyLeaves().subscribe({
+      next: (res) => {
+        this.MyleaveHistory = res.data
+        console.log("MY Leave History", this.MyleaveHistory);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
     // this.EmployeeDetail = this.employeeList.find((emp) => emp.professionalDetail.employeeID === this.employee_ID);
   }
 
@@ -140,4 +94,7 @@ export class Profile implements OnInit {
     this.IsEmployeeDetailsEditable = false;
     this.activeTab = 'personal';
   }
+
+
+  
 }

@@ -51,11 +51,11 @@ export const routes: Routes = [
                 ]
             },
               {
-                path: 'leave',
-                children: [
-                    { path: '', component: Employee },        // parent landing
-                    { path: 'apply', component: Apply },
-                ]
+                path: 'leave',component: Apply,
+                // children: [
+                //     { path: '', component: Employee },        // parent landing
+                //     { path: 'apply', component: Apply },
+                // ]
             },
             { path: 'holidays', component: Holidays }
             // Add other top-level sections similarly:

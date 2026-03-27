@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
+import { Router, RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
 import { navJsonObject } from '../../config/nav-data'
 import { CommonModule } from '@angular/common';
 import { LocalStorageService } from '../service/localstorage';
@@ -20,11 +20,12 @@ export class MainLayout {
   private openGroups = new Set<string>();
   private openItems = new Set<string>();
    LoggedInUserDetail:any
-constructor(private localStorageService:LocalStorageService){}
+constructor(private localStorageService:LocalStorageService , private router:Router){}
   ngOnInit() {
     const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
     this.LoggedInUserDetail=LoggedInUser
 console.log("LoggedInUser",LoggedInUser);
+console.log("include",['hr', 'admin'].includes(this.LoggedInUserDetail?.role));
 
     console.log("navJsonObject",navJsonObject);
     this.onResize();
@@ -39,7 +40,7 @@ console.log("LoggedInUser",LoggedInUser);
   trackGroup = (_: number, g: any) => g.group;
   trackItem = (_: number, i: any) => i._id || i.link || i.label;
   trackLeaf = (_: number, c: any) => c._id || c.link || c.label;
-loggedInUserId='Employ12'
+
   toggleGroup(key: string) {
     if (this.openGroups.has(key)) this.openGroups.delete(key);
     else this.openGroups.add(key);
@@ -63,9 +64,8 @@ loggedInUserId='Employ12'
   }
 
   onLogout() {
-    // Call your auth service
-    // this.auth.logout();
     console.log('Logout');
+    this.localStorageService.clear();
+this.router.navigateByUrl('/login')
   }
 }
-``

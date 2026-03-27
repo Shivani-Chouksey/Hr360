@@ -19,6 +19,7 @@
       </tr>
 
       <tr *ngFor="let row of data(); trackBy: trackRow">
+        
         <td *ngFor="let h of normalizedHeaders()"
             [style.textAlign]="h.align || null">
           {{ row?.[h.key] }}
