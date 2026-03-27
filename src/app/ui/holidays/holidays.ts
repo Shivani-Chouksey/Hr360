@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { year2026 } from '../../../data/holiday.json';
 import { ModalComponent } from '../../common/modal/modal';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,9 +11,9 @@ import {
 } from '@angular/forms';
 import { validate } from '@angular/forms/signals';
 import { HolidayService } from '../../service/holiday-service';
-import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatFormField, MatLabel, MatHint } from "@angular/material/form-field";
 import { MatSelect, MatOption } from "@angular/material/select";
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgIf ,} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -31,12 +31,12 @@ type HOLIDAY = {
 }
 @Component({
   selector: 'app-holidays',
-  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe, NgIf],
+  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe, NgIf, NgClass, MatHint],
   templateUrl: './holidays.html',
   styleUrl: './holidays.css',
 })
 export class Holidays implements OnInit {
-  constructor(private holiday_service: HolidayService) { }
+  constructor(private holiday_service: HolidayService,    private cdr: ChangeDetectorRef ) { }
 
   holidayList: HOLIDAY[] = [];
   allHolidays: HOLIDAY[] = [];
@@ -101,6 +101,7 @@ export class Holidays implements OnInit {
         console.log(res);
         this.holidayList = res.data;
         this.allHolidays = res.data;
+        this.cdr.detectChanges()
         this.IsLoading = false
       },
       error: (err) => {
@@ -109,7 +110,7 @@ export class Holidays implements OnInit {
       },
     });
   }
-
+isDarkTheme=true
   ngOnInit(): void {
     this.getHolidayList()
   }

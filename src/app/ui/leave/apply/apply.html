@@ -1,20 +1,31 @@
 <main class="space-y-4">
   <!-- Actions -->
-  <div class="flex justify-between">
-    <h2 class="mb-3 p-0 text-gray-600">Leaves
-      <br>
-      <span class="text-xs text-gray-500">
-        Leave resets annually as per company policy
-      </span>
+<section class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+  <div>
+    <h2 class="text-xl font-semibold text-gray-800">
+      Leave Management
     </h2>
-    <div class="flex justify-end p-3 gap-2">
-
-
-      <button class="bg-blue-800 text-white px-3 py-1.5 rounded " (click)="open()">Apply</button>
-      <button class="bg-blue-800 text-white px-3 py-1.5 rounded">Filter</button>
-
-    </div>
+    <p class="text-sm text-gray-500">
+      Leave resets annually as per company policy
+    </p>
   </div>
+
+  <div class="flex gap-2">
+    <button
+      class="h-9 px-4 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 transition"
+      (click)="open()"
+    >
+      Apply Leave
+    </button>
+
+    <button
+      class="h-9 px-4 rounded-lg border border-gray-300 text-sm hover:bg-gray-100"
+    >
+      Filters
+    </button>
+  </div>
+</section>
+
 
 
   <!-- Balance tiles -->
@@ -134,12 +145,16 @@
   </div>
 }
 
-  <!-- My Leave History Table -->
-  <h1 class='mb-2 p-3 bg-blue-800 text-white '>My Leave History</h1>
-  <table mat-table [dataSource]="dataSource" matSort>
+<section class="space-y-3">
+  <h3 class="text-lg font-semibold">
+    My Leave History
+  </h3>
+
+  <div class="bg-white rounded-xl border border-gray-200 overflow-auto">
+   <table mat-table [dataSource]="dataSource" matSort class="w-full">
 
     <ng-container matColumnDef="createdAt">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied On</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header >Applied On</th>
       <td mat-cell *matCellDef="let row">{{ asShort(row.createdAt) }}</td>
     </ng-container>
 
@@ -170,13 +185,23 @@
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
       <td mat-cell *matCellDef="let row">
-        <span class="px-2 py-0.5 rounded text-xs" [ngClass]="{
+        <span
+  class="inline-flex items-center px-2 py-0.5 text-xs rounded-full"
+  [ngClass]="{
+    'bg-green-100 text-green-700': row.status === 'approved',
+    'bg-yellow-100 text-yellow-700': row.status === 'pending',
+    'bg-red-100 text-red-700': row.status === 'rejected'
+  }"
+>
+  {{ row.status | titlecase }}
+</span>
+        <!-- <span class="px-2 py-0.5 rounded text-xs" [ngClass]="{
           'bg-green-100 text-green-700': row.status === 'approved',
           'bg-yellow-100 text-yellow-700': row.status === 'pending',
           'bg-red-100 text-red-700': row.status === 'rejected'
         }">
           {{ row.status }}
-        </span>
+        </span> -->
       </td>
     </ng-container>
 
@@ -210,6 +235,9 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
   </table>
+  </div>
+</section>
+
 </main>
 
 <app-modal [open]="confirmOpen" title="Leave Status" (closed)="onClosed()">

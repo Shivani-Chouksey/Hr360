@@ -1,169 +1,323 @@
-<div class="w-full bg-white rounded shadow-md overflow-hidden border border-gray-200 p-5">
-  <!-- Toolbar -->
-  <div
-    class="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between px-4 sm:px-6 py-4 bg-gray-50 border-b">
-    <h2 class="text-lg font-semibold text-gray-700">Holiday List  <span class="ml-1 p-1 px-2 rounded bg-blue-700 text-white">{{holidayList.length}}</span> </h2>
-    <!-- <h2 class="text-lg font-semibold text-gray-700">Holiday List  </h2> -->
+<div class="min-h-screen bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
+  [class.dark]="isDarkTheme">
 
-    <div class="flex w-full sm:w-auto gap-3">
-      <!-- Year selector -->
-      <label class="inline-flex items-center justify-center align-middle gap-2">
-        <span class="text-sm text-gray-600">Upcoming</span>
-        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedFilter" value='upcoming' type="radio"
-          name='holidayFilter' placeholder="Upcoming" (change)="onFilterChange()" />
-      </label>
-      <label class="inline-flex items-center justify-center align-middle gap-2">
-        <span class="text-sm text-gray-600">Past Holidays</span>
-        <input type="radio" placeholder="Upcoming" value='past' [ngModelOptions]="{standalone: true}"
-          name="holidayFilter" [(ngModel)]="selectedFilter" (change)="onFilterChange()" />
-      </label>
+  <!-- 🔝 Header -->
+  <header
+    class="sticky top-0 z-20 bg-white/90 dark:bg-gray-800/90 backdrop-blur border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-7xl mx-auto px-2 py-1 flex items-center justify-between">
 
-      <label class="inline-flex items-center gap-2 cursor-pointer">
-        <span class="text-sm text-gray-600">All</span>
-        <input type="radio" name="holidayFilter" value="all" [(ngModel)]="selectedFilter" (change)="onFilterChange()" />
-      </label>
+      <div class="flex items-center gap-3">
+        <h1 class="text-sm font-semibold tracking-tight">
+          Holiday Management
+        </h1>
+        <span class="text-xs px-2 py-0.5 rounded-full bg-blue-600 text-white">
+          {{ holidayList.length }}
+        </span>
+      </div>
 
-      <button class="p-2 bg-blue-700 text-white rounded" (click)="openConfirm()">
-        Add New Holiday
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <!-- <button (click)="isDarkTheme = !isDarkTheme"
+          class="p-2 rounded-lg bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
+          title="Toggle theme">
+          <span *ngIf="!isDarkTheme">🌙</span>
+          <span *ngIf="isDarkTheme">☀️</span>
+        </button> -->
+
+        <!-- Add Holiday -->
+        <button (click)="openConfirm()"
+          class="px-3 py-1 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
+          + Add Holiday
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 🧭 Filters -->
+ <section class="max-w-7xl mx-auto px-1 py-1">
+  <div class="flex items-center justify-between">
+
+    <!-- Segmented Control -->
+    <div class="inline-flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1">
+      <button
+        class="px-4 py-1.5 text-sm rounded-md"
+        [class.bg-white]="selectedFilter==='upcoming'"
+        (click)="selectedFilter='upcoming'; onFilterChange()"
+      >
+        Upcoming
+      </button>
+
+      <button
+        class="px-4 py-1.5 text-sm rounded-md"
+        [class.bg-white]="selectedFilter==='past'"
+        (click)="selectedFilter='past'; onFilterChange()"
+      >
+        Past
+      </button>
+
+      <button
+        class="px-4 py-1.5 text-sm rounded-md"
+        [class.bg-white]="selectedFilter==='all'"
+        (click)="selectedFilter='all'; onFilterChange()"
+      >
+        All
       </button>
     </div>
-  </div>
-  <!-- Header -->
-  <!-- <div class="px-6 py-4 border-b bg-gray-50">
-    <h2 class="text-lg font-semibold text-gray-700">Holiday List</h2>
-  </div> -->
 
-  <!-- Table -->
-  <div class="overflow-x-auto">
-    <table class="min-w-full text-left border-0 text-gray-700">
-      <thead class="bg-blue-700">
-        <tr class="text-sm font-semibold text-white text-center">
-          <th class="py-3 px-4 border-b">S.No.</th>
-          <th class="py-3 px-4 border-b">Date</th>
-          <th class="py-3 px-4 border-b">Day</th>
-          <th class="py-3 px-4 border-b">Holiday Name</th>
-          <th class="py-3 px-4 border-b">Type</th>
-          <th class="py-3 px-4 border-b">Applicable Locations</th>
-          <th class="py-3 px-4 border-b">Description</th>
-          <th class="py-3 px-4 border-b">Action</th>
+    <p class="text-xs text-gray-500">
+      Company & national holidays by location
+    </p>
+  </div>
+</section>
+
+  <!-- 📊 Content -->
+  <section class="max-w-7xl mx-auto  pb-1">
+
+    <!-- Desktop Table -->
+  <div class="max-w-7xl mx-auto px-6 pb-10">
+  <div class="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800">
+
+    <table class="w-full">
+      <thead class="bg-gray-50 dark:bg-gray-800">
+        <tr class="text-gray-600 dark:text-gray-300">
+          <th class="px-4 py-1 text-left">Date</th>
+          <th class="px-4 py-1">Day</th>
+          <th class="px-4 py-1 text-left">Holiday</th>
+          <th class="px-4 py-1">Type</th>
+          <th class="px-4 py-1">Locations</th>
+          <th class="px-4 py-1 text-left">Description</th>
+          <th class="px-4 py-1 text-right">Action</th>
         </tr>
       </thead>
 
-
-      <tbody class="divide-y">
-        <tr *ngIf="IsLoading">Loadding................</tr>
+      <tbody class="divide-y dark:divide-gray-800">
         @for (item of holidayList; track $index) {
-        <tr class="hover:bg-gray-50 transition duration-150 text-center">
-          <td class="py-3 px-4 text-sm">{{ $index +1}}</td>
-          <td class="py-3 px-4 text-sm">{{ item.date | date:"'d/M/yy"}}</td>
-          <!-- <td class="py-3 px-4 text-sm">{{ getDayName(item.date) }}</td> -->
-          <td class="py-3 px-4 text-sm"> {{ item.date| date:'EEEE' }}</td>
-          <td class="py-3 px-4 text-sm font-medium">{{ item.title }}</td>
-          <td class="py-3 px-4 text-sm">{{ item.type }}</td>
-          <td class="py-3 px-4 text-sm font-medium">
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+
+          <td class="px-4 py-3 font-medium">
+            {{ item.date | date:'dd MMM yyyy' }}
+          </td>
+
+          <td class="px-4 py-3 text-center text-gray-500">
+            {{ item.date | date:'EEE' }}
+          </td>
+
+          <td class="px-4 py-3">
+            {{ item.title }}
+          </td>
+
+          <td class="px-4 py-3 text-center">
+            <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 dark:bg-gray-700">
+              {{ item.type }}
+            </span>
+          </td>
+
+          <td class="px-4 py-3 text-center text-xs">
             {{ item.applicableLocations.join(', ') }}
           </td>
-          <td class="py-3 px-4 text-sm font-medium">{{ item.description }}</td>
-          <td class="py-3 px-4 text-sm font-medium">
 
-            <button class="bg-red-700 text-white p-1 px-2 rounded" (click)="removeHoliday(item._id)">
-              {{IsDeleting == item._id?'Deleting.....':"Delete"}}
-              <!-- <mat-icon color='danger' >delete</mat-icon> -->
+          <td class="px-4 py-3 text-gray-500 truncate max-w-xs">
+            {{ item.description }}
+          </td>
+
+          <td class="px-4 py-3 text-right">
+            <button
+              (click)="removeHoliday(item._id)"
+              class="text-xs text-red-600 hover:underline"
+            >
+              Delete
             </button>
           </td>
         </tr>
         }
       </tbody>
     </table>
+
   </div>
 </div>
 
-<app-modal [open]="confirmOpen" title="Add Holiday" (closed)="onClosed()">
-  <form [formGroup]="holidayForm" class="space-y-4 p-2">
-    <!-- Holiday Title -->
+
+    <!-- 📱 Mobile Cards -->
+    <div class="md:hidden space-y-4">
+      @for (item of holidayList; track $index) {
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 space-y-3">
+
+        <div class="flex justify-between items-start">
+          <h3 class="font-semibold">{{ item.title }}</h3>
+          <span class="text-xs px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+            {{ item.type }}
+          </span>
+        </div>
+
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          {{ item.date | date:'dd MMM yyyy' }} · {{ item.date | date:'EEEE' }}
+        </p>
+
+        <p class="text-sm">
+          <span class="font-medium">Locations:</span>
+          {{ item.applicableLocations.join(', ') }}
+        </p>
+
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          {{ item.description }}
+        </p>
+
+        <button (click)="removeHoliday(item._id)"
+          class="w-full py-2 mt-2 text-sm rounded bg-red-600 text-white hover:bg-red-700 transition">
+          Delete
+        </button>
+      </div>
+      }
+    </div>
+  </section>
+</div>
+
+
+<app-modal
+  [open]="confirmOpen"
+  title="Add Holiday"
+  (closed)="onClosed()"
+>
+
+  <form
+    [formGroup]="holidayForm"
+    class="px-6 py-2 space-y-4"
+  >
+
+    <!-- Section: Basic Info -->
     <div>
-      <label class="text-sm font-medium text-gray-700">Holiday Title</label>
-      <input type="text" formControlName="title" placeholder="Republic Day"
-        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+      <!-- <h3 class="text-sm font-semibold text-gray-700 mb-3">
+        Basic Information
+      </h3> -->
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- Holiday Title -->
+        <div>
+          <label class="text-xs font-medium text-gray-600">
+            Holiday Title
+          </label>
+          <input
+            type="text"
+            formControlName="title"
+            placeholder="e.g. Republic Day"
+            class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg
+                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                   text-sm"
+          />
+        </div>
+
+        <!-- Date -->
+        <div>
+          <label class="text-xs font-medium text-gray-600">
+            Date
+          </label>
+          <input
+            type="date"
+            formControlName="date"
+            class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg
+                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                   text-sm"
+          />
+        </div>
+
+      </div>
     </div>
 
-    <!-- Holiday Date -->
-    <div>
-      <label class="text-sm font-medium text-gray-700">Date</label>
-      <input type="date" formControlName="date"
-        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-    </div>
+ 
 
-    <!-- Holiday Type -->
-    <div class='flex justify-between'>
-      <!-- <label class="text-sm font-medium text-gray-700">Holiday Type</label> -->
-      <!-- <select
-        formControlName="type"
-        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-      >
-        <option value="">Select Type</option>
-        <option value="national">National Holiday</option>
-        <option value="company">Company Holiday</option>
-        <option value="optional">Optional Holiday</option>
-      </select> -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      <mat-form-field>
-        <mat-label>Holiday Type</mat-label>
-        <mat-select formControlName="type">
-          <mat-option>Select Type</mat-option>
-          <mat-option value="national">National Holiday</mat-option>
-          <mat-option value="company">Company Holiday</mat-option>
-          <mat-option value="optional">Optional Holiday</mat-option>
-          <!-- <mat-option value="option1">Option 1</mat-option>
-    <mat-option value="option2">Option 2</mat-option>
-    <mat-option value="option3">Option 3</mat-option> -->
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Applicable Locations</mat-label>
-        <mat-select formControlName="applicableLocations" multiple canSelectNullableOptions>
-          @for (topping of locationList; track topping) {
+        <!-- Holiday Type -->
+        <mat-form-field
+          appearance="outline"
+          class="w-full"
+        >
+          <mat-label>Holiday Type</mat-label>
 
-          <mat-option [value]="topping">{{topping}}</mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
-    </div>
+          <mat-select formControlName="type">
+            <mat-option value="" disabled>
+              Select Holiday Type
+            </mat-option>
+            <mat-option value="national">
+              National Holiday
+            </mat-option>
+            <mat-option value="company">
+              Company Holiday
+            </mat-option>
+            <mat-option value="optional">
+              Optional Holiday
+            </mat-option>
+          </mat-select>
+
+         
+        </mat-form-field>
+
+        <!-- Locations -->
+        <mat-form-field
+          appearance="outline"
+          class="w-full"
+        >
+          <mat-label>Applicable Locations</mat-label>
+
+          <mat-select
+            formControlName="applicableLocations"
+            multiple
+            canSelectNullableOptions
+          >
+            @for (location of locationList; track location) {
+              <mat-option [value]="location">
+                {{ location }}
+              </mat-option>
+            }
+          </mat-select>
+
+       
+        </mat-form-field>
+
+      </div>
+    
 
     <!-- Description -->
     <div>
-      <label class="text-sm font-medium text-gray-700">Description</label>
-      <textarea rows="3" formControlName="description" placeholder="Enter description"
-        class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+      <label class="text-xs font-medium text-gray-600">
+        Description
+      </label>
+      <textarea
+        rows="3"
+        formControlName="description"
+        placeholder="Optional notes about this holiday"
+        class="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg
+               focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+               text-sm resize-none"
+      ></textarea>
     </div>
 
-    <!-- Locations -->
-
-
-    <!-- <div>
-      <label class="text-sm font-medium text-gray-700">Applicable Locations</label>
-
-      <select    formControlName="applicableLocations" class="w-full border rounded-md p-2 mt-1 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        <option value="Mumbai">Mumbai</option>
-        <option value="Pune">Pune</option>
-        <option value="Indore">Indore</option>
-        <option value="Bhopal">Bhopal</option>
-        <option value="Remote">Remote</option>
-      </select>
-
-      <p class="text-xs text-gray-400 mt-1">Hold Ctrl to select multiple</p>
-    </div> -->
-
     <!-- Actions -->
-    <div modal-actions class="flex justify-end gap-3 pt-3">
-      <button class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600" type="button" (click)="onClosed()">
+    <div
+      class="flex justify-end gap-3 pt-5 border-t border-gray-200"
+    >
+      <button
+        type="button"
+        (click)="onClosed()"
+        class="px-4 py-2 text-sm rounded-lg
+               bg-gray-100 hover:bg-gray-200
+               text-gray-700 transition"
+      >
         Cancel
       </button>
 
-      <button class="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-800" type="button"
-        (click)="addHoliday()">
+      <button
+        type="button"
+        (click)="addHoliday()"
+        class="px-5 py-2 text-sm font-medium rounded-lg
+               bg-blue-600 hover:bg-blue-700
+               text-white shadow-sm transition"
+      >
         Add Holiday
       </button>
     </div>
+
   </form>
+
 </app-modal>
