@@ -8,7 +8,7 @@ export class API_ROUTES {
     create: `${this.BASE_URL}/employees`,
     get_list: `${this.BASE_URL}/employees`,
     getById: (id: string | number | null) => `${this.BASE_URL}/employees/${id}`,
-    update: (id: string | number) => `${this.BASE_URL}/employee/${id}`,
+    update: (id: string | number) => `${this.BASE_URL}/employees/${id}`,
   };
   holiday = {
     add: `${this.BASE_URL}/holidays`,

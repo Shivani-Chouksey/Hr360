@@ -1,31 +1,31 @@
 <main class="min-h-screen bg-slate-50">
 
   <div class="max-w-7xl mx-auto px-2 py-2">
-  <body class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+
+    <body class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
       <aside class="lg:col-span-3">
         <div class="bg-white rounded-2xl p-4 shadow-sm space-y-2">
           <button (click)="setActiveModule('profile')"
-            class="w-full flex align-middle justify-between items-center px-4 py-2 rounded-lg text-sm font-medium transition" [ngClass]="isActiveModule('profile')
+            class="w-full flex align-middle justify-between items-center px-4 py-2 rounded-lg text-sm font-medium transition"
+            [ngClass]="isActiveModule('profile')
       ? 'bg-blue-50 text-blue-700'
       : 'text-gray-600 hover:bg-gray-50'">
             Profile
-              <div class="flex gap-2">
-        <button *ngIf="!IsEmployeeDetailsEditable"
-          class="inline-flex items-center gap-2  text-gray-600  hover:bg-blue-700"
-          (click)="editProfile()">
-          <mat-icon class="text-white text-[4px]">edit</mat-icon>
-        </button>
+            <div class="flex gap-2">
+              <button *ngIf="!IsEmployeeDetailsEditable"
+                class="inline-flex items-center gap-2  text-gray-600  hover:bg-blue-700" (click)="editProfile()">
+                <mat-icon class="text-white text-[4px]">edit</mat-icon>
+              </button>
 
-        <ng-container *ngIf="IsEmployeeDetailsEditable">
-          <button class=" text-sm  text-red-500" (click)="CancelEditProfile()">
-           <mat-icon class=" text-[4px]">close</mat-icon>
-          </button>
-          <button class="text-sm  text-green-600"
-            (click)="CancelEditProfile()">
-           <mat-icon class="text-white text-[4px]">check</mat-icon>
-          </button>
-        </ng-container>
-      </div>
+              <ng-container *ngIf="IsEmployeeDetailsEditable">
+                <button class=" text-sm  text-red-500" (click)="CancelEditProfile()">
+                  <mat-icon class=" text-[4px]">close</mat-icon>
+                </button>
+                <button class="text-sm  text-green-600" (click)="onSaveClick()">
+                  <mat-icon class="text-white text-[4px]">check</mat-icon>
+                </button>
+              </ng-container>
+            </div>
           </button>
 
           <button (click)="setActiveModule('leave')"
@@ -37,7 +37,7 @@
         </div>
       </aside>
       <section class="lg:col-span-9">
-        
+
         @switch (activeModule) {
         <!-- @case ('attendance') {
     <app-basic-table [type]="'attendance'" [headers]="[
@@ -120,232 +120,64 @@
         @default {
         <div class="w-full">
           <!-- Tabs header -->
-          <div *ngIf="IsEmployeeDetailsEditable" class="tabHeaders mb-2 flex flex-wrap gap-2">
-
+          <div class="tabHeaders mb-2 flex flex-wrap gap-2" *ngIf="IsEmployeeDetailsEditable">
             <button type="button" (click)="setActiveTabFun('personal')" [attr.aria-selected]="isActive('personal')"
-              class="py-1 px-2 rounded border text-sm transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
               [ngClass]="
-                isActive('personal')
-                  ? 'bg-blue-600 text-white '
-                  : 'text-gray-600 hover:bg-gray-100 '
-              ">
-              Personal
+        isActive('personal')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
+              Personal Information
+            </button>
+            <button type="button" (click)="setActiveTabFun('company')" [attr.aria-selected]="isActive('company')"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [ngClass]="
+        isActive('company')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
+              Company
             </button>
 
             <button type="button" (click)="setActiveTabFun('professional')"
               [attr.aria-selected]="isActive('professional')"
-              class="py-2 px-4 rounded border text-sm transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
               [ngClass]="
-                isActive('professional')
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-transparent text-blue-700 border-blue-500'
-              ">
+        isActive('professional')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
               Professional Information
             </button>
 
             <button type="button" (click)="setActiveTabFun('documents')" [attr.aria-selected]="isActive('documents')"
-              class="py-2 px-4 rounded border text-sm transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
               [ngClass]="
-                isActive('documents')
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-transparent text-blue-700 border-blue-500'
-              ">
+        isActive('documents')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
               Documents
             </button>
 
             <button type="button" (click)="setActiveTabFun('account')" [attr.aria-selected]="isActive('account')"
-              class="py-2 px-4 rounded border text-sm transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
               [ngClass]="
-                isActive('account')
-                  ? 'bg-blue-600 text-white border-blue-600'
-                  : 'bg-transparent text-blue-700 border-blue-500'
-              ">
+        isActive('account')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
               Account Access
             </button>
           </div>
-
-          <!-- Tabs content -->
-          <div class="tabDetails rounded-lg bg-white shadow-sm p-2">
-            @switch (activeTab) {
-            @case ('professional') {
-            <div class="mx-auto rounded-xl">
-              <h1 class="text-xl font-semibold mb-1">Professional Information</h1>
-
-              <form>
-                <div formGroupName="professionalDetail" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input formControlName="employeeID" type="text" placeholder="Employee ID"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <input formControlName="userName" type="text" placeholder="User Name"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <select formControlName="employee_type"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <option value="">Select Employee Type</option>
-                    <option value="Contract">Contract</option>
-                    <option value="Permanent">Permanent</option>
-                  </select>
-
-                  <input formControlName="email" type="email" placeholder="Email Address"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <select formControlName="department"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <option value="">Select Department</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="HR">HR</option>
-                  </select>
-
-                  <input formControlName="designation" type="text" placeholder="Designation"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <select formControlName="working_days"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <option value="">Select Working Days</option>
-                    <option value="Mon-Fri">Mon–Fri</option>
-                    <option value="Mon-Sat">Mon–Sat</option>
-                  </select>
-
-                  <input formControlName="joining_date" type="date" placeholder="Select Joining Date"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <select formControlName="office_location"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <option value="">Select Office Location</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Pune">Pune</option>
-                  </select>
-                </div>
-              </form>
-            </div>
-            }
-
-            @case ('documents') {
-            <div>
-              <h1 class="text-lg font-semibold mb-2">Documents</h1>
-            </div>
-            }
-
-            @case ('account') {
-            <div class="mx-auto rounded-xl">
-              <h1 class="text-xl font-semibold mb-1">Account Access</h1>
-
-              <form>
-                <div formGroupName="accountDetail" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input formControlName="email" type="email" placeholder="Enter Email Address"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <input formControlName="slackId" type="text" placeholder="Enter Slack ID"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <input formControlName="skypeId" type="text" placeholder="Enter Skype ID"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                  <input formControlName="githubId" type="text" placeholder="Enter GitHub ID"
-                    class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                </div>
-              </form>
-            </div>
-            }
-
-            @default {
-            <div class="mx-auto rounded-xl">
-              <form>
-                <div formGroupName="personalDetail">
-                  <!-- Upload -->
-                  <div class="flex items-center mb-6 gap-4" *ngIf="IsEmployeeDetailsEditable">
-                    <div class="relative">
-                      <input name="profileImage" type="file" id="avatar-upload" accept="image/*" class="sr-only" />
-                      <label for="avatar-upload"
-                        class="group inline-flex h-20 w-20 items-center justify-center rounded bg-gray-200 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-300 transition cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                          class="h-7 w-7 transition-transform group-hover:scale-105" fill="none" viewBox="0 0 24 24"
-                          stroke="currentColor" stroke-width="1.8">
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3.75 7.5h2.636a2.25 2.25 0 0 0 2.012-1.244l.29-.58A2.25 2.25 0 0 1 10.95 4.5h2.1a2.25 2.25 0 0 1 2.262 1.176l.29.58A2.25 2.25 0 0 0 17.613 7.5H20.25A1.75 1.75 0 0 1 22 9.25v8A1.75 1.75 0 0 1 20.25 19H3.75A1.75 1.75 0 0 1 2 17.25v-8A1.75 1.75 0 0 1 3.75 7.5z" />
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 12.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                        </svg>
-                      </label>
-                    </div>
-                    <!-- <div *ngIf="!IsEmployeeDetailsEditable">
-                                    <p><span>Full Name :</span> {{LoggedInUserdetails.personalDetail.firstName }}
-                                        {{LoggedInUserdetails.personalDetail.lastName }}</p>
-                                    <p><span>Email :</span> {{LoggedInUserdetails.personalDetail.email }}</p>
-                                    <p><span>Contact Number :</span> {{LoggedInUserdetails.personalDetail.mobileNumber
-                                        }}</p>
-
-                                </div> -->
-                    <!-- <img *ngIf="avatarPreview()" [src]="avatarPreview()" alt="Avatar preview" class="h-20 w-20 rounded object-cover ring-1 ring-gray-300" /> -->
-                  </div>
-
-                  <!-- Inputs -->
-                  <div *ngIf="IsEmployeeDetailsEditable" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input formControlName="firstName" type="text" placeholder="First Name"
-                      [value]="LoggedInUserdetails?.personalDetail?.firstName"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                    <input formControlName="lastName" type="text" placeholder="Last Name"
-                      [value]="LoggedInUserdetails?.personalDetail?.lastName"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                    <input formControlName="mobileNumber" type="text" placeholder="Mobile Number"
-                      [value]="LoggedInUserdetails?.personalDetail?.mobileNumber"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                    <input formControlName="email" type="email" placeholder="Email Address"
-                      [value]="LoggedInUserdetails?.personalDetail?.email"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                    <input formControlName="dob" type="date" name="dob"
-                      [value]="LoggedInUserdetails?.personalDetail?.dob"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                    <select formControlName="maritalStatus" [value]="LoggedInUserdetails?.personalDetail?.maritalStatus"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                      <option value="">Marital Status</option>
-                      <option value="single">Single</option>
-                      <option value="engaged">Engaged</option>
-                      <option value="married">Married</option>
-                    </select>
-
-                    <select formControlName="gender" [value]="LoggedInUserdetails?.personalDetail?.gender"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                      <option value="">Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </select>
-
-                    <select formControlName="nationality" [value]="LoggedInUserdetails?.personalDetail?.nationality"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                      <option value="">Nationality</option>
-                      <option value="india">India</option>
-                      <option value="other">Other</option>
-                    </select>
-
-                    <input formControlName="address" type="text" placeholder="Address"
-                      [value]="LoggedInUserdetails?.personalDetail?.address"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none col-span-1 sm:col-span-2" />
-
-                    <input formControlName="city" type="text" placeholder="City"
-                      [value]="LoggedInUserdetails?.personalDetail?.city"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-
-                    <input formControlName="state" type="text" placeholder="State"
-                      [value]="LoggedInUserdetails?.personalDetail?.state"
-                      class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
-                  </div>
-                </div>
-              </form>
-            </div>
-            }
-            }
-            <app-employee-details *ngIf="employeeDetail$ | async as emp" [hidden]="IsEmployeeDetailsEditable"
-              [userDetails]="emp"></app-employee-details>
+          <div *ngIf="IsEmployeeDetailsEditable" class="tabDetails rounded-lg bg-white shadow-sm p-4">
+            <app-employee-form [activeTab]="activeTab" *ngIf="employeeDetail$ | async as emp" [employeeDetails]="emp"
+              (saveChanges)="updateEmployee($event)"></app-employee-form>
 
           </div>
-
+          <app-employee-details *ngIf="employeeDetail$ | async as emp" [hidden]="IsEmployeeDetailsEditable"
+            [userDetails]="emp"></app-employee-details>
         </div>
         }
         }
@@ -353,6 +185,7 @@
 
     </body>
   </div>
+
 
 
 </main>

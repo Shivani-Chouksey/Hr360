@@ -47,7 +47,7 @@ export const routes: Routes = [
                     { path: 'add', component: Add },
                     // { path: 'documents', component: EmployeeDocumentsComponent },
                     { path: 'profile/:id', component: Profile },
-                    { path: 'profile/edit/:name', component: Profile },
+                    { path: 'profile/edit/:id', component: Profile },
                 ]
             },
               {

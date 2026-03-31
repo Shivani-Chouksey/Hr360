@@ -1,30 +1,33 @@
 import { AsyncPipe, NgClass, NgIf, TitleCasePipe, NgForOf } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BasicTable, TableHeader } from '../../../common/basic-table/basic-table';
 import { EmployeeDetails } from '../../../components/employee-details/employee-details';
 import { Employee } from '../../../service/employee';
 import { Leave } from '../../../service/leave';
-import { map, Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { MatIcon } from "@angular/material/icon";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatOption } from "@angular/material/select";
+import { EmployeeForm } from "../../../components/employee-form/employee-form";
 
 @Component({
   selector: 'app-profile',
-  imports: [NgClass, BasicTable, NgIf, EmployeeDetails, AsyncPipe, TitleCasePipe, NgForOf, MatIcon],
+  imports: [NgClass, BasicTable, NgIf, EmployeeDetails, AsyncPipe, TitleCasePipe, NgForOf, MatIcon, ReactiveFormsModule, MatFormField, MatLabel, MatOption, EmployeeForm],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
 export class Profile implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private Employee_Service: Employee,
-    private LeaveService:Leave,
-    private cdr: ChangeDetectorRef 
-  ) {}
+    private LeaveService: Leave,
+  ) { }
   LoggedInUserdetails: any;
   isLoading = false;
-
+  activeTab: 'personal' | 'professional' | 'documents' | 'account' | 'company' = 'personal';
+  activeModule: 'profile' | 'attendance' | 'projects' | 'leave' = 'profile';
   headers: TableHeader[] = [
     { key: 'name', label: 'Name', width: '30%' },
     { key: 'date', label: 'Date', width: '30%' },
@@ -35,46 +38,30 @@ export class Profile implements OnInit {
     { id: 1, name: 'Asha', date: '2026-02-19', status: 'Present' },
     { id: 2, name: 'Rahul', date: '2026-02-19', status: 'Absent' },
   ];
-  employee_ID: string | null = null;
+  employee_ID!: string;
   EmployeeDetail: any;
   IsEmployeeDetailsEditable: boolean = false;
-  MyleaveHistory:any
-employeeDetail$!: Observable<any>;
+  MyleaveHistory: any
+  employeeDetail$!: Observable<any>;
 
   ngOnInit() {
     console.log('NgOnInIt work-------------');
     this.isLoading = true;
-    this.IsEmployeeDetailsEditable =
-      this.activatedRoute.snapshot.url[1].path == 'edit' ? true : false;
-    // this.employee_ID = this.activatedRoute.snapshot.paramMap.get('id');
-    // console.log('Employee Id ', this.employee_ID);
-    // if (this.employee_ID) {
-    //   this.Employee_Service.GetEmployeeById(this.employee_ID).subscribe({
-    //     next: (res) => {
-    //       console.log('Service Response:', res);
-    //       this.EmployeeDetail = {...res};
-    //       this.cdr.detectChanges();
-    //       this.isLoading = false;
-    //     },
-    //     error: (err) => {
-    //       console.error('Error fetching employee:', err);
-    //       this.isLoading = false;
-    //     },
-    //   });
-    // } else {
-    //   console.warn('Employee ID not found in route');
-    // }
-
-
- this.employeeDetail$ = this.activatedRoute.paramMap.pipe(
+    this.IsEmployeeDetailsEditable = this.activatedRoute.snapshot.url[1].path == 'edit' ? true : false;
+    this.employeeDetail$ = this.activatedRoute.paramMap.pipe(
       switchMap(params => {
         const id = params.get('id')!;
+        this.employee_ID = id
         return this.Employee_Service.GetEmployeeById(id);
       }),
-      map(res => ({ ...res })) // ✅ ensure new reference for OnPush
+      tap((employee: any) => {
+        // this.mapEmployeeToForm(employee);
+        this.isLoading = false;
+      })
     );
 
-      this.LeaveService.getMyLeaves().subscribe({
+    ;
+    this.LeaveService.getMyLeaves().subscribe({
       next: (res) => {
         this.MyleaveHistory = res.data
         console.log("MY Leave History", this.MyleaveHistory);
@@ -83,15 +70,13 @@ employeeDetail$!: Observable<any>;
         console.log(err);
       }
     })
-    // this.EmployeeDetail = this.employeeList.find((emp) => emp.professionalDetail.employeeID === this.employee_ID);
   }
 
-  activeTab: 'personal' | 'professional' | 'documents' | 'account' = 'personal';
-  activeModule: 'profile' | 'attendance' | 'projects' | 'leave' = 'profile';
-  setActiveTabFun(val: 'personal' | 'professional' | 'documents' | 'account') {
+
+  setActiveTabFun(val: 'personal' | 'professional' | 'documents' | 'account' | 'company') {
     this.activeTab = val;
   }
-  
+
   setActiveModule(val: 'profile' | 'attendance' | 'projects' | 'leave') {
     this.activeModule = val;
   }
@@ -104,12 +89,26 @@ employeeDetail$!: Observable<any>;
   }
   editProfile() {
     this.IsEmployeeDetailsEditable = true;
+
   }
   CancelEditProfile() {
     this.IsEmployeeDetailsEditable = false;
     this.activeTab = 'personal';
   }
 
+  @ViewChild(EmployeeForm)
+  employeeFormComponent!: EmployeeForm;
 
-  
+  updateEmployee(changedPayload: any): void {
+    this.Employee_Service
+      .UpdateEmployeeDetails(this.employee_ID, changedPayload)
+      .subscribe(() => {
+        console.log('Employee updated');
+        this.IsEmployeeDetailsEditable = false
+      });
+  }
+
+  onSaveClick() {
+    this.employeeFormComponent.UpdateEmployeeDetails();
+  }
 }

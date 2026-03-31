@@ -58,4 +58,8 @@ export class Employee {
       return throwError(()=>err)
     }))
   }
+
+  UpdateEmployeeDetails(id:string,data:any){
+    return this.http.patch<ApiEnvelope<any>>(this.route.employee.update(id),data)
+  }
 }

@@ -1,12 +1,13 @@
 import { Component, HostListener } from '@angular/core';
-import { Router, RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
+import { NavigationEnd, Router, RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
 import { navJsonObject } from '../../config/nav-data'
 import { CommonModule } from '@angular/common';
 import { LocalStorageService } from '../service/localstorage';
+import { filter } from 'rxjs';
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.html',
-  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive,CommonModule],
+  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule],
 })
 export class MainLayout {
   mobileSidebarOpen = false;
@@ -19,16 +20,48 @@ export class MainLayout {
 
   private openGroups = new Set<string>();
   private openItems = new Set<string>();
-   LoggedInUserDetail:any
-constructor(private localStorageService:LocalStorageService , private router:Router){}
+  LoggedInUserDetail: any
+  constructor(private localStorageService: LocalStorageService, private router: Router) { }
   ngOnInit() {
     const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
-    this.LoggedInUserDetail=LoggedInUser
-console.log("LoggedInUser",LoggedInUser);
-console.log("include",['hr', 'admin'].includes(this.LoggedInUserDetail?.role));
-
-    console.log("navJsonObject",navJsonObject);
+    this.LoggedInUserDetail = LoggedInUser
+    console.log("LoggedInUser", LoggedInUser);
     this.onResize();
+
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.setPageTitle(event.urlAfterRedirects);
+      });
+
+
+  }
+
+  private setPageTitle(url: string): void {
+    switch (url) {
+      case '/leave':
+        this.pageTitle = 'Leave Management';
+        break;
+      case '/holidays':
+        this.pageTitle = 'Holidays List';
+        break;
+
+      case '/employee/add':
+        this.pageTitle = 'Add New Employee';
+        break;
+      case '/employee/list':
+        this.pageTitle = 'Employee List';
+        break;
+      case '/employee/profile':
+        this.pageTitle = 'My Profile';
+        break;
+
+      case '/dashboard':
+        this.pageTitle = 'Dashboard';
+        break;
+
+      default:
+        this.pageTitle = 'Dashboard';
+    }
   }
 
   @HostListener('window:resize')
@@ -66,6 +99,6 @@ console.log("include",['hr', 'admin'].includes(this.LoggedInUserDetail?.role));
   onLogout() {
     console.log('Logout');
     this.localStorageService.clear();
-this.router.navigateByUrl('/login')
+    this.router.navigateByUrl('/login')
   }
 }

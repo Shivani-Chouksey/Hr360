@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Employee } from '../../../service/employee';
 import { NgForOf } from '@angular/common';
@@ -8,6 +8,7 @@ import { NgForOf } from '@angular/common';
   imports: [NgForOf],
   templateUrl: './list.html',
   styleUrl: './list.css',
+  // changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class List implements OnInit {
   employeeListData: any[] = [];
@@ -16,12 +17,14 @@ export class List implements OnInit {
   constructor(
     private router: Router,
     private employee_service: Employee,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.employee_service.GetEmployeeList().subscribe({
       next: (EMP_list: any) => {
         this.employeeListData = EMP_list;
+        this.cdr.markForCheck()
         this.isLoading = false;
       },
       error: (err: any) => {
