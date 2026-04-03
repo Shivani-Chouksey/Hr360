@@ -90,6 +90,21 @@ export class MainLayout {
     return this.openItems.has(key);
   }
 
+openUserMenu(event: MouseEvent): void {
+    event.stopPropagation(); // ✅ keep menu open
+    this.userMenuOpen = true;
+  }
+
+  /** ✅ Optimistic global close */
+  @HostListener('document:click')
+  closeMenu(): void {
+    this.userMenuOpen = false;
+  }
+
+gotoProfile(id:string){
+  this.userMenuOpen=false
+ this.router.navigate(['employee/profile', id]);
+}
   onSearch(q: string) {
     // Hook into a search service / route
     // this.router.navigate(['/search'], { queryParams: { q } });

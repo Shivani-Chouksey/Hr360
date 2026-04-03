@@ -1,15 +1,15 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { LeaveDialog, LeaveDialogData, LeaveDialogResult } from '../leave-dialog/leave-dialog';
+import { LeaveDialog, LeaveDialogData } from '../leave-dialog/leave-dialog';
 import { ModalComponent } from "../../../common/modal/modal";
 import { MatRadioGroup, MatRadioButton } from "@angular/material/radio";
-import { MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
-import { MatInput, MatInputModule } from "@angular/material/input";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
 import { Cards } from "../../../components/leave/cards/cards";
 import { Leave } from '../../../service/leave';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +17,9 @@ import { Employee } from '../../../service/employee';
 import { LocalStorageService } from '../../../service/localstorage';
 import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
+import { BehaviorSubject, forkJoin } from 'rxjs';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSelect, MatOption } from "@angular/material/select";
 
 export interface LeaveRow {
   appliedOn: Date;
@@ -47,10 +50,13 @@ export interface LeaveRow {
     MatInput,
     Cards,
     FormsModule,
-MatBadgeModule
+    MatBadgeModule,
+    MatPaginator,
+    MatSelect,
+    MatOption
   ],
   templateUrl: './apply.html',
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./apply.css'],
 })
 export class Apply implements OnInit {
@@ -83,6 +89,7 @@ export class Apply implements OnInit {
 
   approvalDisplayedColumns: string[] = [
     'EmployeeName',
+    'status',
     'leaveReason',
     'appliedOn',
     'from',
@@ -90,9 +97,16 @@ export class Apply implements OnInit {
     'type',
     'totalDays',
     'dayType',
-    'status',
     'action',
 
+  ];
+
+  statusTypes: string[] = [
+    'pending',
+    'approved',
+    'rejected',
+    'cancelled',
+    'withdrawn'
   ];
 
   dataSource = new MatTableDataSource<LeaveRow>([]);
@@ -102,105 +116,56 @@ export class Apply implements OnInit {
   MyApprovalReq: LeaveRow[] = []
   loggerInUserDetails!: any
   @ViewChild(MatSort) sort!: MatSort;
-
-
-  constructor(private LeaveService: Leave, private EmoloyeeService: Employee, private localStorageService: LocalStorageService) { }
+  constructor(private LeaveService: Leave, private EmoloyeeService: Employee, private localStorageService: LocalStorageService, private cd: ChangeDetectorRef) { }
 
 
   ngOnInit(): void {
-    const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
+    this.approvalDataSource.filterPredicate = (
+      data: any,
+      filter: string
+    ): boolean => {
+      const searchTerm = JSON.parse(filter).search;
+      if (!searchTerm) return true;
 
-    this.LeaveService.getLeaveHistroy().subscribe({
-      next: (res) => {
-        console.log("Leave History", res);
-        this.leaveHistory = res.data;
-        this._snackBar.open(res?.message, 'ok', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
+      return (
+        data.employeeName?.toLowerCase().includes(searchTerm) ||
+        data.status?.toLowerCase().includes(searchTerm)
+      );
+    };
 
-        })
-      },
-      error: (err) => {
-        console.log(err);
-
-        this._snackBar.open(err.error.message, 'close', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-
-        });
-      }
-    })
-    this.LeaveService.getMyLeavesBalance().subscribe({
-      next: (res) => {
-        console.log("My Leave balance", res);
-        this.leaveBalancesdata = res.data;
-        this._snackBar.open(res?.message, 'ok', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-
-        })
-      },
-      error: (err) => {
-        console.log(err);
-
-        this._snackBar.open(err.error.message, 'close', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-
-        });
-      }
-    })
-    this.LeaveService.getMyApprovalReq().subscribe({
-      next: (res) => {
-        console.log(res.data);
-
-        this.MyApprovalReq = res.data
-        this.approvalDataSource.data = res.data;
-        this.showSnackBar(res?.message)
-        console.log("getMyApprovalReq", this.MyApprovalReq);
-
-      },
-      error: (err) => {
-        console.log(err);
-        this.showSnackBar(err.error.message)
-      }
-    })
-    this.LeaveService.getMyLeaves().subscribe({
-      next: (res) => {
-        this.MyleaveHistory = res.data
-        this.dataSource.data = res.data;
-        this.showSnackBar(res?.message)
-        console.log("MY Leave History", this.MyleaveHistory);
-
-      },
-      error: (err) => {
-        console.log(err);
-        this.showSnackBar(err.error.message)
-      }
-    })
-    this.EmoloyeeService.GetEmployeeById(LoggedInUser.id).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.loggerInUserDetails = res
-      },
-      error: (err) => {
-        console.log(err);
-
-        this._snackBar.open(err.error.message, 'close', {
-          duration: 3000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-
-        });
-      }
-    })
+    this.dataSource.filterPredicate = (data: any, filter: string) :boolean=> {
+      const filters = JSON.parse(filter);
+      if (!filters) return true;
+      // console.log("filter for leave Req",filters,data);
+      console.log(data.status.toLowerCase().includes(filters.status));
+      return data.status.toLowerCase().includes(filters.status);
+    };
+    this.loadInitailData();
   }
+  approvalReqMetaInfo: { total: number, page: number, limit: number, totalPages: number } = { total: 0, page: 0, limit: 0, totalPages: 0 }
+  leaveReqMetaInfo: { total: number, page: number, limit: number, totalPages: number } = { total: 0, page: 0, limit: 0, totalPages: 0 }
 
 
+  loadInitailData() {
+    const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
+    forkJoin({
+      balance: this.LeaveService.getMyLeavesBalance(),
+      leaves: this.LeaveService.getMyLeaves(),
+      approvals: this.LeaveService.getMyApprovalReq(),
+      history: this.LeaveService.getLeaveHistroy(),
+      user: this.EmoloyeeService.GetEmployeeById(LoggedInUser.id)
+    }).subscribe(res => {
+      this.leaveBalancesdata = res.balance.data;
+      this.dataSource.data = res.leaves.data;
+      this.leaveReqMetaInfo = res.leaves.pagination;
+      this.approvalDataSource.data = res.approvals.data;
+      this.approvalReqMetaInfo = res.approvals?.pagination
+      this.leaveHistory = res.history.data;
+      this.loggerInUserDetails = res.user;
+
+      this.cd.markForCheck();
+    });
+  }
   open(): void {
     this.dialog.open(LeaveDialog, {
       width: '720px',
@@ -246,24 +211,29 @@ export class Apply implements OnInit {
       }
     })
   }
-  approverModalType: string = ''
-  IsApproverModalOpen: boolean = false
+  approverModalType: 'approved' | 'rejected' | '' = ''
+  private editModeSubject = new BehaviorSubject<boolean>(false);
+  IsApproverModalOpen$ = this.editModeSubject.asObservable();
+  // IsApproverModalOpen: boolean = false
   approverRemark: string = ''
   selectedReqId: string = ''
   openApproverModal(action: 'approved' | 'rejected', reqID: string) {
     this.approverModalType = action
-    this.IsApproverModalOpen = true
+    this.editModeSubject.next(true)
+    // this.IsApproverModalOpen = true
     this.selectedReqId = reqID
   }
   closeApproverModal() {
     this.approverModalType = ''
-    this.IsApproverModalOpen = false
+    // this.IsApproverModalOpen = false
+    this.editModeSubject.next(false)
   }
   submitApproverAction() {
     console.log("approverRemark", this.approverRemark);
     this.LeaveService.acceptRejectReq(this.selectedReqId, { status: this.approverModalType, remarks: this.approverRemark }).subscribe({
       next: (res) => {
         console.log("submitApproverAction response : ", res);
+        this.updateApprovalRow(this.approverModalType, this.approverRemark);
         this.closeApproverModal()
         this.showSnackBar(res.message)
       },
@@ -273,6 +243,59 @@ export class Apply implements OnInit {
         this.showSnackBar(err.error.message)
       }
     })
+
+  }
+  private updateApprovalRow(
+    status: 'approved' | 'rejected' | '',
+    remarks: string
+  ) {
+    const updatedData = this.approvalDataSource.data.map(row => {
+      if (row._id === this.selectedReqId) {
+        return {
+          ...row,
+          status,
+          approverInfo: {
+            ...row.approverInfo,
+            remarks,
+            actionAt: new Date()
+          }
+        };
+      }
+      return row;
+    });
+
+    this.approvalDataSource.data = updatedData;
+  }
+
+
+  filterValues = {
+    search: '',
+    status: ''
+  };
+
+  applySearch(value: string) {
+    console.log("value inside applySearch", value);
+
+    this.filterValues.search = value.trim().toLowerCase();
+    this.approvalDataSource.filter = JSON.stringify(this.filterValues);
+
+
+    // ✅ Pagination reset (important)
+    if (this.approvalDataSource.paginator) {
+      this.approvalDataSource.paginator.firstPage();
+    }
+
+  }
+  selected: string = ' ';
+  applyStatusFilter(value: string) {
+    console.log("applyStatusFilter", value);
+
+    this.filterValues.status = value ?? ' ';
+    this.dataSource.filter = JSON.stringify({status:value});
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
 
   }
 }

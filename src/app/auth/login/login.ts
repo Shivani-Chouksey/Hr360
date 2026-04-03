@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormsModule, NgForm, Validators } from '@angula
 import { AuthService } from '../auth';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router, Routes } from '@angular/router';
 import { LocalStorageService } from '../../service/localstorage';
 
 @Component({
@@ -12,6 +12,9 @@ import { LocalStorageService } from '../../service/localstorage';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
+
+
+
 export class Login {
   constructor(private authService: AuthService, private route: Router, private localStorageService: LocalStorageService) { }
   hasOtp = true
@@ -44,6 +47,7 @@ export class Login {
   verifyingOtp = false;
 
   maskedEmail: string | null = null;
+  email: string | null = null;
   resendCooldown = 0;
   private resendTimer?: any;
 
@@ -57,39 +61,68 @@ export class Login {
   sendOtpHandler(form: any) {
     if (form.invalid) return;
     this.sendingOtp = true;
-
     const email: string = form.value.email;
+    this.email = email
     this.maskedEmail = this.maskEmail(email);
-
-    // TODO: call your API to send OTP
-    // this.auth.sendOtp(email).subscribe( ... )
-    setTimeout(() => {
-      this.otpSent = true;
-      this.sendingOtp = false;
-      this.startResendCooldown(30); // seconds
-    }, 800);
+    this.authService.SendOtp({ email }).subscribe({
+      next: (res) => {
+        console.log("Login Res", res);
+        this._snackBar.open(res.message, 'OK', {
+          duration: 3000,
+        });
+        this.sendingOtp = false
+        this.otpSent = true
+        console.log(this.sendingOtp, this.otpSent);
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open(err.message, 'OK', {
+          duration: 3000,
+        });
+      }
+    })
+   
   }
 
   verifyOtpHandler(form: any) {
     if (form.invalid) return;
     this.verifyingOtp = true;
-
+    this.authService.VerifyOtp({ email: this.email, otp: form.value.otp }).subscribe({
+      next: (res) => {
+        console.log("VerifyOtp Res", res);
+        this._snackBar.open(res.message, 'OK', {
+          duration: 3000,
+        });
+        this.sendingOtp = false
+        this.otpSent = true
+        console.log(this.sendingOtp, this.otpSent);
+        this.localStorageService.set("accessToken", res.data.accessToken, res.data.expiresIn);
+        this.localStorageService.set("loggedIn_user", res.data.employee, res.data.expiresIn);
+        this.route.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.log(err);
+        this._snackBar.open(err.message, 'OK', {
+          duration: 3000,
+        });
+      }
+    })
     // TODO: call your API to verify OTP
     // this.auth.verifyOtp({ email, otp: form.value.otp })...
-    setTimeout(() => {
-      this.otpVerified = true;
-      this.verifyingOtp = false;
-      // Navigate or continue session
-    }, 800);
+    // setTimeout(() => {
+    //   this.otpVerified = true;
+    //   this.verifyingOtp = false;
+    //   // Navigate or continue session
+    // }, 800);
   }
 
-  resendOtp() {
-    if (this.resendCooldown > 0) return;
+resendOtp() {
+  if (this.resendCooldown > 0) return;
+
+  queueMicrotask(() => {
     this.startResendCooldown(30);
-
-    // TODO: call API to resend
-    // this.auth.resendOtp(...)
-  }
+  });
+}
 
   resetOtpFlow() {
     this.otpSent = false;
@@ -99,22 +132,41 @@ export class Login {
     this.resendCooldown = 0;
   }
 
-  private startResendCooldown(seconds: number) {
-    this.resendCooldown = seconds;
-    this.clearResendTimer();
-    this.resendTimer = setInterval(() => {
+  // private startResendCooldown(seconds: number) {
+  //   this.resendCooldown = seconds;
+  //   this.clearResendTimer();
+  //   this.resendTimer = setInterval(() => {
+  //     this.resendCooldown--;
+  //     if (this.resendCooldown <= 0) this.clearResendTimer();
+  //   }, 1000);
+  // }
+
+private startResendCooldown(seconds: number) {
+  this.resendCooldown = seconds;
+  this.clearResendTimer();
+
+  this.resendTimer = setInterval(() => {
+    if (this.resendCooldown > 0) {
       this.resendCooldown--;
-      if (this.resendCooldown <= 0) this.clearResendTimer();
-    }, 1000);
-  }
-
-  private clearResendTimer() {
-    if (this.resendTimer) {
-      clearInterval(this.resendTimer);
-      this.resendTimer = undefined;
     }
-  }
 
+    if (this.resendCooldown === 0) {
+      this.clearResendTimer();
+    }
+  }, 1000);
+}
+  // private clearResendTimer() {
+  //   if (this.resendTimer) {
+  //     clearInterval(this.resendTimer);
+  //     this.resendTimer = undefined;
+  //   }
+  // }
+private clearResendTimer() {
+  if (this.resendTimer) {
+    clearInterval(this.resendTimer);
+    this.resendTimer = undefined;
+  }
+}
   maskEmail(email: string): string {
     const [name, domain] = email.split('@');
     const maskedName = name.length <= 2 ? name[0] + '*' : name[0] + '*'.repeat(name.length - 2) + name.slice(-1);
@@ -122,3 +174,7 @@ export class Login {
   }
 
 }
+
+const routes: Routes = [
+  { path: '', component: Login }
+]

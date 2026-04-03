@@ -12,6 +12,7 @@ import { Employee } from './ui/employee/employee';
 import { List } from './ui/employee/list/list';
 import { Add } from './ui/employee/add/add';
 import { Profile } from './ui/employee/profile/profile';
+import { TeamMember } from './ui/employee/team-member/team-member';
 
 
 
@@ -29,6 +30,7 @@ export const routes: Routes = [
 
     // Public routes (no layout)
     { path: 'login', component: Login, canMatch: [noAuthGuard] },
+    // { path: 'login', loadChildren:()=>import('./auth/login/login').then(m=>m.Login), canMatch: [noAuthGuard] },
 
     // Private routes wrapped by MainLayout shell
     {
@@ -48,6 +50,7 @@ export const routes: Routes = [
                     // { path: 'documents', component: EmployeeDocumentsComponent },
                     { path: 'profile/:id', component: Profile },
                     { path: 'profile/edit/:id', component: Profile },
+                    { path: 'team-member/:id', component: TeamMember },
                 ]
             },
               {

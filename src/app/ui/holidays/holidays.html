@@ -56,11 +56,14 @@
         </button>
       </div>
 
+
+      @if (loggedInUserDetails.role=='Admin') {
       <button (click)="openConfirm()" class="inline-flex items-center gap-2 px-4 py-2
              text-sm font-medium rounded-lg
               border-2 border-blue-600">
         + Add Holiday
       </button>
+      }
 
     </div>
 
@@ -82,7 +85,11 @@
               <th class="px-3 py-2 text-center">Type</th>
               <th class="px-3 py-2 text-center">Locations</th>
               <th class="px-3 py-2 text-left">Description</th>
+              @if (loggedInUserDetails.role=='Admin') {
               <th class="px-3 py-2 text-right">Action</th>
+              }
+
+
             </tr>
           </thead>
 
@@ -119,11 +126,14 @@
                 {{ item.description }}
               </td>
 
+              @if (loggedInUserDetails.role=='Admin') {
               <td class="px-3 py-2 text-right">
                 <button (click)="removeHoliday(item._id)" class="text-sm text-red-600 hover:underline">
                   Delete
                 </button>
               </td>
+              }
+
             </tr>
             }
           </tbody>
@@ -279,5 +289,7 @@ mat-mdc-form-field">
              shadow-sm transition">
       Add Holiday
     </button>
+
+
   </div>
 </app-modal>

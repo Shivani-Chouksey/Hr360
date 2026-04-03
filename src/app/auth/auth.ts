@@ -15,7 +15,14 @@ export class AuthService {
   loginService(data: FormData) {
     console.log("authService", data);
   return  this.http.post<ApiEnvelope<any>>(this.api_routes.Login,data)
-    localStorage.setItem("isLoggedIn", "true");
-    this.route.navigate(['/dashboard']);
+  
   }
+
+SendOtp(data:any){
+  return this.http.post<ApiEnvelope<any>>(this.api_routes.send_otp,data)
+}
+
+VerifyOtp(data:any){
+  return this.http.post<ApiEnvelope<any>>(this.api_routes.verify_otp,data)
+}
 }

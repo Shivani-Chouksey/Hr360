@@ -9,7 +9,8 @@ import { LocalStorageService } from './localstorage';
 interface ApiEnvelope<T> {
   data: T;
   message: string;
-  statusCode:number
+  statusCode:number;
+  pagination:any
 }
 @Injectable({
   providedIn: 'root',

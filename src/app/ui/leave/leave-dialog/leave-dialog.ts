@@ -56,12 +56,10 @@ export interface LeaveDialogResult {
   attachment?: File | null; // optional, demo placeholder
   totalDays: number;        // computed
 }
-
 @Component({
   selector: 'app-leave-dialog',
   standalone: true,
   imports: [
-    //  MatFormFieldModule, MatInputModule, MatDatepickerModule,
     CommonModule,
     MatDialogModule,
     ReactiveFormsModule,
@@ -87,10 +85,6 @@ export class LeaveDialog {
     { value: 'casual', label: 'Casual Leave' },
     { value: 'compOff', label: 'Comp Off' },
   ];
-  applyTo = [
-    { value: 'manager', label: 'Manager' },
-    { value: 'teamLead', label: 'Team Lead' },
-  ]
 
 dayeTypesJson=[
    { value: 'full-day', label: 'full-day' },
@@ -117,17 +111,6 @@ dayeTypesJson=[
   minDate = this.data?.minDate ?? undefined;
   maxDate = this.data?.maxDate ?? undefined;
 
-  // get totalDays(): number {
-  //   const { startDate, endDate, halfDay } = this.form.value;
-  //   if (!(startDate instanceof Date) || !(endDate instanceof Date)) return 0;
-  //   // normalize to midnight
-  //   const s = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-  //   const e = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
-  //   const msPerDay = 24 * 60 * 60 * 1000;
-  //   const diff = Math.floor((e.getTime() - s.getTime()) / msPerDay) + 1;
-  //   const days = diff > 0 ? diff : 0;
-  //   return halfDay ? Math.max(days - 0.5, 0.5) : days; // half-day applies to the whole request simplistically
-  // }
   private _snackBar = inject(MatSnackBar);
   submit() {
     if (this.leaveForm.invalid) {
@@ -141,8 +124,6 @@ dayeTypesJson=[
       toDate: v.endDate,
       dayType: v.dayType,
       reason: v.reason,
-      // attachment: v.attachment ?? null,
-      // totalDays: this.totalDays,
     };
     console.log(result);
     this.LeaveService.applyLeave(result).subscribe({
@@ -172,12 +153,4 @@ dayeTypesJson=[
   cancel() {
     this.dialogRef.close();
   }
-
-  // Optional: Keep endDate >= startDate
-  // onStartChange(date: Date | null) {
-  //   const end = this.form.value.endDate;
-  //   if (date && end && end < date) {
-  //     this.form.patchValue({ endDate: date });
-  //   }
-  // }
 }

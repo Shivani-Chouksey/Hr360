@@ -1,126 +1,43 @@
 <main class="min-h-screen bg-slate-50">
+  <mat-tab-group cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)"
+    cdkDropListElementContainer=".mat-mdc-tab-labels" class="example-drag-tabs" [(selectedIndex)]="selectedTabIndex"
+    animationDuration="0">
+    @for (tab of tabs; track $index) {
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span cdkDrag cdkDragPreviewClass="example-drag-tabs-preview" cdkDragRootElement=".mat-mdc-tab">{{tab}}</span>
 
-  <div class="max-w-7xl mx-auto px-2 py-2">
-
-    <body class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
-      <aside class="lg:col-span-3">
-        <div class="bg-white rounded-2xl p-4 shadow-sm space-y-2">
-          <button (click)="setActiveModule('profile')"
-            class="w-full flex align-middle justify-between items-center px-4 py-2 rounded-lg text-sm font-medium transition"
-            [ngClass]="isActiveModule('profile')
-      ? 'bg-blue-50 text-blue-700'
-      : 'text-gray-600 hover:bg-gray-50'">
-            Profile
-            <div class="flex gap-2">
-              <button *ngIf="!IsEmployeeDetailsEditable"
-                class="inline-flex items-center gap-2  text-gray-600  hover:bg-blue-700" (click)="editProfile()">
-                <mat-icon class="text-white text-[4px]">edit</mat-icon>
-              </button>
-
-              <ng-container *ngIf="IsEmployeeDetailsEditable">
-                <button class=" text-sm  text-red-500" (click)="CancelEditProfile()">
-                  <mat-icon class=" text-[4px]">close</mat-icon>
-                </button>
-                <button class="text-sm  text-green-600" (click)="onSaveClick()">
-                  <mat-icon class="text-white text-[4px]">check</mat-icon>
-                </button>
-              </ng-container>
-            </div>
+        @if (tab==='Profile' && IsLoggedInUserMatch) {
+        <div class="flex gap-2 ms-2">
+          @if (IsEmployeeDetailsEditable$ | async) {
+          <ng-container>
+            <button class=" text-sm  text-red-500" (click)="CancelEditProfile()">
+              <mat-icon class=" text-[4px]">close</mat-icon>
+            </button>
+            <button class="text-sm  text-green-600" [disabled]="employeeFormComponent?.employeeForm?.pristine"
+              (click)="onSaveClick()">
+              <mat-icon class="text-white text-[4px]">check</mat-icon>
+            </button>
+          </ng-container>
+          }@else {
+          <button class="inline-flex items-center gap-2  text-gray-600  hover:bg-blue-700" (click)="editProfile()">
+            <mat-icon class="text-white text-[4px]">edit</mat-icon>
           </button>
 
-          <button (click)="setActiveModule('leave')"
-            class="w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition" [ngClass]="isActiveModule('leave')
-      ? 'bg-blue-50 text-blue-700'
-      : 'text-gray-600 hover:bg-gray-50'">
-            Leave
-          </button>
+          }
+
         </div>
-      </aside>
-      <section class="lg:col-span-9">
-
-        @switch (activeModule) {
-        <!-- @case ('attendance') {
-    <app-basic-table [type]="'attendance'" [headers]="[
-            { key: 'employee', label: 'Employee' },
-            { key: 'date', label: 'Date' },
-            { key: 'status', label: 'Status', align: 'center' },
-            { key: 'checkIn', label: 'Check-In' },
-            { key: 'checkOut', label: 'Check-Out' },
-          ]" [data]="[
-            {
-              id: 1,
-              employee: 'Asha Kumar',
-              date: '2026-02-18',
-              status: 'Present',
-              checkIn: '09:10 AM',
-              checkOut: '06:15 PM',
-            },
-            {
-              id: 2,
-              employee: 'Rahul Verma',
-              date: '2026-02-18',
-              status: 'Absent',
-              checkIn: '-',
-              checkOut: '-',
-            },
-            {
-              id: 3,
-              employee: 'Nikita Sharma',
-              date: '2026-02-18',
-              status: 'Work From Home',
-              checkIn: '09:20 AM',
-              checkOut: '06:00 PM',
-            },
-          ]"></app-basic-table>
-    }
-    @case ('projects') {
-    <app-basic-table [type]="'projects'" [headers]="[
-            { key: 'project', label: 'Project Name' },
-            { key: 'manager', label: 'Manager' },
-            { key: 'start', label: 'Start Date' },
-            { key: 'end', label: 'End Date' },
-            { key: 'status', label: 'Status', align: 'center' },
-          ]" [data]="[
-            {
-              id: 1,
-              project: 'HRMS Portal',
-              manager: 'Vikram Singh',
-              start: '2025-11-10',
-              end: '2026-03-30',
-              status: 'In Progress',
-            },
-            {
-              id: 2,
-              project: 'CRM Dashboard',
-              manager: 'Meera Joshi',
-              start: '2025-09-01',
-              end: '2026-01-15',
-              status: 'Completed',
-            },
-            {
-              id: 3,
-              project: 'Mobile Attendance App',
-              manager: 'Rohan Patil',
-              start: '2026-01-05',
-              end: '2026-06-10',
-              status: 'On Hold',
-            },
-          ]"></app-basic-table>
-    } -->
-        @case ('leave') {
-        <app-basic-table [type]="'leave'" [headers]="[
-            { key: 'createdAt', label: 'Applied Date' },
-            { key: 'leaveType', label: 'Leave Type' },
-            { key: 'fromDate', label: 'From' },
-            { key: 'toDate', label: 'To' },
-            { key: 'totalDays', label: 'Days', align: 'center' },
-            { key: 'status', label: 'Status', align: 'center' },
-          ]" [data]="MyleaveHistory"></app-basic-table>
         }
-        @default {
-        <div class="w-full">
-          <!-- Tabs header -->
-          <div class="tabHeaders mb-2 flex flex-wrap gap-2" *ngIf="IsEmployeeDetailsEditable">
+
+      </ng-template>
+
+      @if (tab==='Profile') {
+      <div class="w-full mt-3">
+
+        <!-- Tabs header -->
+    @if (IsLoggedInUserMatch) {
+          <div>
+          <div class="tabHeaders mb-2 flex flex-wrap gap-2" *ngIf="IsEmployeeDetailsEditable$ | async">
             <button type="button" (click)="setActiveTabFun('personal')" [attr.aria-selected]="isActive('personal')"
               class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
               [ngClass]="
@@ -171,16 +88,165 @@
               Account Access
             </button>
           </div>
-          <div *ngIf="IsEmployeeDetailsEditable" class="tabDetails rounded-lg bg-white shadow-sm p-4">
+        </div>
+    }
+
+        <div *ngIf="IsEmployeeDetailsEditable$ | async" class="tabDetails rounded-lg bg-white shadow-sm p-4">
+          <app-employee-form [activeTab]="activeTab" *ngIf="employeeDetail$ | async as emp" [employeeDetails]="emp"
+            (saveChanges)="updateEmployee($event)"></app-employee-form>
+
+        </div>
+        @if (employeeDetail$ | async) {
+        @if (!(IsEmployeeDetailsEditable$ | async)) {
+        <app-employee-details [userDetails]="employeeDetail$ | async" >
+        </app-employee-details>
+        }
+        }
+
+        <!-- @if (employeeDetail$|async) {
+        <app-employee-details [hidden]="IsEmployeeDetailsEditable$ | async"
+          [userDetails]="employeeDetail$ | async"></app-employee-details>
+        } -->
+
+      </div>
+      }@else {
+      <app-basic-table [type]="'leave'" [headers]="[
+            { key: 'createdAt', label: 'Applied Date' },
+            { key: 'leaveType', label: 'Leave Type' },
+            { key: 'fromDate', label: 'From' },
+            { key: 'toDate', label: 'To' },
+            { key: 'totalDays', label: 'Days', align: 'center' },
+            { key: 'status', label: 'Status', align: 'center' },
+            { key: 'reason', label: 'Reason', align: 'center' },
+          ]" [data]="MyleaveHistory"></app-basic-table>
+      }
+    </mat-tab>
+    }
+  </mat-tab-group>
+  <div class="max-w-7xl mx-auto px-2 py-2">
+
+    <body class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+
+
+
+      <!-- <aside class="lg:col-span-3">
+        <div class="bg-white rounded-2xl p-4 shadow-sm space-y-2">
+          <button (click)="setActiveModule('profile')"
+            class="w-full flex align-middle justify-between items-center px-4 py-2 rounded-lg text-sm font-medium transition"
+            [ngClass]="isActiveModule('profile')
+      ? 'bg-blue-50 text-blue-700'
+      : 'text-gray-600 hover:bg-gray-50'">
+            Profile
+            <div class="flex gap-2">
+              @if (IsEmployeeDetailsEditable$ | async) {
+              <ng-container>
+                <button class=" text-sm  text-red-500" (click)="CancelEditProfile()">
+                  <mat-icon class=" text-[4px]">close</mat-icon>
+                </button>
+                <button class="text-sm  text-green-600" [disabled]="employeeFormComponent?.employeeForm?.pristine"
+                  (click)="onSaveClick()">
+                  <mat-icon class="text-white text-[4px]">check</mat-icon>
+                </button>
+              </ng-container>
+              }@else {
+              <button class="inline-flex items-center gap-2  text-gray-600  hover:bg-blue-700" (click)="editProfile()">
+                <mat-icon class="text-white text-[4px]">edit</mat-icon>
+              </button>
+
+              }
+
+            </div>
+          </button>
+
+          <button (click)="setActiveModule('leave')"
+            class="w-full flex items-center px-4 py-2 rounded-lg text-sm font-medium transition" [ngClass]="isActiveModule('leave')
+      ? 'bg-blue-50 text-blue-700'
+      : 'text-gray-600 hover:bg-gray-50'">
+            Leave
+          </button>
+        </div>
+      </aside> -->
+      <section class="lg:col-span-9">
+
+        <!-- @switch (activeModule) {
+     
+        @case ('leave') {
+        <app-basic-table [type]="'leave'" [headers]="[
+            { key: 'createdAt', label: 'Applied Date' },
+            { key: 'leaveType', label: 'Leave Type' },
+            { key: 'fromDate', label: 'From' },
+            { key: 'toDate', label: 'To' },
+            { key: 'totalDays', label: 'Days', align: 'center' },
+            { key: 'status', label: 'Status', align: 'center' },
+          ]" [data]="MyleaveHistory"></app-basic-table>
+        }
+        @default {
+        <div class="w-full">
+          
+          <div class="tabHeaders mb-2 flex flex-wrap gap-2" *ngIf="IsEmployeeDetailsEditable$ | async">
+            <button type="button" (click)="setActiveTabFun('personal')" [attr.aria-selected]="isActive('personal')"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [ngClass]="
+        isActive('personal')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
+              Personal Information
+            </button>
+            <button type="button" (click)="setActiveTabFun('company')" [attr.aria-selected]="isActive('company')"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [ngClass]="
+        isActive('company')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
+              Company
+            </button>
+
+            <button type="button" (click)="setActiveTabFun('professional')"
+              [attr.aria-selected]="isActive('professional')"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [ngClass]="
+        isActive('professional')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
+              Professional Information
+            </button>
+
+            <button type="button" (click)="setActiveTabFun('documents')" [attr.aria-selected]="isActive('documents')"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [ngClass]="
+        isActive('documents')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
+              Documents
+            </button>
+
+            <button type="button" (click)="setActiveTabFun('account')" [attr.aria-selected]="isActive('account')"
+              class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+              [ngClass]="
+        isActive('account')
+          ? 'bg-blue-600 text-white border-blue-600'
+          : 'bg-transparent text-blue-700 border-blue-500'
+      ">
+              Account Access
+            </button>
+          </div>
+          <div *ngIf="IsEmployeeDetailsEditable$ | async" class="tabDetails rounded-lg bg-white shadow-sm p-4">
             <app-employee-form [activeTab]="activeTab" *ngIf="employeeDetail$ | async as emp" [employeeDetails]="emp"
               (saveChanges)="updateEmployee($event)"></app-employee-form>
 
           </div>
-          <app-employee-details *ngIf="employeeDetail$ | async as emp" [hidden]="IsEmployeeDetailsEditable"
-            [userDetails]="emp"></app-employee-details>
+          @if (employeeDetail$|async) {
+          <app-employee-details [hidden]="IsEmployeeDetailsEditable$ | async"
+            [userDetails]="employeeDetail$ | async"></app-employee-details>
+          }
+
         </div>
         }
-        }
+        } -->
       </section>
 
     </body>

@@ -1,5 +1,5 @@
 import { DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-employee-details',
@@ -8,7 +8,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
   styleUrl: './employee-details.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmployeeDetails {
+export class EmployeeDetails{
   @Input() userDetails: any;
  
+
 }

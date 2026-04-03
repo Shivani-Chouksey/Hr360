@@ -46,6 +46,7 @@ export class Employee {
       return throwError(()=>err)
     }))
   }
+
   GetEmployeeById(id:string|null){
     console.log("Inside Service",id,this.route.employee.getById(id));
     
@@ -53,6 +54,7 @@ export class Employee {
       return throwError(()=>err)
     }))
   }
+
   GetEmployeeListByRole(role:string){
     return this.http.get<ApiEnvelope<any>>(`${this.route.employee.get_list}?role=${role}`).pipe(map(res=>res.data),catchError((err)=>{
       return throwError(()=>err)
@@ -61,5 +63,9 @@ export class Employee {
 
   UpdateEmployeeDetails(id:string,data:any){
     return this.http.patch<ApiEnvelope<any>>(this.route.employee.update(id),data)
+  }
+
+  GetTeamMembersList(){
+   return this.http.get<ApiEnvelope<any>>(this.route.employee.team_members) 
   }
 }
