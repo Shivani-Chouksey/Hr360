@@ -1,57 +1,19 @@
 <section class="space-y-2 flex justify-between ">
-  <h3 class="text-lg font-semibold">Team Members</h3>
+  <!-- <h4 class="text-sm">Team Members</h4> -->
 
-  <div class="flex flex-wrap gap-2 items-center">
-    <input class="px-4 py-1 border-1 border-gray-300 rounded bg-white " matInput placeholder="Name, Email, Emp_ID"
+  <!-- <div class="flex flex-wrap gap-2 items-center"> -->
+    <input class="px-5 py-1 border-1 border-gray-300 rounded bg-white " matInput placeholder="Name, Email, Emp_ID"
       (keyup)="applySearch($event.target.value)" />
-    <!-- Search -->
-    <!-- <mat-form-field  class="mat_serch_input">
-      <mat-label>Search</mat-label>
-      <input
-        matInput
-        placeholder="Name, Email, Employee ID"
-        (keyup)="applySearch($event.target.value)"
-      />
-    </mat-form-field> -->
-
-    <!-- Department Filter -->
-    <!-- <mat-form-field appearance="outline">
-      <mat-label>Department</mat-label>
-      <mat-select (selectionChange)="applyFilter('department', $event.value)">
-        <mat-option value="">All</mat-option>
-        <mat-option *ngFor="let d of departments" [value]="d">
-          {{ d }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <!-- Role Filter -->
-    <!-- <mat-form-field appearance="outline">
-      <mat-label>Role</mat-label>
-      <mat-select (selectionChange)="applyFilter('role', $event.value)">
-        <mat-option value="">All</mat-option>
-        <mat-option *ngFor="let r of roles" [value]="r">
-          {{ r | titlecase }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <!-- Status Filter -->
-    <!-- <mat-form-field appearance="outline">
-      <mat-label>Status</mat-label>
-      <mat-select (selectionChange)="applyFilter('status', $event.value)">
-        <mat-option value="">All</mat-option>
-        <mat-option value="active">Active</mat-option>
-        <mat-option value="inactive">Inactive</mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-  </div>
+  <!-- </div> -->
 </section>
 <section>
   <div class=" shadow-2xs overflow-auto">
     <table mat-table [dataSource]="dataSource" matSort class="w-full">
 
+      <ng-container matColumnDef="#">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No.</th>
+        <td mat-cell *matCellDef="let r ;let i=index">{{i+1 }}</td>
+      </ng-container>
       <ng-container matColumnDef="employeeId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Emp ID</th>
         <td mat-cell *matCellDef="let r">{{ r.company.employeeId }}</td>
@@ -117,18 +79,11 @@
           <button mat-button color="primary" (click)="viewEmployee(r._id)">
             View Details
           </button>
-          <!-- <button
-            mat-button
-            color="primary"
-            (click)="viewEmployee(r)"
-          >
-            View Details
-          </button> -->
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns; "></tr>
 
     </table>
   </div>

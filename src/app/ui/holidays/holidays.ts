@@ -13,7 +13,7 @@ import { validate } from '@angular/forms/signals';
 import { HolidayService } from '../../service/holiday-service';
 import { MatFormField, MatLabel, MatHint } from "@angular/material/form-field";
 import { MatSelect, MatOption } from "@angular/material/select";
-import { DatePipe, NgClass, NgIf, } from '@angular/common';
+import { DatePipe, NgClass, NgIf, TitleCasePipe, } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from '../../service/localstorage';
@@ -32,7 +32,7 @@ type HOLIDAY = {
 }
 @Component({
   selector: 'app-holidays',
-  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe, NgIf, NgClass],
+  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe, NgIf, NgClass,TitleCasePipe],
   templateUrl: './holidays.html',
   styleUrl: './holidays.css',
 })

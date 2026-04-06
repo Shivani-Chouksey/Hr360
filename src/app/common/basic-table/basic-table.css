@@ -17,17 +17,18 @@
 }
 
 .basic-table th {
-  padding: 14px 16px;
+  padding: 5px 8px;
   font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-weight:500;
+ text-wrap: nowrap;
   color: #6b7280;
   letter-spacing: 0.05em;
 }
 
 .basic-table td {
-  padding: 14px 16px;
-  font-size: 14px;
+  padding: 5px 8px;
+  font-size: 11px;
+   text-wrap: nowrap;
   color: #374151;
   vertical-align: middle;
 }
@@ -77,3 +78,4 @@
   background: #fef2f2;
   color: #b91c1c;
 }
+

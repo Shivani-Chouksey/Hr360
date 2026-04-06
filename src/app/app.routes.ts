@@ -44,23 +44,23 @@ export const routes: Routes = [
             {
                 path: 'employee',
                 children: [
-                    { path: '', component: Employee },        // parent landing
-                    { path: 'list', component: List },        // /employee/list
-                    { path: 'add', component: Add },
+                    { path: '', component: Employee,data: { title: 'Employee Dashboard' } },        // parent landing
+                    { path: 'list', component: List ,data: { title: 'Employee List' }},        // /employee/list
+                    { path: 'add', component: Add ,data: { title: 'Add Employee' }},
                     // { path: 'documents', component: EmployeeDocumentsComponent },
-                    { path: 'profile/:id', component: Profile },
-                    { path: 'profile/edit/:id', component: Profile },
-                    { path: 'team-member/:id', component: TeamMember },
+                    { path: 'profile/:id', component: Profile ,data: { title: 'Profile' }},
+                    { path: 'profile/edit/:id', component: Profile ,data: { title: 'Profile Edit' }},
+                    { path: 'team-member/:id', component: TeamMember,data: { title: 'Team Members' } },
                 ]
             },
               {
-                path: 'leave',component: Apply,
+                path: 'leave',component: Apply,data: { title: 'Leave Dashboard' }
                 // children: [
                 //     { path: '', component: Employee },        // parent landing
                 //     { path: 'apply', component: Apply },
                 // ]
             },
-            { path: 'holidays', component: Holidays }
+            { path: 'holidays', loadChildren:()=>import('./ui/holidays/holiday.routes').then(m=>m.holiday_routes)}
             // Add other top-level sections similarly:
             // { path: 'attendance/logs', component: AttendanceLogsComponent },
             // { path: 'attendance/summary', component: AttendanceSummaryComponent },

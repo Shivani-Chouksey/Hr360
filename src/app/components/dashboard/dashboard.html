@@ -1,0 +1,171 @@
+<div class="min-h-screen bg-gray-50 p-2 md:p-6">
+
+    <!-- Top Bar -->
+    <!-- <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+
+    <input
+      type="text"
+      placeholder="Search employees, documents..."
+      class="w-full md:w-80 px-4 py-2 rounded-full border border-gray-200 focus:ring-2 focus:ring-blue-500 text-sm"
+    />
+
+    <div class="flex items-center gap-3">
+      <button class="px-4 py-2 text-sm rounded-lg border text-gray-700 bg-white hover:bg-gray-100">
+        Reports
+      </button>
+      <button class="px-5 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+        + Add Employee
+      </button>
+    </div>
+  </div> -->
+
+    <!-- Greeting -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-semibold">
+            Hi, <span class="text-blue-600">{{loggedInUser.name}}</span>.
+        </h1>
+
+        <p class="text-sm text-gray-500">
+            Your Team currently has
+            @if (teamMembersList.length>0) {
+            <span class="font-medium text-blue-600">{{teamMembersList.length}} employees</span>.
+            } @else if (totalMembersList.length>0) {
+            <span class="font-medium text-blue-600">{{totalMembersList.length}} employees</span>.
+            }
+            Here’s what’s happening today.
+        </p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+
+        <div class="bg-white rounded-xl p-5 shadow-sm">
+            <p class="text-xs text-gray-500">Total Employees</p>
+            <h2 class="text-2xl font-semibold mt-1">{{teamMembersList.length}}</h2>
+            <p class="text-xs text-green-600 mt-1">+12% vs LY</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 shadow-sm">
+            <p class="text-xs text-gray-500">Present Today</p>
+            <h2 class="text-2xl font-semibold mt-1">1,172</h2>
+            <p class="text-xs text-gray-400 mt-1">94% Active</p>
+        </div>
+
+        <div class="bg-white rounded-xl p-5 shadow-sm">
+            <p class="text-xs text-gray-500">On Leave</p>
+            <h2 class="text-2xl font-semibold mt-1">42</h2>
+            <p class="text-xs text-red-500 mt-1">5 New Today</p>
+        </div>
+
+        <!-- Upcoming Holidays -->
+        <div class="bg-white rounded-xl p-5 shadow-sm">
+            <div class="flex justify-between items-center mb-3">
+                <p class="text-sm font-medium">Upcoming Holidays</p>
+                <button class="text-xs text-blue-600 hover:underline" [routerLink]="['/holidays']">View All</button>
+            </div>
+
+            <div class="space-y-3">
+
+                <div class="flex gap-3" *ngFor="let item of upComingHolidayList;">
+                    <div class="text-xs text-center bg-gray-100 rounded-lg px-2 py-1">
+                        <div class="font-semibold"> {{item.date|date:'MMM'}}</div>
+                        <div>{{item.date|date:'dd'}}</div>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium">{{item.title}}</p>
+                        <p class="text-xs text-gray-500">{{item.description}}</p>
+                    </div>
+                </div>
+
+                <!-- <div class="flex gap-3">
+          <div class="text-xs text-center bg-gray-100 rounded-lg px-2 py-1">
+            <div class="font-semibold">DEC</div>
+            <div>25</div>
+          </div>
+          <div>
+            <p class="text-sm font-medium">Christmas Eve</p>
+            <p class="text-xs text-gray-500">Regional Holiday</p>
+          </div>
+        </div> -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Recent Leave Requests -->
+        <!-- <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-5">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-sm font-semibold">Recent Leave Requests</h3>
+        <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+          12 Pending
+        </span>
+      </div>
+
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-sm font-medium">Marcus Thorne</p>
+            <p class="text-xs text-gray-500">UI Designer • Sick Leave</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-400">3 Days</span>
+            <button class="h-7 w-7 rounded-full bg-red-100 text-red-500">✕</button>
+            <button class="h-7 w-7 rounded-full bg-green-100 text-green-600">✓</button>
+          </div>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-sm font-medium">Elena Rodriguez</p>
+            <p class="text-xs text-gray-500">Backend Lead • Vacation</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-400">10 Days</span>
+            <button class="h-7 w-7 rounded-full bg-red-100 text-red-500">✕</button>
+            <button class="h-7 w-7 rounded-full bg-green-100 text-green-600">✓</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="mt-4 text-sm text-blue-600 hover:underline">
+        Manage All Requests
+      </button>
+    </div> -->
+
+        <!-- Department Distribution -->
+        <!-- <div class="bg-white rounded-xl shadow-sm p-5">
+      <h3 class="text-sm font-semibold mb-4">Department Distribution</h3>
+
+      <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
+        <span>ENG</span><span>SALES</span>
+        <span>MARKETING</span><span>HR</span>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <div class="bg-gray-100 rounded-lg p-2">
+          <p class="font-medium">Top Performer</p>
+          <p class="text-blue-600">Marketing</p>
+        </div>
+        <div class="bg-gray-100 rounded-lg p-2">
+          <p class="font-medium">Growth Leader</p>
+          <p class="text-blue-600">Engineering</p>
+        </div>
+      </div>
+    </div> -->
+
+    </div>
+
+    <!-- Floating Action Button -->
+    <button
+        class="fixed bottom-6 right-6 h-12 w-12 rounded-full bg-blue-600 text-white text-2xl shadow-lg hover:bg-blue-700">
+        +
+    </button>
+
+    <!-- Footer -->
+    <!-- <p class="mt-10 text-center text-xs text-gray-400">
+    © 2024 HR Management 360 Ecosystem · Built for scale
+  </p> -->
+</div>

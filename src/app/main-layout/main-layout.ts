@@ -1,15 +1,18 @@
 import { Component, HostListener } from '@angular/core';
-import { NavigationEnd, Router, RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router, RouterLinkActive, RouterLinkWithHref, RouterOutlet } from "@angular/router";
 import { navJsonObject } from '../../config/nav-data'
 import { CommonModule } from '@angular/common';
 import { LocalStorageService } from '../service/localstorage';
 import { filter } from 'rxjs';
+import { Dashboard } from "../components/dashboard/dashboard";
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.html',
-  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule],
+  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule, Dashboard],
 })
 export class MainLayout {
+
+  
   mobileSidebarOpen = false;
   userMenuOpen = false;
   isDesktop = false;
@@ -21,7 +24,7 @@ export class MainLayout {
   private openGroups = new Set<string>();
   private openItems = new Set<string>();
   LoggedInUserDetail: any
-  constructor(private localStorageService: LocalStorageService, private router: Router) { }
+  constructor(private localStorageService: LocalStorageService, private router: Router, private activatedRoute: ActivatedRoute) { }
   ngOnInit() {
     const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
     this.LoggedInUserDetail = LoggedInUser
@@ -29,39 +32,19 @@ export class MainLayout {
     this.onResize();
 
     this.router.events.pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.setPageTitle(event.urlAfterRedirects);
+      .subscribe(() => {
+        const route = this.getDeepestRoute(this.activatedRoute);
+        console.log(" route.snapshot.data", route.snapshot.data);
+
+        this.pageTitle = route.snapshot.data['title'] ?? 'Dashboard';
       });
-
-
   }
 
-  private setPageTitle(url: string): void {
-    switch (url) {
-      case '/leave':
-        this.pageTitle = 'Leave Management';
-        break;
-      case '/holidays':
-        this.pageTitle = 'Holidays List';
-        break;
-
-      case '/employee/add':
-        this.pageTitle = 'Add New Employee';
-        break;
-      case '/employee/list':
-        this.pageTitle = 'Employee List';
-        break;
-      case '/employee/profile':
-        this.pageTitle = 'My Profile';
-        break;
-
-      case '/dashboard':
-        this.pageTitle = 'Dashboard';
-        break;
-
-      default:
-        this.pageTitle = 'Dashboard';
+  private getDeepestRoute(route: ActivatedRoute): ActivatedRoute {
+    while (route.firstChild) {
+      route = route.firstChild;
     }
+    return route;
   }
 
   @HostListener('window:resize')
@@ -89,8 +72,8 @@ export class MainLayout {
   isItemOpen(key: string) {
     return this.openItems.has(key);
   }
-
-openUserMenu(event: MouseEvent): void {
+  
+  openUserMenu(event: MouseEvent): void {
     event.stopPropagation(); // ✅ keep menu open
     this.userMenuOpen = true;
   }
@@ -101,10 +84,10 @@ openUserMenu(event: MouseEvent): void {
     this.userMenuOpen = false;
   }
 
-gotoProfile(id:string){
-  this.userMenuOpen=false
- this.router.navigate(['employee/profile', id]);
-}
+  gotoProfile(id: string) {
+    this.userMenuOpen = false
+    this.router.navigate(['employee/profile', id]);
+  }
   onSearch(q: string) {
     // Hook into a search service / route
     // this.router.navigate(['/search'], { queryParams: { q } });
@@ -116,4 +99,18 @@ gotoProfile(id:string){
     this.localStorageService.clear();
     this.router.navigateByUrl('/login')
   }
+
+
+
+  
+ hasActiveRoute = false;
+
+  onRouteActivate(): void {
+    this.hasActiveRoute = true;
+  }
+
+  onRouteDeactivate(): void {
+    this.hasActiveRoute = false;
+  }
+
 }

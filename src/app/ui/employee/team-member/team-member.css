@@ -1,3 +1,13 @@
-.mat_serch_input{
-background-color: transparent !important;
+
+.mat-mdc-cell {
+    padding: 0px 8px;
+    text-wrap: nowrap;
+    font-size: 12px;
+}
+
+.mat-mdc-header-cell {
+    white-space: nowrap;
+    padding: 0px 8px;
+    /* background: #f9fafb; */
+    font-size: 12px;
 }

@@ -146,7 +146,7 @@
           </svg>
         </button>
 
-        <h2 class="text-[15px] font-semibold text-gray-700 dark:text-neutral-100 truncate">
+        <h2 class="text-[14px] font-[500] text-gray-700 dark:text-neutral-100 truncate">
           {{ pageTitle }}
         </h2>
       </div>
@@ -229,7 +229,15 @@
     <!-- Page content -->
     <main
       class="flex-1 p-3 lg:p-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-neutral-700">
-      <router-outlet></router-outlet>
+
+<ng-container *ngIf="!hasActiveRoute">
+<app-dashboard></app-dashboard>
+  </ng-container>
+
+      <router-outlet 
+ (activate)="onRouteActivate()"
+    (deactivate)="onRouteDeactivate()"
+></router-outlet>
     </main>
   </section>
 </div>

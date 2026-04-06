@@ -36,7 +36,7 @@
           <!-- ✅ Normal Cell -->
           <ng-template #normalCell>
             <ng-container *ngIf="h.key.toLowerCase().includes('date'); else regular">
-              {{ row[h.key] | date: 'dd MMM yyyy' }}
+              {{ row[h.key] | date : 'dd/MM/yyyy' }}
             </ng-container>
             <ng-template #regular>
               {{ row[h.key] ?? '-' }}

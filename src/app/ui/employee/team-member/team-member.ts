@@ -50,6 +50,7 @@ export class TeamMember implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
 
   displayedColumns: string[] = [
+    '#',
     'employeeId',
     'name',
     'email',

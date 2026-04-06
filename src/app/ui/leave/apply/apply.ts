@@ -133,7 +133,7 @@ export class Apply implements OnInit {
       );
     };
 
-    this.dataSource.filterPredicate = (data: any, filter: string) :boolean=> {
+    this.dataSource.filterPredicate = (data: any, filter: string): boolean => {
       const filters = JSON.parse(filter);
       if (!filters) return true;
       // console.log("filter for leave Req",filters,data);
@@ -286,16 +286,22 @@ export class Apply implements OnInit {
     }
 
   }
-  selected: string = ' ';
+
   applyStatusFilter(value: string) {
     console.log("applyStatusFilter", value);
 
     this.filterValues.status = value ?? ' ';
-    this.dataSource.filter = JSON.stringify({status:value});
+    this.dataSource.filter = JSON.stringify({ status: value });
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
 
+  }
+
+  selectedStatus = '';
+
+  onStatusChange(value: string) {
+    console.log('Selected:', value);
   }
 }
