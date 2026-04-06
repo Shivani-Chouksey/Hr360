@@ -1,11 +1,11 @@
 import { Routes } from "@angular/router";
-import { noAuthGuard } from "../../auth/auth-guard";
+import { LeaveComponent } from "./leave";
 
 
 
 
 
-export const holiday_routes: Routes = [
-    // { path: '', component: Holidays, canMatch: [noAuthGuard] ,data:{title:'Holiday calendar'}},
+export const leave_Routes: Routes = [
+    { path: '', component: LeaveComponent ,data:{title:'Leave Dashboard'}},
    
 ];

@@ -5,16 +5,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { LeaveDialog, LeaveDialogData } from '../leave-dialog/leave-dialog';
-import { ModalComponent } from "../../../common/modal/modal";
+import { LeaveDialog, LeaveDialogData } from './leave-dialog/leave-dialog';
+import { ModalComponent } from "../../common/modal/modal";
 import { MatRadioGroup, MatRadioButton } from "@angular/material/radio";
 import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatInput } from "@angular/material/input";
-import { Cards } from "../../../components/leave/cards/cards";
-import { Leave } from '../../../service/leave';
+import { Cards } from "../../components/leave/cards/cards";
+import { Leave } from '../../service/leave';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Employee } from '../../../service/employee';
-import { LocalStorageService } from '../../../service/localstorage';
+import { Employee } from '../../service/employee';
+import { LocalStorageService } from '../../service/localstorage';
 import { FormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BehaviorSubject, forkJoin } from 'rxjs';
@@ -34,7 +34,7 @@ export interface LeaveRow {
 
 
 @Component({
-  selector: 'app-apply',
+  selector: 'app-leave',
   standalone: true,
   imports: [
     CommonModule,
@@ -55,11 +55,11 @@ export interface LeaveRow {
     MatSelect,
     MatOption
   ],
-  templateUrl: './apply.html',
+  templateUrl: './leave.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./apply.css'],
+  styleUrls: ['./leave.css'],
 })
-export class Apply implements OnInit {
+export class LeaveComponent implements OnInit {
   private dialog = inject(MatDialog);
   private _liveAnnouncer = inject(LiveAnnouncer);
   private _snackBar = inject(MatSnackBar)

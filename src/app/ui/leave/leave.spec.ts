@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Apply } from './apply';
+import { Apply } from './leave';
 
 describe('Apply', () => {
   let component: Apply;
