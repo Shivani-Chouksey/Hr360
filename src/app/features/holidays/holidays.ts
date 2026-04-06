@@ -1,37 +1,25 @@
 import { ChangeDetectorRef, Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { year2026 } from '../../../data/holiday.json';
 import { ModalComponent } from '../../shared/components/modal/modal';
 import { MatIconModule } from '@angular/material/icon';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
   ɵInternalFormsSharedModule,
 } from '@angular/forms';
 import { HolidayService } from './services/holiday-service';
-import { MatFormField, MatLabel, MatHint } from "@angular/material/form-field";
+import { MatFormField, MatLabel } from "@angular/material/form-field";
 import { MatSelect, MatOption } from "@angular/material/select";
 import { DatePipe, NgClass, NgIf, TitleCasePipe, } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LocalStorageService } from '../../core/services/localstorage';
+import { HOLIDAY } from '../../types/holiday.types';
 
-type HOLIDAY = {
-  _id: string | number;
-  title: string;
-  date: Date;
-  year: number;
-  month: number;
-  type: 'national' | 'regional' | 'optional' | 'company';
-  description: string;
-  applicableLocations: string[];
-  isActive: boolean;
-  createdBy: string;
-}
+
 @Component({
   selector: 'app-holidays',
-  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe,TitleCasePipe,NgClass],
+  imports: [MatIconModule, FormsModule, ModalComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, MatFormField, MatSelect, MatLabel, MatOption, DatePipe, TitleCasePipe, NgClass],
   templateUrl: './holidays.html',
   styleUrl: './holidays.css',
 })
@@ -58,7 +46,7 @@ export class Holidays implements OnInit, OnChanges {
   private _snackBar = inject(MatSnackBar);
 
   ngOnChanges(changes: SimpleChanges): void {
-   console.log("onchange runing",this.loggedInUserDetails);
+    console.log("onchange runing", this.loggedInUserDetails);
   }
   openConfirm() {
     this.confirmOpen = true;
@@ -67,11 +55,9 @@ export class Holidays implements OnInit, OnChanges {
     this.confirmOpen = false;
   }
 
-  deleteUser() {
-    console.log('User deleted');
-    this.confirmOpen = false;
+  isUpcoming(date: string | Date): boolean {
+    return new Date(date).getTime() > Date.now();
   }
-
 
   addHoliday() {
     console.log(this.holidayForm.value);
@@ -85,16 +71,12 @@ export class Holidays implements OnInit, OnChanges {
 
       },
       error: (err) => {
-
         this._snackBar.open(err.error.message, 'close', {
           duration: 3000,
           horizontalPosition: 'right',
           verticalPosition: 'top',
 
         });
-
-
-        console.log('Add Holiday Error', err);
       },
     });
   }
@@ -118,23 +100,14 @@ export class Holidays implements OnInit, OnChanges {
 
   ngOnInit(): void {
     const LoggedInUser: any = this.localStorageService.get('loggedIn_user');
-    console.log("LoggedInUser",LoggedInUser);
-    
     this.loggedInUserDetails = LoggedInUser
     this.getHolidayList()
 
   }
 
-  getDayName(date: string): string {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days[new Date(date).getDay()];
-  }
-
   onFilterChange() {
     console.log("selectedFilter", this.selectedFilter)
     const today = new Date();
-
-
     if (this.selectedFilter === 'upcoming') {
       this.holidayList = this.allHolidays.filter(
         h => new Date(h.date) >= today
@@ -153,14 +126,14 @@ export class Holidays implements OnInit, OnChanges {
 
 
   }
-  removeHoliday(id: number | string) {
-    console.log("id isndie ts", id);
-    this.IsDeleting = id;
 
+  removeHoliday(id: number | string) {
+    this.IsDeleting = id;
     this.holiday_service.deleteHoliday(id).subscribe({
       next: (res) => {
         this.IsDeleting = null;
         this.holidayList = this.allHolidays.filter(h => h._id != id);
+        this._snackBar.open(res?.message);
         this.getHolidayList()
       },
       error: (err) => {
@@ -169,6 +142,7 @@ export class Holidays implements OnInit, OnChanges {
 
       }
     })
-    // call API for remove holiday
   }
+
+
 }

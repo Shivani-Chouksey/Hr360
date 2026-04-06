@@ -1,41 +1,10 @@
-<div class="min-h-screen bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
+<div class="min-h-screen bg-gray-100   text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300"
   [class.dark]="isDarkTheme">
 
-  <!-- 🔝 Header -->
-  <!-- <div
-  class="flex items-center justify-between bg-white rounded-2xl px-6 py-4 shadow-sm"
->
-  <div>
-    <h1 class="text-lg font-semibold text-slate-900">
-      Holiday Management
-    </h1>
-    <p class="text-sm text-slate-500">
-      Company & national holidays by location
-    </p>
-  </div>
-
-  <div class="flex items-center gap-3">
-    <span
-      class="inline-flex items-center justify-center min-w-[28px] h-7
-             px-2 text-sm font-semibold rounded-full bg-blue-50 text-blue-700"
-    >
-      {{ holidayList.length }}
-    </span>
-
-    <button
-      (click)="openConfirm()"
-      class="inline-flex items-center gap-2 px-4 py-2
-             text-sm font-medium rounded-lg
-             bg-blue-600 text-white hover:bg-blue-700 transition"
-    >
-      + Add Holiday
-    </button>
-  </div>
-</div> -->
-
-  <!-- 🧭 Filters -->
-  <section class="max-w-7xl mx-auto px-1 py-1 ">
-    <div class="flex items-center justify-between bg-white  px-2 py-1 shadow-sm">
+  <section class="rounded flex justify-between align-center py-2 bg-white px-3">
+    <p class="my-auto">Official List</p>
+    <!-- 🧭 Filters -->
+    <section>
       <div class="inline-flex rounded-lg p-1">
         <button class="px-4 py-1.5 text-sm rounded-md transition" [ngClass]="selectedFilter==='upcoming'
         ? 'bg-white shadow text-slate-900'
@@ -54,62 +23,61 @@
         : 'text-slate-500 hover:text-slate-700'" (click)="selectedFilter='all'; onFilterChange()">
           All
         </button>
+        @if (loggedInUserDetails.role=='admin') {
+        <button (click)="openConfirm()"
+          class="px-4 py-1 ms-3  rounded-lg bg-gradient-to-t from-[#005EB6] to-[#5F9EFB] text-white text-sm hover:bg-blue-700 transition">
+          + Add Holiday
+        </button>
+        }
       </div>
 
 
-      @if (loggedInUserDetails.role=='admin') {
-      <button (click)="openConfirm()" class="inline-flex items-center gap-2 px-4 py-2
-             text-sm font-medium rounded-lg
-              border-2 border-blue-600">
-        + Add Holiday
-      </button>
-      }
 
-    </div>
 
+    </section>
   </section>
 
   <!-- 📊 Content -->
-  <section class="max-w-7xl mx-auto  pb-1">
+  <section class="max-w-7xl  pb-1">
 
     <!-- Desktop Table -->
-    <div class="max-w-7xl mx-auto p-1 ">
-      <div class="bg-white  shadow-sm overflow-x-scroll">
+    <div class="max-w-7xl  p-1 ">
+      <div class=" overflow-x-scroll">
         <table class="w-full">
-          <thead class="bg-slate-50 border-b">
+          <thead class="bg-[#F3F4F6] border-b">
             <tr class="text-[11px] text-slate-600 uppercase">
-              <th class=" py-2 font-[500] ">S.No.</th>
+              <!-- <th class=" py-2 font-[500] ">S.No.</th> -->
+              <th class=" py-2 font-[500] ">Holiday</th>
               <th class=" py-2 font-[500] ">Date</th>
               <th class=" py-2 font-[500] ">Day</th>
-              <th class=" py-2 font-[500] ">Holiday</th>
               <th class=" py-2 font-[500]">Type</th>
+              <th class=" py-2 font-[500]">Status</th>
               <th class=" py-2 font-[500] ">Locations</th>
               <th class=" py-2 font-[500] ">Description</th>
               @if (loggedInUserDetails.role=='admin') {
-              <th class=" py-2 text-center">Action</th>
+              <th class=" py-2 ">Action</th>
               }
-
-
             </tr>
           </thead>
 
-          <tbody class="divide-y">
+          <tbody class="divide-y bg-white border-none">
             @for (item of holidayList; track $index ; let i=$index) {
-            <tr class="hover:bg-slate-50 transition text-[12px]">
-              <td class="py-1.5 text-center text-slate-500">
+            <tr class="hover:bg-slate-50 transition text-[12px] px-3   text-center">
+              <!-- <td class="py-1.5 text-center text-slate-500">
                 {{ i+1 }}
+              </td> -->
+
+              <td class="py-1.5">
+                {{ item.title }}
               </td>
               <td class="py-1.5 font-medium">
                 {{ item.date | date:'dd MMM yyyy' }}
               </td>
 
               <td class="py-1.5 text-center text-slate-500">
-                {{ item.date | date:'EEE' }}
+                {{ item.date | date:'EEEE' }}
               </td>
 
-              <td class="py-1.5">
-                {{ item.title }}
-              </td>
 
               <td class="py-1.5 text-center">
                 <span class="px-2 py-0.5 text-xs font-medium rounded-full
@@ -120,6 +88,12 @@
               }">
                   {{ item.type | titlecase }}
                 </span>
+              </td>
+              <td class="py-1.5 text-center">
+               <span class="bg-gray-400  px-2 py-0.5 rounded-full">
+                 {{ isUpcoming(item.date) ? 'Upcoming' : 'Past' }}
+               </span>
+               
               </td>
 
               <td class="py-1.5 text-center text-xs text-slate-500">
@@ -182,6 +156,7 @@
       </div>
       }
     </div>
+
   </section>
 </div>
 

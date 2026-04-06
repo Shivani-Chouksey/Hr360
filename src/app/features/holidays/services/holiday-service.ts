@@ -6,7 +6,7 @@ import { LocalStorageService } from '../../../core/services/localstorage';
 
 interface ApiEnvelope<T> {
   data: T;
-  message?: string;
+  message: string;
 }
 @Injectable({
   providedIn: 'root',

@@ -1,51 +1,30 @@
-<div
-  class="bg-white border border-gray-200 p-3 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col gap-2"
->
-  <!-- Header -->
-  <div class="flex items-start justify-between">
-    <h3 class="text-xs font-semibold text-gray-700">
-      {{ title }}
-    </h3>
 
-    <!-- Optional status / year -->
-    <span class="text-xs text-gray-400">
-      FY 2025
-    </span>
-  </div>
 
-  <!-- Main Balance -->
-  <div class="flex items-center gap-4">
-    <div
-      class="flex items-center justify-center  p-1
-             rounded bg-blue-600 text-white text-xs  shadow-sm"
-    >
-      {{ item.remaining }} / {{ item.total }}
+<mat-card appearance="outlined">
+
+  <mat-card-header>
+    <div mat-card-avatar class="flex items-center justify-center text-white text-xs" style="background-color: #155DFC;"
+       >
+      {{ item.remaining}}/{{item.total }}
     </div>
 
-    <div class="flex-1">
-      <p class="text-xs text-gray-500 mb-1">
-        Leave Balance
-      </p>
+    <mat-card-subtitle class="text-[14px]">{{ title }}</mat-card-subtitle>
+    <!-- <mat-card-subtitle *ngIf="subtitle">{{ subtitle }}</mat-card-subtitle> -->
+  </mat-card-header>
 
-      <!-- Progress Bar -->
-      <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-        <div
-          class="h-full bg-blue-600 rounded-full transition-all"
-          [style.width.%]="item.usageRatio * 100"
-        ></div>
-      </div>
-    </div>
-  </div>
+  <!-- <mat-card-content>
+    <ng-content></ng-content>
 
-  <!-- Usage Stats -->
-  <div class="flex justify-between text-xs mt-1">
-    <div class="text-gray-600">
-      <span class="font-semibold text-gray-900">{{ item.used }}</span>
-      Used
+    <div  class="mt-2">
+      <mat-progress-bar mode="determinate"
+                        [value]="item.remaining/item.total">
+      </mat-progress-bar>
     </div>
-    <div class="text-gray-600">
-      <span class="font-semibold text-gray-900">{{ item.remaining }}</span>
-      Remaining
-    </div>
-  </div>
-</div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <ng-content select="[card-actions]"></ng-content>
+  </mat-card-actions> -->
+
+</mat-card>
+
