@@ -1,6 +1,6 @@
 <main class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
   <div class="w-full max-w-md bg-white shadow-lg rounded-xl p-8">
-    <h2 class="text-2xl font-bold text-center mb-1 text-gray-800">Welcome</h2>
+    <h2 class="text-2xl font-bold text-center mb-1 text-gray-800">Welcome in HR360</h2>
     <p class="text-sm text-gray-500 text-center mb-6">Sign in to continue</p>
 
     <!-- Tabs -->
@@ -24,17 +24,26 @@
     <form *ngIf="passwordMode" #loginForm="ngForm" (ngSubmit)="loginHandler(loginForm)" class="space-y-4" novalidate>
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <input type="email" placeholder="you@example.com" name="email" ngModel required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
+        <input pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"  type="email" placeholder="you@example.com" name="email" #email="ngModel" ngModel required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
                  focus:ring-2 focus:ring-blue-500" />
       </div>
+      <div *ngIf="email.invalid && email.touched" class="text-red-500 text-xs mt-1">
+        <div *ngIf="email.errors?.['required']">
+          Email is required
+        </div>
+        <div *ngIf="email.errors?.['email']">
+          Enter a valid email address
+        </div>
+      </div>
+
 
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input type="password" placeholder="••••••••" name="password" ngModel required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
-                 focus:ring-2 focus:ring-blue-500" />
+        <input type="password" placeholder="••••••••" name="password" #password="ngModel" ngModel required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
+                 focus:ring-2 focus:ring-blue-500" [minlength]="6" />
       </div>
 
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 
+      <button type="submit" class="w-full bg-linear-to-r from-[#005EB6] to-[#5F9EFB] text-white py-2 rounded-lg hover:bg-blue-700 
                transition duration-200 disabled:opacity-60" [disabled]="loginForm.invalid">
         Login
       </button>
@@ -44,25 +53,30 @@
     @if (!passwordMode) {
     <div class="space-y-4">
       <!-- Step 1: Enter Email -->
-      @if (!otpSent) {
+      @if (!otpSent()) {
       <form #otpEmailForm="ngForm" (ngSubmit)="sendOtpHandler(otpEmailForm)" class="space-y-4" novalidate>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-          <input type="email" placeholder="you@example.com" name="email" ngModel required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
+          <input pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #email="ngModel"  type="email" placeholder="you@example.com" name="email" ngModel required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none 
                    focus:ring-2 focus:ring-blue-500" />
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 
-                 transition duration-200 disabled:opacity-60" [disabled]="otpEmailForm.invalid || sendingOtp">
-          <span *ngIf="!sendingOtp">Send OTP</span>
-          <span *ngIf="sendingOtp">Sending…</span>
+        <button type="submit" class="w-full bg-gradient-to-r from-[#005EB6] to-[#5F9EFB] text-white py-2 rounded-lg hover:bg-blue-700 
+                 transition duration-200 disabled:opacity-60" [disabled]="otpEmailForm.invalid || sendingOtp()">
+          @if (sendingOtp()) {
+          <span>Sending…</span>
+          }@else {
+          <span>Send OTP</span>
+          }
+
+
         </button>
       </form>
       }
 
 
       <!-- Step 2: Enter OTP -->
-      @if (otpSent && !otpVerified) {
+      @if (otpSent() && !otpVerified()) {
       <form #otpForm="ngForm" (ngSubmit)="verifyOtpHandler(otpForm)" class="space-y-4" novalidate>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -79,31 +93,31 @@
           <p class="text-xs text-gray-500 mt-2">
             Didn’t receive it?
             @if (resendCooldown>0) {
-                <button type="button" class="text-blue-600 hover:underline disabled:text-gray-400 ml-1"
+            <button type="button" class="text-blue-600 hover:underline disabled:text-gray-400 ml-1"
               (click)="resendOtp()" [disabled]="true">
               Resend OTP
             </button>
             }@else {
-                <button type="button" class="text-blue-600 hover:underline disabled:text-gray-400 ml-1"
-              (click)="resendOtp()" >
+            <button type="button" class="text-blue-600 hover:underline disabled:text-gray-400 ml-1"
+              (click)="resendOtp()">
               Resend OTP
             </button>
             }
-            <button type="button" class="text-blue-600 hover:underline disabled:text-gray-400 ml-1"
+            <!-- <button type="button" class="text-blue-600 hover:underline disabled:text-gray-400 ml-1"
               (click)="resendOtp()" [disabled]="resendCooldown > 0">
               Resend OTP
-            </button>
+            </button> -->
             @if (resendCooldown>0) {
-            <span>in {{ resendCooldown }}s</span>
+            <span class="ms-2">in {{ resendCooldown }}s</span>
 
             }
           </p>
         </div>
 
         <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 
-                 transition duration-200 disabled:opacity-60" [disabled]="otpForm.invalid || verifyingOtp">
-          <span *ngIf="!verifyingOtp">Verify & Login</span>
-          <span *ngIf="verifyingOtp">Verifying…</span>
+                 transition duration-200 disabled:opacity-60" [disabled]="otpForm.invalid || verifyingOtp()">
+          <span *ngIf="!verifyingOtp()">Verify & Login</span>
+          <span *ngIf="verifyingOtp()">Verifying…</span>
         </button>
 
         <button type="button"
@@ -113,7 +127,7 @@
         </button>
       </form>
       }
-      @if (otpVerified) {
+      @if (otpVerified()) {
       <div class="text-center space-y-3">
         <div class="inline-flex items-center justify-center w-12 h-12 bg-green-100 text-green-700 rounded-full">
           ✓

@@ -5,11 +5,11 @@
       type="button"
       (click)="setActiveTabFun('personal')"
       [attr.aria-selected]="isActive('personal')"
-      class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="py-2 px-4 rounded border text-sm font-medium transition "
       [ngClass]="
         isActive('personal')
-          ? 'bg-blue-600 text-white border-blue-600'
-          : 'bg-transparent text-blue-700 border-blue-500'
+          ? 'text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB]'
+          : 'bg-transparent text-[#005EB6] border-blue-500'
       "
     >
       Personal Information
@@ -18,11 +18,12 @@
       type="button"
       (click)="setActiveTabFun('company')"
       [attr.aria-selected]="isActive('company')"
-      class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="py-2 px-4 rounded border text-sm font-medium transition  "
       [ngClass]="
         isActive('company')
-          ? 'bg-blue-600 text-white border-blue-600'
-          : 'bg-transparent text-blue-700 border-blue-500'
+          ? 'text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB]'
+          : 'bg-transparent text-[#005EB6] border-blue-500'
+      
       "
     >
       Company
@@ -32,11 +33,13 @@
       type="button"
       (click)="setActiveTabFun('professional')"
       [attr.aria-selected]="isActive('professional')"
-      class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+       class="py-2 px-4 rounded border text-sm font-medium transition  "
       [ngClass]="
         isActive('professional')
-          ? 'bg-blue-600 text-white border-blue-600'
-          : 'bg-transparent text-blue-700 border-blue-500'
+          ? 'text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB]'
+          : 'bg-transparent text-[#005EB6] border-blue-500'
+      
+      
       "
     >
       Professional Information
@@ -46,11 +49,12 @@
       type="button"
       (click)="setActiveTabFun('documents')"
       [attr.aria-selected]="isActive('documents')"
-      class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="py-2 px-4 rounded border text-sm font-medium transition  "
       [ngClass]="
         isActive('documents')
-          ? 'bg-blue-600 text-white border-blue-600'
-          : 'bg-transparent text-blue-700 border-blue-500'
+          ? 'text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB]'
+          : 'bg-transparent text-[#005EB6] border-blue-500'
+      
       "
     >
       Documents
@@ -60,11 +64,12 @@
       type="button"
       (click)="setActiveTabFun('account')"
       [attr.aria-selected]="isActive('account')"
-      class="py-2 px-4 rounded border text-sm font-semibold transition hover:text-white hover:bg-blue-500 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="py-2 px-4 rounded border text-sm font-medium transition  "
       [ngClass]="
         isActive('account')
-          ? 'bg-blue-600 text-white border-blue-600'
-          : 'bg-transparent text-blue-700 border-blue-500'
+          ? 'text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB]'
+          : 'bg-transparent text-[#005EB6] border-blue-500'
+      
       "
     >
       Account Access
@@ -500,7 +505,7 @@ class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-
                <button
                   type="button"
                   [disabled]="!personal.valid"
-                  class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  class="px-4 py-2 rounded-md text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB] hover:bg-blue-700 transition "
                   (click)="setActiveTabFun('account')"
                 >
                   Next
@@ -554,7 +559,7 @@ class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-
 
               <button
                 type="button"
-                class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                class="px-4 py-2 rounded-md text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB] hover:bg-blue-700 transition"
                 (click)="AddEmployeeDetail()"
               >
                 Add
@@ -802,7 +807,7 @@ class="w-full px-3 py-2 rounded-md bg-gray-50 border border-gray-300 focus:ring-
                 <button
                   type="button"
                   [disabled]="!personal.valid"
-                  class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                  class="px-4 py-2 rounded-md text-white  bg-gradient-to-t from-[#005EB6] to-[#5F9EFB] hover:bg-blue-700 transition"
                   (click)="setActiveTabFun('professional')"
                 >
                   Next

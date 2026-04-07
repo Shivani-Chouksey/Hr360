@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
 import { Dashboard } from "../../shared/components/dashboard/dashboard";
 import { LocalStorageService } from '../../core/services/localstorage';
+import { MatIcon } from "@angular/material/icon";
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.html',
-  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule, Dashboard],
+  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule, Dashboard, MatIcon],
 })
 export class MainLayout {
 

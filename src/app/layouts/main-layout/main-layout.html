@@ -18,9 +18,17 @@
     <div
       class="sticky top-0 z-10 bg-white/80 dark:bg-neutral-800/80 border-b border-gray-200/70 dark:border-neutral-700/70 backdrop-blur">
       <div class="px-4 py-3 flex items-center justify-between">
-        <div>
-          <h1 class="text-sm font-bold tracking-wide">HR360</h1>
-          <span class="text-[11px] text-gray-500 dark:text-neutral-400">Employee Management Application</span>
+        <div class="flex  justify-between gap-3">
+          <div >
+          <mat-icon class="" >laptop_windows</mat-icon>
+
+
+          </div>
+          <div>
+            <h1 class="text-[16px] font-bold tracking-wide"> HR360</h1>
+            <span class="text-[8px] text-gray-500 dark:text-neutral-400">Employee Management Application</span>
+
+          </div>
         </div>
         <button
           class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-neutral-700 lg:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
@@ -230,14 +238,11 @@
     <main
       class="flex-1 p-3 lg:p-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-neutral-700">
 
-<ng-container *ngIf="!hasActiveRoute">
-<app-dashboard></app-dashboard>
-  </ng-container>
+      <ng-container *ngIf="!hasActiveRoute">
+        <app-dashboard></app-dashboard>
+      </ng-container>
 
-      <router-outlet 
- (activate)="onRouteActivate()"
-    (deactivate)="onRouteDeactivate()"
-></router-outlet>
+      <router-outlet (activate)="onRouteActivate()" (deactivate)="onRouteDeactivate()"></router-outlet>
     </main>
   </section>
 </div>
