@@ -1,26 +1,114 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Employee } from '../services/employee';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormField, MatFormFieldModule, MatLabel } from "@angular/material/form-field";
 import { MatSelect, MatOption, MatSelectModule } from "@angular/material/select";
+import { FormInput } from "../shared/form-input/form-input";
+import { required } from '@angular/forms/signals';
+
+type TabKey = | 'personal' | 'company' | 'professional' | 'documents' | 'account';
 
 @Component({
   selector: 'app-add',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption,
-  
     MatFormFieldModule,
-    MatSelectModule,
-  ],
+    MatSelectModule, FormInput],
   templateUrl: './add.html',
   styleUrls: ['./add.css'], // <-- plural
 })
+
+
 export class Add implements OnInit {
   constructor(private employeeService: Employee) { }
+
+  employeeTabs: { key: TabKey, label: string }[] = [
+    { key: 'personal', label: ' Personal Information' },
+    { key: 'professional', label: '  Professional Information' },
+    { key: 'company', label: ' Company' },
+    { key: 'documents', label: 'Documents' },
+    { key: 'account', label: 'Account Access' }
+  ]
+  maritalStatusOptions = [
+    { label: 'Single', value: 'single' },
+    { label: 'Engaged', value: 'engaged' },
+    { label: 'Married', value: 'married' },
+
+  ];
+  genderOptions = [
+  { label: 'Male', value: 'male' },
+  { label: 'Female', value: 'female' },
+  { label: 'Other', value: 'other' },
+];
+  nationalityOptions = [
+  { label: 'India', value: 'india' },
+  { label: 'Other', value: 'other' }
+];
+departmentOptions = [
+  { label: 'Human Resources', value: 'hr' },
+  { label: 'Engineering', value: 'engineering' },
+  { label: 'Sales', value: 'sales' },
+  { label: 'Marketing', value: 'marketing' },
+  { label: 'Finance', value: 'finance' },
+  { label: 'Operations', value: 'operations' },
+  { label: 'Information Technology', value: 'it' },
+  { label: 'Customer Support', value: 'customer_support' },
+  { label: 'Product Management', value: 'product' },
+  { label: 'Quality Assurance', value: 'qa' },
+  { label: 'Administration', value: 'administration' },
+  { label: 'Legal', value: 'legal' },
+  { label: 'Procurement', value: 'procurement' },
+  { label: 'Training & Development', value: 'training' },
+];
+employmentTypeOptions = [
+  { label: 'Full Time', value: 'full_time' },
+  { label: 'Part Time', value: 'part_time' },
+  { label: 'Contract', value: 'contract' },
+  { label: 'Intern', value: 'intern' },
+  { label: 'Freelancer', value: 'freelancer' },
+  { label: 'Temporary', value: 'temporary' },
+  { label: 'Consultant', value: 'consultant' },
+  { label: 'Probation', value: 'probation' },
+];
+
+workShiftOptions = [
+  { label: 'Morning Shift', value: 'morning' },
+  { label: 'General / Day Shift', value: 'general' },
+  { label: 'Evening Shift', value: 'evening' },
+  { label: 'Night Shift', value: 'night' },
+  { label: 'Rotational Shift', value: 'rotational' },
+  { label: 'Flexible Shift', value: 'flexible' },
+  { label: 'Split Shift', value: 'split' },
+];
+
+workLocationOptions = [
+  { label: 'Office', value: 'office' },
+  { label: 'Remote', value: 'remote' },
+  { label: 'Hybrid', value: 'hybrid' },
+  { label: 'Client Location', value: 'client_location' },
+  { label: 'Onsite', value: 'onsite' },
+];
+employeeRoleOptions = [
+  { label: 'Super Admin', value: 'super_admin' },
+  { label: 'Admin', value: 'admin' },
+  { label: 'HR Manager', value: 'hr_manager' },
+  { label: 'HR Executive', value: 'hr_executive' },
+  { label: 'Manager', value: 'manager' },
+  { label: 'Team Lead', value: 'team_lead' },
+  { label: 'Employee', value: 'employee' },
+  { label: 'Intern', value: 'intern' },
+  { label: 'Contractor', value: 'contractor' },
+];
+
   activeTab: 'personal' | 'professional' | 'documents' | 'account' | 'company' = 'personal';
+  employeeType: 'Contract' | '' = 'Contract';
+  avatarPreview = signal<string | null>(null);
+  avatarObjectUrl: string | null = null;
+  reportingManagerOptions: { label: string, value: any }[] = [];
   private _snackBar = inject(MatSnackBar);
+
   setActiveTabFun(val: 'personal' | 'professional' | 'documents' | 'account' | 'company') {
     this.activeTab = val;
   }
@@ -28,102 +116,86 @@ export class Add implements OnInit {
   isActive(tab: string) {
     return this.activeTab === tab;
   }
-  employeeType: 'Contract' | '' = 'Contract';
-  avatarPreview = signal<string | null>(null);
-  avatarObjectUrl: string | null = null;
 
   personal = new FormGroup({
-    // profileImage: new FormControl<File | null>(null),
-    firstName: new FormControl<string>('shivani ', {
+    firstName: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    lastName: new FormControl<string>('chouksey', {
+    lastName: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    phone: new FormControl<string>('13121414142', {
+    phone: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    personalEmail: new FormControl<string>('abc@gmail.com', {
+    personalEmail: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required, Validators.email],
     }),
-    dateOfBirth: new FormControl<string>('1998-01-10', { nonNullable: true }),
-    maritalStatus: new FormControl<string>('single', { nonNullable: true }),
-    gender: new FormControl('female'),
-    nationality: new FormControl('Indian'),
+    dateOfBirth: new FormControl<string>('', { nonNullable: true }),
+    maritalStatus: new FormControl<string>('', { nonNullable: true }),
+    gender: new FormControl(''),
+    nationality: new FormControl(''),
 
-    bloodGroup: new FormControl('B+'),
+    bloodGroup: new FormControl(''),
 
-    alternatePhone: new FormControl('9876543211', [Validators.pattern(/^[+]?[0-9]{10,15}$/)]),
+    alternatePhone: new FormControl('', [Validators.pattern(/^[+]?[0-9]{10,15}$/)]),
     presentAddress: new FormGroup({
-      street: new FormControl('mumbai  '),
-      city: new FormControl('thane'),
-      state: new FormControl('MH'),
-      country: new FormControl('India'),
-      pincode: new FormControl('321312'),
+      street: new FormControl(''),
+      city: new FormControl(''),
+      state: new FormControl(''),
+      country: new FormControl(''),
+      pincode: new FormControl(''),
     }),
     permanentAddress: new FormGroup({
-      street: new FormControl('mumbai  '),
-      city: new FormControl('thane'),
-      state: new FormControl('MH'),
-      country: new FormControl('India'),
-      pincode: new FormControl('321312'),
+      street: new FormControl(''),
+      city: new FormControl(''),
+      state: new FormControl(''),
+      country: new FormControl(''),
+      pincode: new FormControl(''),
     }),
     emergencyContact: new FormGroup({
-      name: new FormControl('Raj'),
-      relationship: new FormControl('Brother'),
-      phone: new FormControl('9876543212', [Validators.pattern(/^[+]?[0-9]{10,15}$/)]),
+      name: new FormControl(''),
+      relationship: new FormControl(''),
+      phone: new FormControl(''),
     }),
   });
-  professional = new FormGroup({
-    totalExperience: new FormControl<number | null>(2),
-    previousCompany: new FormControl<string>('Infosys'),
-    previousDesignation: new FormControl<string>('Software Engineer'),
 
+  professional = new FormGroup({
+    totalExperience: new FormControl<number | null>(0, { nonNullable: true, validators: [Validators.required], }),
+    previousCompany: new FormControl<string>('', { nonNullable: true, validators: [Validators.required], }),
+    previousDesignation: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     skills: new FormControl<string>('React,Node,NestJS'),
     highestQualification: new FormControl<string>('B.Tech'),
-
     university: new FormControl('RGPV'),
     graduationYear: new FormControl(2020),
-
-    certifications: new FormControl('AWS,Azure'),
-
+    certifications: new FormControl(),
     salary: new FormGroup({
-      ctc: new FormControl(800000),
-
-      basic: new FormControl(320000),
-
-      hra: new FormControl(160000),
-
-      specialAllowance: new FormControl(320000),
-
-      bankName: new FormControl('HDFC'),
-
-      accountNumber: new FormControl('1234567890'),
-
-      ifscCode: new FormControl('HDFC0001234'),
-
-      panNumber: new FormControl('ABCDE1234F', [Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]),
+      ctc: new FormControl<number>(0, { validators: [Validators.required] }),
+      basic: new FormControl(0, { validators: [Validators.required] }),
+      hra: new FormControl(0, { validators: [Validators.required] }),
+      specialAllowance: new FormControl(0, { validators: [Validators.required] }),
+      bankName: new FormControl('', { validators: [Validators.required, Validators.nullValidator] }),
+      accountNumber: new FormControl(0, { validators: [Validators.required] }),
+      ifscCode: new FormControl('', { validators: [Validators.required, Validators.nullValidator] }),
+      panNumber: new FormControl('', [ Validators.required]),
+      // panNumber: new FormControl('', [Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/), Validators.required]),
     }),
   });
 
   company = new FormGroup({
-    employeeId: new FormControl<string>('Emply001'),
-    companyEmail: new FormControl<string>('shivani@company.com'),
-    department: new FormControl<string>('Engineering'),
-    designation: new FormControl<string>('Full Stack Developer'),
-    reportingManager: new FormControl<string>('Rahul Sharma'),
-    location: new FormControl<string>('Mumbai'),
-
-    dateOfJoining: new FormControl<string>('2026-03-12'),
-    employmentType: new FormControl<string>('full-time'),
-
+    employeeId: new FormControl<string>('', { nonNullable:true,validators:Validators.required}),
+    companyEmail: new FormControl<string>('', { nonNullable:true,validators: [Validators.required,Validators.email] }),
+    department: new FormControl<string>('', { nonNullable:true,validators: [Validators.required] }),
+    designation: new FormControl<string>('', { nonNullable:true,validators: [Validators.required] }),
+    // reportingManager: new FormControl<string>('', { nonNullable:true,validators: [Validators.required] }),
+    location: new FormControl<string>('', { nonNullable:true,validators: [Validators.required] }),
+    dateOfJoining: new FormControl<string>('2026-03-12', {nonNullable:true, validators: [Validators.required] }),
+    employmentType: new FormControl<string>('', { nonNullable:true,validators: [Validators.required] }),
     isProbation: new FormControl<boolean>(false),
-    probationEndDate: new FormControl<string>('2026-03-12'),
-
+    probationEndDate: new FormControl<string>('2026-03-12', { nonNullable:true,validators: [Validators.required] }),
     workShift: new FormControl<string>('Morning'),
     workLocation: new FormControl<string>('office'),
   });
@@ -139,8 +211,9 @@ export class Add implements OnInit {
     personal: this.personal,
     company: this.company,
     professional: this.professional,
-    password: new FormControl('Test@1234', [Validators.minLength(8)]),
-    role: new FormControl('admin'),
+    password: new FormControl('',{validators:[Validators.required]}),
+    // password: new FormControl('',{ validators:[Validators.minLength(8), Validators.required]}),
+    role: new FormControl('',{validators:Validators.required}),
   });
 
   success: boolean = false;
@@ -150,15 +223,51 @@ export class Add implements OnInit {
     this.employeeService.GetEmployeeListByRole('manager').subscribe({
       next: (res) => {
         this.reportingManagerList = res
+        
+ this.reportingManagerOptions = res.map((emp:any) => ({
+      label: `${emp.personal.firstName} ${emp.personal.lastName}`,
+      value: emp._id
+    }));
+
       },
       error: (err) => {
         console.log(err);
       }
-    })
+    });
 
-    console.log("reporting manager list",this.reportingManagerList);
+  this.employeeForm.statusChanges.subscribe(status => {
+    console.log('Form status:', status);
+    console.log('Form valid:', this.employeeForm.valid);
     
+ const left = this.getInvalidControlNames(this.employeeForm);
+  console.log(`${left} fields still invalid`)
+  });
   }
+
+
+getInvalidControlNames(
+  form: FormGroup,
+  parentKey: string = ''
+): string[] {
+
+  let invalidControls: string[] = [];
+
+  Object.keys(form.controls).forEach(key => {
+    const control: AbstractControl = form.controls[key];
+    const controlPath = parentKey ? `${parentKey}.${key}` : key;
+
+    if (control instanceof FormGroup) {
+      // recurse for nested groups
+      invalidControls.push(
+        ...this.getInvalidControlNames(control, controlPath)
+      );
+    } else if (control.invalid) {
+      invalidControls.push(controlPath);
+    }
+  });
+
+  return invalidControls;
+}
 
   preparePayload() {
     const payload: any = this.employeeForm.value;
@@ -188,35 +297,6 @@ export class Add implements OnInit {
     return payload;
   }
 
-  // AddEmployeeDetail() {
-  //   const payload = this.preparePayload();
-
-  //   const formData = new FormData();
-
-  //   formData.append('data', JSON.stringify(payload));
-
-  //   Object.entries(this.documentsDetail.value).forEach(([key, file]) => {
-  //     if (file) {
-  //       formData.append(key, file);
-  //     }
-  //   });
-
-  //   const profileImage = this.personal.get('profileImage')?.value;
-  //   if (profileImage) {
-  //     formData.append('profileImage', profileImage);
-  //   }
-
-  //   this.employeeService.AddEmployee(formData).subscribe({
-  //     next: () => {
-  //       this._snackBar.open('Employee Created Successfully', 'OK');
-  //     },
-
-  //     error: (err) => {
-  //       this._snackBar.open(err?.error?.message || 'Error', 'Close');
-  //     },
-  //   });
-  // }
-
   onFileChangeFunc(event: Event) {
     const input = event.target as HTMLInputElement;
 
@@ -242,7 +322,7 @@ export class Add implements OnInit {
   }
 
   AddEmployeeDetail() {
-    console.log(this.employeeForm.value);
+    console.log("AddEmployeeDetail-------------->",this.employeeForm.value);
     const payload: any = this.employeeForm.value;
     payload.professional.skills = payload.professional.skills
       .split(',')
@@ -323,4 +403,25 @@ export class Add implements OnInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }
+
+  getTabErrors(tabKey: string): number {
+    const group = this.employeeForm.get(tabKey) as FormGroup;
+    if (!group) return 0;
+
+    let count = 0;
+
+    const countErrors = (fg: FormGroup | FormArray) => {
+      Object.values(fg.controls).forEach(ctrl => {
+        if (ctrl instanceof FormGroup) {
+          countErrors(ctrl);
+        } else if (ctrl.invalid) {
+          count++;
+        }
+      });
+    };
+
+    countErrors(group);
+    return count;
+  }
+
 }
