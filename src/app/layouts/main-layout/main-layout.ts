@@ -7,10 +7,11 @@ import { Dashboard } from "../../shared/components/dashboard/dashboard";
 import { LocalStorageService } from '../../core/services/localstorage';
 import { MatIcon } from "@angular/material/icon";
 import { HighlightDirective } from "../../core/directive/highlight";
+import { MaskPipe } from '../../core/pipes/mask-pipe';
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.html',
-  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule, Dashboard, MatIcon, HighlightDirective],
+  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule, Dashboard, MatIcon, HighlightDirective,MaskPipe],
 })
 export class MainLayout {
 
