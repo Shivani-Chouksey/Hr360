@@ -6,10 +6,11 @@ import { filter } from 'rxjs';
 import { Dashboard } from "../../shared/components/dashboard/dashboard";
 import { LocalStorageService } from '../../core/services/localstorage';
 import { MatIcon } from "@angular/material/icon";
+import { HighlightDirective } from "../../core/directive/highlight";
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.html',
-  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule, Dashboard, MatIcon],
+  imports: [RouterOutlet, RouterLinkWithHref, RouterLinkActive, CommonModule, Dashboard, MatIcon, HighlightDirective],
 })
 export class MainLayout {
 
